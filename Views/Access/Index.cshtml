@@ -1,0 +1,140 @@
+
+@{
+    ViewData["Title"] = "AccessUser";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+     @*    <div class="row">
+            <div class="col-sm-6" style="padding-left: 25px;margin-top: 10px;">
+                <div class="mb-md">
+                    <a class="btn btn-success" style="margin-bottom:10px"><i class="fa fa-plus"></i> Add New</a>
+                    @*<button id="Delect" type="button" class="mb-xs mt-xs mr-xs btn btn-danger" onclick="return testCheck();">Delect</button>*@
+         @*        </div>
+            </div>
+        </div> *@ 
+            <div class="box-body">
+              <table id="table_id" class="display" style="width:100%;"></table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+
+            </div>
+            <!-- /.box-footer-->
+        </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+
+
+@section Styles{
+
+}
+@section Scripts{
+    <script>
+          $(document).ready(function () {
+                $("#table_id").DataTable({
+                ajax: {
+                    url: '/Access/GetAccess',
+                    dataSrc: ''
+                },
+                //"columnDefs": [{
+                //    "targets": 0,
+                //    "searchable": false,
+                //    "className": 'check'
+                //}
+                //],
+                columns: [
+                    //{ "defaultContent": "" },//  Set columns checkbox
+                    {
+                        title: 'รหัส',
+                        data: 'UserId',
+                        visible: false
+                        },
+                    {
+                        title: 'ชื่อ',
+                        data: 'UserName'
+                        },
+                    {
+                        title: 'ชื่อรูน',
+                        data: 'Rname' },
+                    {data: 'UserId' , 'render' : function (data, type) {
+                         return "<a class='btn btn-danger btn-sm bt btcedit' data-id='"+data+"'><i class='fa fa-pencil'></i> Edit</a>";
+                    },
+
+                        orderable: false,
+                        searchable:false,
+                        width:'150px'
+                    },
+
+                ],
+
+                //'select': {
+                //    'style': 'multi'
+                //},
+                'order': [[1, 'asc']],
+                "language": {
+
+                    emptyTable : 'No data found, Please click on <b>Add New</b> Button',
+                    sSearch: 'ค้นหา',
+                    sLengthMenu: 'แสดงข้อมูลทีละ _MENU_ ข้อมูล',
+                    sInfo: 'ข้อมูล _START_ ถึง _END_ จากทั้งหมด _TOTAL_ ข้อมูล',
+                    oPaginate:{
+                        sFirst: 'หน้าแรก',
+                        sPrevious: 'ก่อนหน้า',
+                        sNext: 'ถัดไป',
+                        sLast: 'หน้าสุดท้าย'
+                    }
+                }
+
+            });
+
+                $("#table_id").on('click', '.btcedit', function(e){
+                    var roleid = $(this).data('id');
+                    var url = "/Access/Edit?id=" + roleid;
+                    window.location.href = url;
+                    return false;
+
+                });
+        });
+    </script>
+
+
+
+
+   @*  <script>
+         $(document).ready(function () {
+             $("#createEditcarModal").click(function (e) {
+                $.ajax({
+                    url: "/Car/AddEditCar",
+                    type: "GET",
+                    success: function (response) {
+                        $(".modal-content").html(response);
+                    }
+                });
+            });
+
+         });
+    </script> *@
+}
+

@@ -1,0 +1,183 @@
+@model Company
+
+ <div class="modal fade" tabindex="-1" id="loginModal"
+                         data-keyboard="false" data-backdrop="static">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">
+
+                                    </button>
+                                    <h4 class="modal-title">Company Detail</h4>
+                                </div>
+                                <div class="modal-body">
+            <form class="form-horizontal" asp-action="SaveCompany" id="formcm">
+                    <div class="box-body">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">CompanyCode</label>
+                                   <div class="col-sm-2">
+                                     <input class="form-control" asp-for="CompCode" placeholder="CompanyCode">
+                                   </div>
+                                    <div class="col-sm-3">
+                                    <span asp-validation-for="CompCode" class="text-danger"></span>
+                                </div>
+                              </div>
+                               <div class="form-group">
+                                    <label class="col-sm-2 control-label">ชื่อภาษาอังกฤษ</label>
+                                   <div class="col-sm-6">
+                                     <input class="form-control" asp-for="NameEN" placeholder="ชื่อภาษาอังกฤษ">
+                                   </div>
+                                    <div class="col-sm-3">
+                                    <span asp-validation-for="NameEN" class="text-danger"></span>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                    <label class="col-sm-2 control-label">ชื่อภาษาไทย</label>
+                                <div class="col-sm-6">
+                                     <input class="form-control" asp-for="NameTH" placeholder="ชื่อภาษาไทย">
+                                   </div>
+                                    <div class="col-sm-3">
+                                    <span asp-validation-for="NameTH" class="text-danger"></span>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                    <label class="col-sm-2 control-label">ที่อยู่</label>
+                                <div class="col-sm-6">
+                                     <input class="form-control" asp-for="Addr1" placeholder="(บ้านเลขที่-หมู่ที่-ตำบล)">
+                                   </div>
+                                    <div class="col-sm-3">
+                                    <span asp-validation-for="Addr1" class="text-danger"></span>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                    <label class="col-sm-2 control-label">อำเภอ</label>
+                                <div class="col-sm-3">
+                                     <input class="form-control" asp-for="Addr2" placeholder="อำเภอ">
+                                   </div>
+                                    <div class="col-sm-2">
+                                    <span asp-validation-for="Addr2" class="text-danger"></span>
+                                </div>
+                              </div>
+                               <div class="form-group">
+                                    <label class="col-sm-2 control-label">จังหวัด</label>
+                                <div class="col-sm-3">
+                                     <input class="form-control" asp-for="Addr3" placeholder="จังหวัด">
+                                   </div>
+                                    <div class="col-sm-2">
+                                    <span asp-validation-for="Addr3" class="text-danger"></span>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                    <label class="col-sm-2 control-label">รหัสไปรษณีย์</label>
+                                <div class="col-sm-3">
+                                     <input class="form-control" asp-for="ZIP" placeholder="รหัสไปรษณีย์">
+                                   </div>
+                                    <div class="col-sm-4">
+                                    <span asp-validation-for="ZIP" class="text-danger"></span>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                    <label class="col-sm-2 control-label">เบอร์โทร</label>
+                                <div class="col-sm-3">
+                                     <input class="form-control" asp-for="Tel" placeholder="เบอร์โทร">
+                                   </div>
+                                    <div class="col-sm-4">
+                                    <span asp-validation-for="Tel" class="text-danger"></span>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                    <label class="col-sm-2 control-label">Fax</label>
+                                <div class="col-sm-3">
+                                     <input class="form-control" asp-for="Fax" placeholder="รหัสไปรษณีย์">
+                                   </div>
+                                    <div class="col-sm-4">
+                                    <span asp-validation-for="Fax" class="text-danger"></span>
+                                </div>
+                              </div>
+                             <div class="form-group">
+                                    <label class="col-sm-2 control-label">อีเมล์</label>
+                                <div class="col-sm-3">
+                                     <input class="form-control" asp-for="Email" placeholder="อีเมล์">
+                                   </div>
+                                    <div class="col-sm-4">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                    <label class="col-sm-2 control-label">เว็ปไซต์</label>
+                                <div class="col-sm-3">
+                                     <input class="form-control" asp-for="WebSite" placeholder="เว็ปไซต์">
+                                   </div>
+                                    <div class="col-sm-2">
+                                    <span asp-validation-for="WebSite" class="text-danger"></span>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                    <label class="col-sm-2 control-label">TAX ID</label>
+                                  <div class="col-sm-3">
+                                    <input class="form-control" asp-for="TaxID" placeholder="TAX ID">
+                                   </div>
+                                   <label class="col-sm-2 control-label">DistFrPlant</label>
+                                  <div class="col-sm-3">
+                                    <input class="form-control" asp-for="DistFrPlant" placeholder="DistFrPlant">
+                                   </div>
+                                    <div class="col-sm-2">
+                                    </div>
+                              </div>
+                              <div class="form-group">
+                                    <label class="col-sm-2 control-label">Registration ID</label>
+                                  <div class="col-sm-3">
+                                    <input class="form-control" asp-for="RegID" placeholder="Registration ID">
+                                   </div>
+                                   <label class="col-sm-2 control-label">Registration Date</label>
+                                  <div class="col-sm-3">
+                                    <input class="form-control" asp-for="RegDate" placeholder="Registration Date">
+                                   </div>
+                                    <div class="col-sm-2">
+                                    </div>
+                              </div>
+                              <div class="form-group">
+                                    <label class="col-sm-2 control-label">Longdd:/Latdd:</label>
+                                  <div class="col-sm-3">
+                                    <input class="form-control" asp-for="Latdd" placeholder="Latdd">
+                                   </div>
+                                  <div class="col-sm-3">
+                                    <input class="form-control" asp-for="Longdd" placeholder="Longdd">
+                                   </div>
+                                   <label class="col-sm-2 control-label">fisComp:/fisBranch:</label>
+                                    <div class="col-sm-1">
+                                    <input class="form-control" asp-for="FisCompCode" placeholder="FisCompCode">
+                                    </div>
+                                    <div class="col-sm-1">
+                                    <input class="form-control" asp-for="FisBranchCode" placeholder="FisBranchCode">
+                                    </div>
+                              </div>
+                             <div class="form-group hidden">
+                                    <label class="col-sm-2 control-label">สถานะ</label>
+                                <div class="col-sm-3">
+                                     <input class="form-control" asp-for="Statusform" value="" placeholder="สถานะ">
+                                   </div>
+                                    <div class="col-sm-4">
+                                    <span asp-validation-for="Statusform" class="text-danger"></span>
+                                </div>
+                              </div>
+                                <div class="modal-footer">
+                                    <button id="Btncm" type="button"  class="btn btn-primary button button4">บันทึก</button>
+                                    <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                                        ปิด
+                                    </button>
+                        </div>
+              </div>
+              <!-- /.box-footer -->
+        </form>
+                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+
+</div>

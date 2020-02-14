@@ -1,0 +1,101 @@
+@model IEnumerable<ApplicationRole>
+
+@{
+    ViewData["Title"] = "Role List";
+}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <h2>กำหนดสิทธิ์การเข้าถึง</h2>
+
+<hr />
+<h2>Role List</h2>
+
+<a asp-action="Create">Create Role</a>
+<div class="row">
+    <div class="col-md-4">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th> @Html.DisplayNameFor(m => m.Name) </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var role in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(m => role.Name)</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@role.Id">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@role.Id" class="delete-item">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+
+            </div>
+            <!-- /.box-footer-->
+        </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+@section scripts {
+    <script>$('.delete-item').click(function (e) {
+            confirm("Are you sure want delete this role ?");
+            e.preventDefault();
+            var anchor = $(this);
+            var url = $(anchor).attr('href');
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                processData: false,
+                type: 'DELETE',
+                url: url,
+                success: function () {
+                    $(anchor).parent('td').parent('tr').fadeOut('slow',
+                        function () {
+                            $(this).remove();
+                        });
+
+                },
+                error: function (xmlHttpRequest, textStatus, errorThrown) {
+                    let message = `${textStatus} ${xmlHttpRequest.status} ${errorThrown}`;
+                    if (xmlHttpRequest.responseText != null) {
+                        const response = JSON.parse(xmlHttpRequest.responseText);
+                        for (var error of response["Error"]) {
+                            message += `\n${error}`;
+                        }
+                    }
+
+                    alert(message);
+                }
+            });
+        });
+    </script>
+}

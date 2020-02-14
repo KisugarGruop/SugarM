@@ -1,0 +1,59 @@
+﻿@model SugarM.Models.ApplicationUser
+@inject SugarM.Data.ApplicationDbContext Context
+@inject SignInManager<ApplicationUser> signInManager;
+
+@{
+    UserProfile profile = Context.UserProfile.SingleOrDefault(x => x.ApplicationUserId.Equals(Model.Id));
+}
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="@profile.ProfilePicture" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>@profile.FirstName @profile.LastName</p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>
+
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree">
+            @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+            {
+            <li class="header">Security_Admin</li>
+            <li>
+                <a href="/Role/Index">
+                    <i class="fa fa-gear"></i> <span>สร้างสิทธิ์</span>
+                </a>
+            </li>
+            <li>
+                <a href="/Access/Index">
+                    <i class="fa fa-gear"></i> <span>กำหนดสิทธิ์</span>
+                </a>
+            </li>
+            <li>
+                <a href="/UserRole/Index">
+                    <i class="fa fa-users"></i> <span>ข้อมูลพนักงาน</span>
+                </a>
+            </li>
+            }
+         
+            <li class="header">ข้อมูลพื้นฐาน</li>
+            <li>
+                <a href="/Company/Index">
+                    <i class="fa fa-university" aria-hidden="true"></i> <span>บริษัท</span>
+                </a>
+            </li>
+                 <li>
+                <a href="/UserRole/Index">
+                    <i class="fa fa-tasks" aria-hidden="true"></i> <span>จังหวัด-อำเภแ-ตำบล</span>
+                </a>
+            </li>
+
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>
