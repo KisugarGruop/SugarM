@@ -44,6 +44,9 @@ namespace SugarM.Controllers {
             }
 
         }
+        public IActionResult TEST () {
+            return View ();
+        }
     }
 
 }
