@@ -11,6 +11,7 @@ namespace SugarM.Controllers {
     public class CompanyController : Controller {
 
         public IActionResult Index () {
+            //* Dropdown BanchType---------------------------
             string cookieValueFromReq = Request.Cookies["Authorization"];
             var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/branchTypeGet");
             client.Timeout = -1;
@@ -20,6 +21,7 @@ namespace SugarM.Controllers {
             var dataty = JsonConvert.DeserializeObject (response.Content);
             List<combanchty> da = JsonConvert.DeserializeObject<List<combanchty>> (response.Content);
             ViewBag.Banch = da;
+            //*Dropdown Comapny ---------------------------
 
             return View ();
         }
@@ -34,11 +36,11 @@ namespace SugarM.Controllers {
                 var requestadd = new RestRequest (Method.GET);
                 requestadd.AddHeader ("Content-Type", "application/json");
                 IRestResponse responseadd = clientadd.Execute (requestadd);
-                //---------- Check dupicate -------------
+                //---------- Check dupicate Company -------------
                 if (responseadd.IsSuccessful) {
                     return Json (new { success = true, message = "Dupicate" });
                 } else {
-                    //-------------- AddSave------------------
+                    //-------------- AddSave Company------------------
                     var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/companypost");
                     client.Timeout = -1;
                     var request = new RestRequest (Method.POST);
@@ -53,7 +55,7 @@ namespace SugarM.Controllers {
                 }
 
             } else {
-                //-------- Edit and save
+                //-------- Edit and save Company
                 var jsoncon = JsonConvert.SerializeObject (value);
                 var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/companyput/" + value.CompCode);
                 client.Timeout = -1;

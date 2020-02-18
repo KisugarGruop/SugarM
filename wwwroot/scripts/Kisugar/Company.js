@@ -8,7 +8,7 @@ var App = function() {
 	var key = $("#KIKEY").val();
 	debugger;
 	dataTablecm = $("#tablecompany").DataTable({
-		bDestroy: true, //ทำรายอันเก่าทิ้งแล้วรอคำสั่ง reload
+		bDestroy: true, //ทำลายอันเก่าทิ้งแล้วรอคำสั่ง reload
 		ajax: {
 			beforeSend: function(request) {
 				request.setRequestHeader("Authorization", "bearer" + " " + key + "");
@@ -167,7 +167,7 @@ var App = function() {
 		$(".company").hide();
 		$(".branch").show();
 		dataTablebn = $("#tablebranch").DataTable({
-			bDestroy: true, //ทำรายอันเก่าทิ้งแล้วรอคำสั่ง reload
+			bDestroy: true, //ทำลายอันเก่าทิ้งแล้วรอคำสั่ง reload
 			ajax: {
 				beforeSend: function(request) {
 					request.setRequestHeader("Authorization", "bearer" + " " + key + "");
