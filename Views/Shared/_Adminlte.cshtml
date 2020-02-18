@@ -5,7 +5,7 @@
 @{
 
     ApplicationUser appUser = await UserManager.GetUserAsync(User);
-
+    var getkey =  HttpContext.Current.Request.Cookies["Authorization"];
 }
 <html>
 <head>
@@ -42,17 +42,16 @@
     <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet">
         <!-- Toastr -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" type="text/css" rel="stylesheet">
-
- 
-    
-
-  
-
+   
+   <link rel="stylesheet" href="~/adminlte/components/select2/dist/css/select2.min.css">
 
     @RenderSection("Styles", required: false)
 
 </head>
 <body class="hold-transition skin-blue fixed sidebar-mini">
+    <div>
+    <input class="form-control hidden" id="KIKEY" value="@getkey" placeholder="key">
+    </div>
     <div class="wrapper">
         @*@Html.Partial("_AdminlteMainHeader", appUser)*@
         @{await Html.RenderPartialAsync("_AdminlteMainHeader", appUser);}
@@ -110,6 +109,8 @@
             "hideMethod": "fadeOut"
         }
     </script>   
+    <script src="~/adminlte/components/select2/dist/js/select2.full.min.js"></script>
+
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     @RenderSection("Scripts", required: false)
 

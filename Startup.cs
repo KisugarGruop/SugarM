@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using SugarM.Data;
+using SugarM.Extension;
 using SugarM.Filters;
 using SugarM.Models;
 using SugarM.Services;
@@ -56,10 +57,11 @@ namespace SugarM {
             // Add application services.
             services.AddSingleton<IControllerDiscovery, ControllerDiscovery> ();
 
+            services.AddHttpContextAccessor ();
+
             //// cookie settings
             services.ConfigureApplicationCookie (options => {
                 options.LoginPath = identityDefaultOptions.LoginPath; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
-
             });
             services.AddControllers ().AddNewtonsoftJson (options => {
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver ();
@@ -86,6 +88,8 @@ namespace SugarM {
 
             app.UseAuthentication ();
             app.UseAuthorization ();
+
+            app.UseStaticHttpContext ();
 
             app.UseEndpoints (endpoints => {
                 endpoints.MapControllerRoute (

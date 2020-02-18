@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RestSharp;
+using RestSharp.Serialization.Json;
 using SugarM.Models;
 using SugarM.Models.AccountViewModels;
 
@@ -16,15 +19,22 @@ namespace SugarM.Controllers {
     public class AccountController : Controller {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        IHttpContextAccessor httpContextAccessor;
         public AccountController (
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager) {
+            SignInManager<ApplicationUser> signInManager,
+            IHttpContextAccessor httpContextAccessor) {
             _userManager = userManager;
             _signInManager = signInManager;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         [TempData]
         public string ErrorMessage { get; set; }
+        public string Getval () {
+            string cookieValueFromContext = httpContextAccessor.HttpContext.Request.Cookies["Authorization"];
+            return cookieValueFromContext;
+        }
 
         //[HttpPost]
         //[AllowAnonymous]
@@ -63,16 +73,26 @@ namespace SugarM.Controllers {
         public async Task<IActionResult> Login (LoginViewModel model, string returnUrl = null) {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid) {
-                //ApplicationUser appUser = await _userManager.FindByEmailAsync(model.Email);
-                //if (appUser != null)
-                //{
-
-                //}
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                //Gen token จาก API แล้ว สร้าง Cookie แล้ว ใช้ Filter เช็คเอา
                 var result = await _signInManager.PasswordSignInAsync (model.Email, model.Password, false, false);
                 if (result.Succeeded) {
-
+                    BearerToken token;
+                    var client = new RestClient ("http://192.168.10.46/sdapi/token");
+                    client.Timeout = -1;
+                    var request = new RestRequest (Method.POST);
+                    request.AddHeader ("Content-Type", "application/x-www-form-urlencoded");
+                    request.AddParameter ("grant_type", "password");
+                    request.AddParameter ("username", "Admin");
+                    request.AddParameter ("password", "123456");
+                    IRestResponse response = client.Execute (request);
+                    string content = response.Content;
+                    token = new JsonDeserializer ().Deserialize<BearerToken> (response);
+                    CookieOptions option = new CookieOptions ();
+                    if (token.AccessToken != null) {
+                        option.Expires = DateTime.Now.AddHours (10);
+                        Response.Cookies.Append ("Authorization", token.AccessToken, option);
+                        string cookieValueFromReq = Request.Cookies["Authorization"];
+                    }
                     return RedirectToLocal (returnUrl);
                 } else {
                     ModelState.AddModelError (string.Empty, "Invalid login attempt.");
@@ -131,6 +151,15 @@ namespace SugarM.Controllers {
         }
         public IActionResult Index () {
             return View ();
+        }
+        public string? A {
+            get {
+                return Request.Cookies["Authorization"];;
+            }
+            set {
+                CookieOptions option = new CookieOptions ();
+                Response.Cookies.Append ("Authorization", value, option);
+            }
         }
     }
 }

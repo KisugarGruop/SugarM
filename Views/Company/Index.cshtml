@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Company";
+    ViewData["Title1"] = "Companybranch";
+    ViewData["Title2"] = "Companyregion";
 }
 
 <!-- Content Wrapper. Contains page content -->
@@ -10,7 +12,7 @@
     <!-- Main content -->
     <section class="content">
         <!-- Default box -->
-        <div class="box">
+      <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
                 <div class="box-tools pull-right">
@@ -23,20 +25,32 @@
                     </button>
                 </div>
             </div>
-            <div class="box-body">
-            <div class="row">
+        <!---- Company -->
+        <div class="box-body">
+                <div class="row">
                  <div class="col-sm-6" style="padding-left: 25px;margin-top: 10px;">
                     <div class="mb-md">
-                    <a class="btn btn-success" id="Addnew" style="margin-bottom:10px"><i class="fa fa-plus"></i> Add New</a>
+                    <a class="btn btn-success" id="Addcompany" style="margin-bottom:10px"><i class="fa fa-plus"></i> Add New</a>
                     @*<button id="Delect" type="button" class="mb-xs mt-xs mr-xs btn btn-danger" onclick="return testCheck();">Delect</button>*@
                      </div>
+                 </div>
                 </div>
-            </div>  
-            
-              <table id="tablecompany" class="display" style="width:100%;"></table>
-               @{await Html.RenderPartialAsync("_ModalPartial");}
+              <div class="company">
+                 <table id="tablecompany" class="display" style="width:100%;"></table>
+              </div>
+
+              <div class="branch">
+                <table id="tablebranch" class="display" style="width:100%;"></table>
+              </div>
+              <div class="region">
+                  <table id="tableregion" class="display" style="width:100%;"></table>
+              </div>
+
+               @await Html.PartialAsync("_ModalCMPartial.cshtml")
             <!-- /.box-footer-->
-             </div>
+        </div>
+   
+    </div>
         <!-- /.box -->
     </section>
     <!-- /.content -->
