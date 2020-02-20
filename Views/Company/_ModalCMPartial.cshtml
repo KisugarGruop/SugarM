@@ -15,7 +15,7 @@
                                 <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#Branch" data-toggle="tab">รายละเอียด</a></li>
-              <li><a href="#Branchloca" data-toggle="tab">พื้นที่รับผิดชอบ</a></li>
+              <li class="branch branchregion"><a href="#Branchloca" data-toggle="tab">พื้นที่รับผิดชอบ</a></li>
             </ul>
         <div class="tab-content">
           <div class="active tab-pane" id="Branch">
@@ -39,7 +39,8 @@
                                 <label class="col-sm-2 control-label">ประเภท</label>
 
                                   <div class="col-sm-3">
-                                      <select class="form-control select2" asp-for="BranchTypeId" asp-items="@(new SelectList(ViewBag.Banch,"Id","BranchType"))">
+                                      <select class="form-control select2 select2-hidden-accessible" asp-for="BranchTypeId" asp-items="@(new SelectList(ViewBag.Banch,"Id","BranchType"))">
+                                       <option> </option>
                                       </select>
                                   </div>
                               </div>
@@ -138,8 +139,8 @@
                                   <div class="col-sm-3">
                                     <input class="form-control" asp-for="TaxID" placeholder="TAX ID">
                                    </div>
-                                   <label class="col-sm-2 control-label">DistFrPlant</label>
-                                  <div class="col-sm-3">
+                                   <label class="col-sm-2 control-label company">DistFrPlant</label>
+                                  <div class="col-sm-3 company">
                                     <input class="form-control" asp-for="DistFrPlant" placeholder="DistFrPlant">
                                    </div>
                                     <div class="col-sm-2">
@@ -156,6 +157,54 @@
                                    </div>
                                     <div class="col-sm-2">
                                     </div>
+                              </div>
+                              <div class="form-group branch">
+                                  <label class="col-sm-2 control-label">หัวหน้าศูนย์:</label>
+                                  <div class="col-sm-3">
+                                      <select class="form-control select2 select2-hidden-accessible" asp-for="Head" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
+                                      <option> </option>
+                                      </select>
+                                  </div>
+                                   <label class="col-sm-2 control-label">บัญชีเกษตร</label>
+                                  <div class="col-sm-3">
+                                      <select class="form-control select2 select2-hidden-accessible" asp-for="CfsUserId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
+                                      <option> </option>
+                                      </select>
+                                  </div>
+                                    <div class="col-sm-2">
+                                    </div>
+                              </div>
+                              <div class="form-group branch">
+                                  <label class="col-sm-7 control-label">ผู้มีอำนาจลงนามสัญญาเงินทุนหมุนเวียนเพื่อการปลูกอ้อย:</label>
+                                  <div class="col-sm-5">
+                                      <select class="form-control select2 select2-hidden-accessible" asp-for="LoanContractId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
+                                      <option> </option>
+                                      </select>
+                                  </div>
+                              </div>
+                              <div class="form-group branch">
+                                  <label class="col-sm-7 control-label">ผู้มีอำนาจลงนามสัญยาค้ำประกัน:</label>
+                                  <div class="col-sm-5">
+                                      <select class="form-control select2 select2-hidden-accessible" asp-for="GuaranteeContractId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
+                                      <option> </option>
+                                      </select>
+                                  </div>
+                              </div>
+                              <div class="form-group branch">
+                                  <label class="col-sm-7 control-label">ผู้มีอำนาจลงนามหนังสสัญญาเช่าเชื้อ:</label>
+                                  <div class="col-sm-5">
+                                      <select class="form-control select2 select2-hidden-accessible" asp-for="LeasingContractId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
+                                      <option> </option>
+                                      </select>
+                                  </div>
+                              </div>
+                              <div class="form-group branch">
+                                  <label class="col-sm-7 control-label">ผู้มีอำนาจลงนามสัญญาเงินกู้ระยะยาว:</label>
+                                  <div class="col-sm-5">
+                                      <select class="form-control select2 select2-hidden-accessible" asp-for="CaneContractId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
+                                      <option> </option>
+                                      </select>
+                                  </div>
                               </div>
                               <div class="form-group company">
                                     <label class="col-sm-2 control-label">Longdd:/Latdd:</label>
@@ -182,20 +231,24 @@
                                     <span asp-validation-for="Statusform" class="text-danger"></span>
                                 </div>
                               </div>
-                                <div class="modal-footer">
-                                    <button id="Btncm" type="button"  class="btn btn-primary button button4">บันทึก</button>
-                                    <button type="button" id="btnHideModal" class="btn btn-primary button button4">
-                                        ปิด
-                                    </button>
-                        </div>
                      </div>
-              <!-- /.box-footer -->
-             </form>
+                   <!-- /.box-footer -->
+                </form>
+              <div class="modal-footer">
+                   <button id="Btncm" type="button"  class="btn btn-primary button button4 company">บันทึก</button>
+                   <button id="Btnbanch" type="button"  class="btn btn-primary button button4 branch">บันทึก</button>
+                   <button id="Btnregion" type="button"  class="btn btn-primary button button4 region">บันทึก</button>
+                   <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                                        ปิด
+                    </button>
+              </div>
             </div>
           </div>
               <!-- /.tab-pane -->
           <div class="tab-pane" id="Branchloca">
-           
+              <div class="branchregion">
+                <table id="tablebranchregion" class="display" style="width:100%;"></table>
+              </div>
           </div>
             </div>
             <!-- /.tab-content -->

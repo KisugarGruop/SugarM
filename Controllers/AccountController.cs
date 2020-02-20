@@ -152,14 +152,6 @@ namespace SugarM.Controllers {
         public IActionResult Index () {
             return View ();
         }
-        public string? A {
-            get {
-                return Request.Cookies["Authorization"];;
-            }
-            set {
-                CookieOptions option = new CookieOptions ();
-                Response.Cookies.Append ("Authorization", value, option);
-            }
-        }
+
     }
 }
