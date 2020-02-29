@@ -1150,10 +1150,10 @@ img {
 	border-radius: 50%;
 }
 hr {
-	margin-top: 20px;
+	/* margin-top: 20px; */
 	margin-bottom: 20px;
 	border: 0;
-	border-top: 1px solid #eee;
+	border-top: 1px solid #080808;
 }
 .sr-only {
 	position: absolute;
@@ -1420,7 +1420,7 @@ a.bg-danger:focus {
 }
 ul,
 ol {
-	margin-top: 0;
+	/* margin-top: 0; */
 	margin-bottom: 10px;
 }
 ul ul,

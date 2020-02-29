@@ -21,5 +21,6 @@
     <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="17.4.0.46"/>
     <PackageReference Include="RestSharp" Version="106.10.1"/>
     <PackageReference Include="toastr" Version="2.1.1"/>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.2"/>
   </ItemGroup>
 </Project>

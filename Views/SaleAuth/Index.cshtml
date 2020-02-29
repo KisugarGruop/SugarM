@@ -1,0 +1,121 @@
+@model List<SugarM.Models.SaleAuth>
+@{
+    ViewData["Title"] = "SaleAuth";
+}
+
+
+<section class="content-wrapper">
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+      <section class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        <!---- Company -->
+        <div class="box-body">
+             <div class="SaleAuth">
+                <div class="row">
+                 <div class="col-sm-6" style="padding-left: 25px;margin-top: 10px;">
+                    <div class="mb-md">
+                    <a class="btn btn-primary" asp-action="Create" data-controller="SaleAuth" data-action="Create" style="margin-bottom:10px"><i class="fa fa-plus"></i> Add New</a>
+                    @*<button id="Delect" type="button" class="mb-xs mt-xs mr-xs btn btn-danger" onclick="return testCheck();">Delect</button>*@
+                     </div>
+                 </div>
+                </div>
+                 <table id="tableSalesAuth" class="table table-striped table-bordered" style="width:100%;">
+                     <thead>
+                         <tr>
+                             <th>รหัสนักเกษตร</th>
+                             <th>รหัสเขต</th>
+                             <th>ตำแหน่ง</th>
+                             <th></th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         @foreach (var item in Model)
+                         {
+                             <tr>
+                                 <td>@item.SaleId</td>
+                                 <td>@item.RegionCode</td>
+                                 <td>@item.Position</td>
+                                 <td> 
+                                      <a id="detailCarModal" asp-action="EditMutiple" asp-route-id="@item.CompCode" asp-route-SaleId="@item.SaleId" asp-route-RegId="@item.RegionCode" class="btn btn-success btn-sm">
+                                            <i class="fa fa-folder-open-o" data-id="@item.CompCode"></i> รายละเอียด
+                                        </a>
+                                        <a id="deleteCarModal" asp-action="Delete" asp-route-id="@item.CompCode"
+                                           class="btn btn-danger btn-sm delete"
+                                           data-id="@item.CompCode"
+                                           data-id1="@item.SaleId"
+                                           data-id2="@item.RegionCode"
+                                           data-controller="SaleAuth"
+                                           data-action="Delete"
+                                           data-redirect-url="/SaleAuth/Index"
+                                           data-body-message="คุณต้องการลบข้อมูลข้อมูลประเภทโควต้า @item.RegionCode ใช่หรือไม่?">
+                                            <i class="fa fa-pencil" data-id="@item.RegionCode"></i> ลบข้อมูล
+                                        </a>
+ 
+                                </td>
+                             </tr>
+                         }
+                     </tbody>
+                 </table>
+               @*   @ViewBag.PaginationHtml *@
+             @*     @await Html.PartialAsync("_Pagination", 10) *@
+              </div>
+        </div>
+        <div class="overlay hidden">
+            <i class="fa fa-refresh fa-spin hidden"></i>
+        </div>
+</div>                 
+        </div>
+</section>
+        </section>
+   
+    </section>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+@section Scripts{
+    <script>
+    $(document).ready(function() {
+     dataTableSaleAuth = $("#tableSalesAuth").DataTable({
+        bDestroy: true, //ทำลายอันเก่าทิ้งแล้วรอคำสั่ง reload
+		paging: true, //showpaging
+		lengthChange: false,
+		searching: false,
+		ordering: true,
+		info: true,
+		autoWidth: false,
+        order: [[1, "asc"]],
+		language: {
+			emptyTable: "No data found, Please click on <b>Add New</b> Button",
+			sSearch: "ค้นหา",
+			sLengthMenu: "แสดงข้อมูลทีละ _MENU_ ข้อมูล",
+			sInfo: "ข้อมูล _START_ ถึง _END_ จากทั้งหมด _TOTAL_ ข้อมูล",
+			oPaginate: {
+				sFirst: "หน้าแรก",
+				sPrevious: "ก่อนหน้า",
+				sNext: "ถัดไป",
+				sLast: "หน้าสุดท้าย"
+			}
+	    }
+     });
+     $("#tableSalesAuth").on("click", "#deleteCarModal", function(e) {
+         $(".overlay").removeClass("hidden");
+        $(".fa-refresh").removeClass("hidden");
+     });
+    });
+    </script>
+}

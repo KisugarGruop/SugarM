@@ -54,6 +54,7 @@
     <div>
     <input class="form-control hidden" id="KIKEY" value="@getkey" placeholder="key">
     </div>
+    @await Component.InvokeAsync("ClientNotifications.Notify")
     <div class="wrapper">
         @*@Html.Partial("_AdminlteMainHeader", appUser)*@
         @{await Html.RenderPartialAsync("_AdminlteMainHeader", appUser);}
@@ -114,6 +115,7 @@
     <script src="~/adminlte/components/select2/dist/js/select2.full.min.js"></script>
     <script src="~/js/Customs.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/scripts/Kisugar/delete/delete.js"></script>
     @RenderSection("Scripts", required: false)
 
 </body>

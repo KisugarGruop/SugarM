@@ -18,47 +18,41 @@
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
-
-        <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu" data-widget="tree">
-            @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+      <ul class="sidebar-menu" data-widget="tree">
+         @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
             {
-            <li class="header">Security_Admin</li>
-            <li>
-                <a href="/Role/Index">
-                    <i class="fa fa-gear"></i> <span>สร้างสิทธิ์</span>
-                </a>
-            </li>
-            <li>
-                <a href="/Access/Index">
-                    <i class="fa fa-gear"></i> <span>กำหนดสิทธิ์</span>
-                </a>
-            </li>
-            <li>
+                <li class="treeview">
                 <a href="/UserRole/Index">
-                    <i class="fa fa-users"></i> <span>ข้อมูลพนักงาน</span>
+                    <i class="fa fa-laptop"></i> <span>Security_Admin</span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
                 </a>
-            </li>
+                <ul class="treeview-menu">
+                    <li class=""><a href="/Role/Index"><i class="fa fa-circle-o"></i> สร้างสิทธิ์ </a></li>
+                    <li><a href="/Access/Index"><i class="fa fa-circle-o"></i> กำหนดสิทธิ์ </a></li>
+                    <li><a href="/UserRole/Index"><i class="fa fa-circle-o"></i> ข้อมูลพนักงาน </a></li>
+                </ul>
+                </li>
             }
-         
-            <li class="header">ข้อมูลพื้นฐาน</li>
-            <li>
+               <li class="treeview">
                 <a href="/Company/Index">
-                    <i class="fa fa-university" aria-hidden="true"></i> <span>บริษัท</span>
+                    <i class="fa fa-laptop"></i> <span>ข้อมูลพื้นฐาน</span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
                 </a>
-            </li>
-            <li>
-                <a href="/Province/Index">
-                    <i class="fa fa-tasks" aria-hidden="true"></i> <span>จังหวัด-อำเภอ-ตำบล</span>
-                </a>
-            </li>
-             <li>
-                <a href="/UserRole/Index">
-                    <i class="fa fa-tasks" aria-hidden="true"></i> <span>ธนาคาร</span>
-                </a>
-            </li>
-
-        </ul>
+                <ul class="treeview-menu">
+                    <li class=""><a href="/Company/Index"><i class="fa fa-circle-o"></i> บริษัท </a></li>
+                    <li><a href="/Province/Index"><i class="fa fa-circle-o"></i> จังหวัด-อำเภอ-ตำบล </a></li>
+                    <li><a href="/Bank/Index"><i class="fa fa-circle-o"></i> ธนาคาร </a></li>
+                    <li><a href="/QuotaType/Index"><i class="fa fa-circle-o"></i> ประเภทโควต้า </a></li>
+                    <li><a href=""><i class="fa fa-circle-o"></i> ปีการผลิต </a></li>
+                    <li><a href="/Sale/Index"><i class="fa fa-circle-o"></i> ข้อมูลนักเกษตร </a></li>
+                    <li><a href="/SaleAuth/Index"><i class="fa fa-circle-o"></i> กำหนดสิทธิ์ผู้ตรวจแปลง </a></li>
+                </ul>
+                </li>
+      </ul>
     </section>
     <!-- /.sidebar -->
 </aside>

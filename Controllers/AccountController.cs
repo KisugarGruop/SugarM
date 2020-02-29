@@ -89,7 +89,7 @@ namespace SugarM.Controllers {
                     token = new JsonDeserializer ().Deserialize<BearerToken> (response);
                     CookieOptions option = new CookieOptions ();
                     if (token.AccessToken != null) {
-                        option.Expires = DateTime.Now.AddHours (10);
+                        option.Expires = DateTime.Now.AddDays (2);
                         Response.Cookies.Append ("Authorization", token.AccessToken, option);
                         string cookieValueFromReq = Request.Cookies["Authorization"];
                     }

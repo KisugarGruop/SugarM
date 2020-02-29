@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
-using SugarM.Extension;
 
 namespace SugarM.Utility {
     public class SessionAuthorizeAttribute : Attribute, IAsyncAuthorizationFilter {

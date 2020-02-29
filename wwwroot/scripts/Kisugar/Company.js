@@ -9,6 +9,12 @@ var App = function() {
 	debugger;
 	dataTablecm = $("#tablecompany").DataTable({
 		bDestroy: true, //ทำลายอันเก่าทิ้งแล้วรอคำสั่ง reload
+		paging: true, //showpaging
+		lengthChange: false,
+		searching: false,
+		ordering: true,
+		info: true,
+		autoWidth: false,
 		ajax: {
 			url: "/Company/Getcompany",
 			type: "GET",
@@ -291,7 +297,7 @@ var App = function() {
 			columns: [
 				//{ "defaultContent": "" },//  Set columns checkbox
 				{
-					data: "RegionCode",
+					data: "CompCode",
 					width: "20px",
 					orderable: false,
 					className: "text-center",
@@ -307,6 +313,20 @@ var App = function() {
 				{
 					title: "ชื่อ",
 					data: "NameTH"
+				},
+				{
+					data: "RegionCode",
+					render: function(data, type) {
+						return (
+							"<a class='btn btn-danger btn-sm bt btndelect' data-id='" +
+							data +
+							"'><i class='fa fa-pencil'></i> Delect</a>"
+						);
+					},
+
+					orderable: false,
+					searchable: false,
+					width: "150px"
 				}
 			],
 
@@ -448,6 +468,40 @@ var App = function() {
 		});
 		return false;
 	});
+	//- โชว์รายละเอียด region
+	$("#tableregion").on("click", ".fa-book", function(e) {
+		$(".branch").hide();
+		$(".company").hide();
+		$(".companybranch").hide();
+
+		$("#loginModal").modal("show");
+		$("#Statusform").val("Edit");
+		var ComeCode = $(this).data("id");
+		var RegionC = $(this)
+			.parent()
+			.parent()
+			.find(".btndelect")
+			.data("id");
+		var url = "/Company/GetcompanyRegionedit?Id=" + ComeCode + "&re=" + RegionC;
+		$.ajax({
+			url: url,
+			data: { data: "data" },
+			type: "GET",
+			success: function(data) {
+				var DT = data;
+				for (i = 0; i < DT.length; i++) {
+					var rec = DT[i];
+					$("#CompCode").val(rec.CompCode);
+					$("#RegionCode").val(rec.RegionCode);
+					$("#NameTH").val(rec.NameTH);
+					$("#NameEN").val(rec.NameEN);
+					$("#Head1").val(rec.Head);
+					updateElement();
+				}
+			}
+		});
+		return false;
+	});
 
 	$("#tablecompany").on("click", "fa-globe", function(e) {});
 	$("#btnHideModal").on("click", () => {
@@ -483,8 +537,13 @@ var Updatecompany = function Updatecompany() {
 		success: function(msg) {
 			if (msg.success) {
 				$("#loginModal").modal("hide");
-				dataTablecm.ajax.reload();
-				toastr.success(msg.message, "แจ้งเตือน");
+				if (msg.message == "ข้อมูลซ้ำ") {
+					toastr.warning(msg.message, "แจ้งเตือน");
+				} else {
+					toastr.success(msg.message, "แจ้งเตือน");
+					dataTablecm.ajax.reload();
+					debugger;
+				}
 			} else {
 				$("#loginModal").modal("hide");
 				toastr.error(msg.message, "แจ้งเตือน");

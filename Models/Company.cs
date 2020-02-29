@@ -25,6 +25,7 @@ namespace SugarM.Models {
         public string GuaranteeContractId { get; set; }
         public string CaneContractId { get; set; }
         public int BranchTypeId { get; set; }
+
     }
     public class combanchty {
         public int Id { get; set; }

@@ -39,7 +39,7 @@
                                 <label class="col-sm-2 control-label">ประเภท</label>
 
                                   <div class="col-sm-3">
-                                      <select class="form-control select2 select2-hidden-accessible" asp-for="BranchTypeId" asp-items="@(new SelectList(ViewBag.Banch,"Id","BranchType"))">
+                                      <select class="form-control select2 select2-hidden-accessible" id="selectitems" asp-for="BranchTypeId" asp-items="@(new SelectList(ViewBag.Banch,"Id","BranchType"))">
                                        <option> </option>
                                       </select>
                                   </div>
@@ -62,7 +62,7 @@
                                     <span asp-validation-for="NameTH" class="text-danger"></span>
                                 </div>
                               </div>
-                              <div class="form-group">
+                              <div class="form-group companybranch">
                                     <label class="col-sm-2 control-label">ที่อยู่</label>
                                 <div class="col-sm-6">
                                      <input class="form-control" asp-for="Addr1" placeholder="(บ้านเลขที่-หมู่ที่-ตำบล)">
@@ -71,7 +71,7 @@
                                     <span asp-validation-for="Addr1" class="text-danger"></span>
                                 </div>
                               </div>
-                              <div class="form-group">
+                              <div class="form-group companybranch">
                                     <label class="col-sm-2 control-label">อำเภอ</label>
                                 <div class="col-sm-3">
                                      <input class="form-control" asp-for="Addr2" placeholder="อำเภอ">
@@ -80,7 +80,7 @@
                                     <span asp-validation-for="Addr2" class="text-danger"></span>
                                 </div>
                               </div>
-                               <div class="form-group">
+                               <div class="form-group companybranch">
                                     <label class="col-sm-2 control-label">จังหวัด</label>
                                 <div class="col-sm-3">
                                      <input class="form-control" asp-for="Addr3" placeholder="จังหวัด">
@@ -89,7 +89,7 @@
                                     <span asp-validation-for="Addr3" class="text-danger"></span>
                                 </div>
                               </div>
-                              <div class="form-group">
+                              <div class="form-group companybranch">
                                     <label class="col-sm-2 control-label">รหัสไปรษณีย์</label>
                                 <div class="col-sm-3">
                                      <input class="form-control" asp-for="ZIP" placeholder="รหัสไปรษณีย์">
@@ -98,7 +98,7 @@
                                     <span asp-validation-for="ZIP" class="text-danger"></span>
                                 </div>
                               </div>
-                              <div class="form-group">
+                              <div class="form-group companybranch">
                                     <label class="col-sm-2 control-label">เบอร์โทร</label>
                                 <div class="col-sm-3">
                                      <input class="form-control" asp-for="Tel" placeholder="เบอร์โทร">
@@ -107,7 +107,7 @@
                                     <span asp-validation-for="Tel" class="text-danger"></span>
                                 </div>
                               </div>
-                              <div class="form-group">
+                              <div class="form-group companybranch">
                                     <label class="col-sm-2 control-label">Fax</label>
                                 <div class="col-sm-3">
                                      <input class="form-control" asp-for="Fax" placeholder="รหัสไปรษณีย์">
@@ -116,7 +116,7 @@
                                     <span asp-validation-for="Fax" class="text-danger"></span>
                                 </div>
                               </div>
-                             <div class="form-group">
+                             <div class="form-group companybranch">
                                     <label class="col-sm-2 control-label">อีเมล์</label>
                                 <div class="col-sm-3">
                                      <input class="form-control" asp-for="Email" placeholder="อีเมล์">
@@ -125,7 +125,7 @@
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
                               </div>
-                              <div class="form-group">
+                              <div class="form-group companybranch">
                                     <label class="col-sm-2 control-label">เว็ปไซต์</label>
                                 <div class="col-sm-3">
                                      <input class="form-control" asp-for="WebSite" placeholder="เว็ปไซต์">
@@ -134,7 +134,7 @@
                                     <span asp-validation-for="WebSite" class="text-danger"></span>
                                 </div>
                               </div>
-                              <div class="form-group">
+                              <div class="form-group companybranch">
                                     <label class="col-sm-2 control-label">TAX ID</label>
                                   <div class="col-sm-3">
                                     <input class="form-control" asp-for="TaxID" placeholder="TAX ID">
@@ -146,7 +146,7 @@
                                     <div class="col-sm-2">
                                     </div>
                               </div>
-                              <div class="form-group">
+                              <div class="form-group companybranch">
                                     <label class="col-sm-2 control-label">Registration ID</label>
                                   <div class="col-sm-3">
                                     <input class="form-control" asp-for="RegID" placeholder="Registration ID">
@@ -222,6 +222,20 @@
                                     <input class="form-control" asp-for="FisBranchCode" placeholder="FisBranchCode">
                                     </div>
                               </div>
+                              <div class="form-group region">
+                                    <label class="col-sm-2 control-label">รหัสเขต:</label>
+                                  <div class="col-sm-3">
+                                    <input class="form-control" asp-for="RegionCode" placeholder="RegionCode">
+                                  </div>
+                              </div>
+                              <div class="form-group region">
+                                  <label class="col-sm-2 control-label">หัวหน้าเขต:</label>
+                                  <div class="col-sm-3">
+                                      <select class="form-control select2 select2-hidden-accessible" id="Head1" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
+                                       <option> </option>
+                                      </select>
+                                  </div>
+                              </div>
                              <div class="form-group hidden">
                                     <label class="col-sm-2 control-label">สถานะ</label>
                                 <div class="col-sm-3">
@@ -247,7 +261,7 @@
               <!-- /.tab-pane -->
           <div class="tab-pane" id="Branchloca">
               <div class="branchregion">
-                <table id="tablebranchregion" class="display" style="width:100%;"></table>
+                <table id="tablebranchregion" class="table table-bordered table-striped dataTable" style="width:100%;"></table>
               </div>
           </div>
             </div>

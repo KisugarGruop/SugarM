@@ -1,0 +1,94 @@
+@model List<SugarM.Models.Bank>
+@{
+    ViewData["Title"] = "BankBranch";
+}
+
+
+<section class="content-wrapper">
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+      <section class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        <!---- Company -->
+        <div class="box-body">
+             <div class="bank">
+                <div class="row">
+                 <div class="col-sm-6" style="padding-left: 25px;margin-top: 10px;">
+                    <div class="mb-md">
+                    <a class="btn btn-primary add" style="margin-bottom:10px"><i class="fa fa-plus"></i> Add New</a>
+                    @*<button id="Delect" type="button" class="mb-xs mt-xs mr-xs btn btn-danger" onclick="return testCheck();">Delect</button>*@
+                     </div>
+                     <div>
+                         <input class="hidden" id="bankcode" value="@ViewBag.BankCode">
+                     </div>
+                 </div>
+                </div>
+                 <table id="tablebank" class="table table-striped table-bordered" style="width:100%;">
+                     <thead>
+                         <tr>
+                             <th>รหัสสาขา</th>
+                             <th>ชื่อสาขา</th>
+                             <th></th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         @foreach (var item in Model)
+                         {
+                             <tr>
+                                 <td class="Idbranch">@item.BranchCode</td>
+                                 <td>@item.BranchName</td> 
+                                 <td> 
+                                      <a id="detailCarModal" asp-action="EditBankBranch" asp-route-id="@item.BankCode" asp-route-branchId="@item.BranchCode" class="btn btn-success btn-sm">
+                                            <i class="fa fa-folder-open-o" data-id="@item.BankCode"></i> รายละเอียด
+                                        </a>
+                                        <a id="deleteCarModal" asp-action="DeleteBranch" asp-route-id="@item.BankCode" asp-route-brandel="@item.BranchCode"
+                                           class="btn btn-danger btn-sm delete"
+                                           data-id="@item.BankCode"
+                                           data-id1="@item.BranchCode"
+                                           data-controller="Bank"
+                                           data-action="DeleteBranch">
+                                            <i class="fa fa-pencil"></i> ลบข้อมูล
+                                        </a>
+ 
+                                </td>
+                             </tr>
+                         }
+                     </tbody>
+                 </table>
+                 @await Html.PartialAsync("_Pagination", 10)
+              </div>
+        </div>
+</div>                 
+        </div>
+</section>
+        </section>
+   
+    </section>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $(".add").on("click",()=>{
+                var row = $("#bankcode").val();
+                window.location.href = "/Bank/Createbankbranch/"+ row;
+
+            });
+        });
+    </script>
+}

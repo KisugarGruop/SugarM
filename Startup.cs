@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ClientNotifications;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,6 +16,7 @@ using SugarM.Data;
 using SugarM.Extension;
 using SugarM.Filters;
 using SugarM.Models;
+using SugarM.Repository;
 using SugarM.Services;
 
 namespace SugarM {
@@ -58,7 +60,8 @@ namespace SugarM {
             services.AddSingleton<IControllerDiscovery, ControllerDiscovery> ();
 
             services.AddHttpContextAccessor ();
-
+            services.AddTransient<IUserprofileRepository, UserRepository> ();
+            services.AddTransient<IClientNotification, ClientNotification> ();
             //// cookie settings
             services.ConfigureApplicationCookie (options => {
                 options.LoginPath = identityDefaultOptions.LoginPath; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
@@ -66,7 +69,7 @@ namespace SugarM {
             services.AddControllers ().AddNewtonsoftJson (options => {
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver ();
             });
-
+            services.AddRazorPages ().AddRazorRuntimeCompilation ();
             services.AddMvc ();
         }
 

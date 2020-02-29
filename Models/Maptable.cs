@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SugarM.Models {
@@ -5,7 +6,9 @@ namespace SugarM.Models {
         public string Statusform { get; set; }
         public string UpdateBy { get; set; }
         public string UpdateDate { get; set; }
-        public int Version { get; set; }
+        public int? Version { get; set; }
+        public string CreateDate { get; set; }
+        public string CreateTime { get; set; }
 
         [Required (ErrorMessage = "กรุณาระบุรหัสบริษัท(CompCode)"), MinLength (2, ErrorMessage = "Minimum length is 2.")]
         public string CompCode { get; set; }

@@ -12,14 +12,14 @@ using SugarM.Utility;
 namespace SugarM.Controllers {
     [SessionAuthorize]
     [Authorize (Roles = "Admin")]
-    public class CompanyController : Controller {
+    public class CompanyController : BaseController<Company> {
 
         public IActionResult Index () {
             //* Dropdown BanchType---------------------------
             var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/branchTypeGet");
             client.Timeout = -1;
             var request = new RestRequest (Method.GET);
-            request.AddHeader ("Authorization", "bearer " + Getkey () + "");
+            request.AddHeader ("Authorization", "bearer " + Getkey1 () + "");
             IRestResponse response = client.Execute (request);
             List<combanchty> da = JsonConvert.DeserializeObject<List<combanchty>> (response.Content);
             ViewBag.Banch = da;
@@ -27,7 +27,7 @@ namespace SugarM.Controllers {
             var clientsale = new RestClient ("http://192.168.10.46/sdapi/sdapi/saleGet");
             clientsale.Timeout = -1;
             var requestsale = new RestRequest (Method.GET);
-            requestsale.AddHeader ("Authorization", "bearer " + Getkey () + "");
+            requestsale.AddHeader ("Authorization", "bearer " + Getkey1 () + "");
             IRestResponse responsesale = clientsale.Execute (requestsale);
             List<Companysale> sale = JsonConvert.DeserializeObject<List<Companysale>> (responsesale.Content);
             var saleList = new List<Companysale> ();
@@ -48,7 +48,7 @@ namespace SugarM.Controllers {
             var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/villageGet/" + Comid + "/" + Branid);
             client.Timeout = -1;
             var request = new RestRequest (Method.GET);
-            request.AddHeader ("Authorization", "bearer " + Getkey () + "");
+            request.AddHeader ("Authorization", "bearer " + Getkey1 () + "");
             IRestResponse response = client.Execute (request);
             var token = JToken.Parse (response.Content);
 
@@ -66,7 +66,7 @@ namespace SugarM.Controllers {
             var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/regionGet");
             client.Timeout = -1;
             var request = new RestRequest (Method.GET);
-            request.AddHeader ("Authorization", "bearer " + Getkey () + "");
+            request.AddHeader ("Authorization", "bearer " + Getkey1 () + "");
             IRestResponse response = client.Execute (request);
             List<Company> data = JsonConvert.DeserializeObject<List<Company>> (response.Content);
             return Json (data);
@@ -74,10 +74,10 @@ namespace SugarM.Controllers {
 
         [HttpGet]
         public IActionResult Getcompany () {
-            var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/companyget");
+            var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/companyGet");
             client.Timeout = -1;
             var request = new RestRequest (Method.GET);
-            request.AddHeader ("Authorization", "bearer " + Getkey () + "");
+            request.AddHeader ("Authorization", "bearer " + Getkey1 () + "");
             IRestResponse response = client.Execute (request);
             List<Company> da = JsonConvert.DeserializeObject<List<Company>> (response.Content);
             return Json (da);
@@ -86,10 +86,21 @@ namespace SugarM.Controllers {
         [Route ("Company/Getcompany/{Id}")]
         [HttpGet]
         public IActionResult Getcompany (string Id) {
-            var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/companyget/" + Id);
+            var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/companyGet/" + Id);
             client.Timeout = -1;
             var request = new RestRequest (Method.GET);
-            request.AddHeader ("Authorization", "bearer " + Getkey () + "");
+            request.AddHeader ("Authorization", "bearer " + Getkey1 () + "");
+            IRestResponse response = client.Execute (request);
+            List<Company> da = JsonConvert.DeserializeObject<List<Company>> (response.Content);
+            return Json (da);
+        }
+
+        [HttpGet]
+        public IActionResult GetcompanyRegionedit (string Id, string re) {
+            var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/regionGet/" + Id + "/" + re);
+            client.Timeout = -1;
+            var request = new RestRequest (Method.GET);
+            request.AddHeader ("Authorization", "bearer " + Getkey1 () + "");
             IRestResponse response = client.Execute (request);
             List<Company> da = JsonConvert.DeserializeObject<List<Company>> (response.Content);
             return Json (da);
@@ -100,7 +111,7 @@ namespace SugarM.Controllers {
             var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/branchGet");
             client.Timeout = -1;
             var request = new RestRequest (Method.GET);
-            request.AddHeader ("Authorization", "bearer " + Getkey () + "");
+            request.AddHeader ("Authorization", "bearer " + Getkey1 () + "");
             IRestResponse response = client.Execute (request);
             List<Company> da = JsonConvert.DeserializeObject<List<Company>> (response.Content);
             return Json (da);
@@ -112,7 +123,7 @@ namespace SugarM.Controllers {
             var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/branchGet/" + banchid + "/" + comid);
             client.Timeout = -1;
             var request = new RestRequest (Method.GET);
-            request.AddHeader ("Authorization", "bearer " + Getkey () + "");
+            request.AddHeader ("Authorization", "bearer " + Getkey1 () + "");
             IRestResponse response = client.Execute (request);
             List<Company> da = JsonConvert.DeserializeObject<List<Company>> (response.Content);
             return Json (da);
@@ -124,7 +135,7 @@ namespace SugarM.Controllers {
             var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/companydel/" + comid);
             client.Timeout = -1;
             var request = new RestRequest (Method.POST);
-            request.AddHeader ("Authorization", "bearer " + Getkey () + "");
+            request.AddHeader ("Authorization", "bearer " + Getkey1 () + "");
             IRestResponse response = client.Execute (request);
             JObject m = JObject.Parse (response.Content);
             Boolean f = (Boolean) m["success"];
@@ -142,7 +153,7 @@ namespace SugarM.Controllers {
             var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/branchDel/" + comid + "/" + banchid);
             client.Timeout = -1;
             var request = new RestRequest (Method.POST);
-            request.AddHeader ("Authorization", "bearer " + Getkey () + "");
+            request.AddHeader ("Authorization", "bearer " + Getkey1 () + "");
             IRestResponse response = client.Execute (request);
             JObject m = JObject.Parse (response.Content);
             Boolean f = (Boolean) m["success"];
@@ -158,40 +169,13 @@ namespace SugarM.Controllers {
         [ValidateAntiForgeryToken]
         public IActionResult SaveCompany (Company value) {
             if (value.Statusform == "Add") {
-                //---------- Check dupicate Company -------------
-                var jsoncon = JsonConvert.SerializeObject (value);
-                //-------------- AddSave Company------------------
-                var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/companypost");
-                client.Timeout = -1;
-                var request = new RestRequest (Method.POST);
-                request.AddHeader ("Authorization", "bearer " + Getkey () + "");
-                request.AddHeader ("Content-Type", "application/json");
-                request.AddParameter ("application/json", jsoncon.ToString (), ParameterType.RequestBody);
-                IRestResponse response = client.Execute (request);
-                JObject m = JObject.Parse (response.Content);
-                Boolean f = (Boolean) m["success"];
-                string msg = m["message"].ToString ();
-                if (f) {
-                    return Json (new { success = true, message = msg });
-                } else {
-                    return Json (new { success = false, message = msg });
-                }
+                var _Re = CallRestApiPOST (value, "http://192.168.10.46/sdapi/sdapi/companypost");
+                return Json (new { success = _Re.success, message = _Re.message });
 
             } else {
                 //-------- Edit and save Company
-                var jsoncon = JsonConvert.SerializeObject (value);
-                var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/companyput/" + value.CompCode);
-                client.Timeout = -1;
-                var request = new RestRequest (Method.POST);
-                request.AddHeader ("Authorization", "bearer " + Getkey () + "");
-                request.AddHeader ("Content-Type", "application/json");
-                request.AddParameter ("application/json", jsoncon.ToString (), ParameterType.RequestBody);
-                IRestResponse response = client.Execute (request);
-                if (response.IsSuccessful) {
-                    return Json (new { success = true, message = "แก้ไขสำเร็จ" });
-                } else {
-                    return Json (new { error = false, message = "แก้ไขไม่สำเร็จ" });
-                }
+                var _Re = CallRestApiPOST (value, "http://192.168.10.46/sdapi/sdapi/companyput/" + value.CompCode);
+                return Json (new { success = _Re.success, message = _Re.message });
             }
 
         }
@@ -205,7 +189,7 @@ namespace SugarM.Controllers {
                 var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/branchPost");
                 client.Timeout = -1;
                 var request = new RestRequest (Method.POST);
-                request.AddHeader ("Authorization", "bearer " + Getkey () + "");
+                request.AddHeader ("Authorization", "bearer " + Getkey1 () + "");
                 request.AddHeader ("Content-Type", "application/json");
                 request.AddParameter ("application/json", jsoncon.ToString (), ParameterType.RequestBody);
                 IRestResponse response = client.Execute (request);
@@ -224,7 +208,7 @@ namespace SugarM.Controllers {
                 var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/branchPut/" + value.CompCode + "/" + value.BranchCode);
                 client.Timeout = -1;
                 var request = new RestRequest (Method.POST);
-                request.AddHeader ("Authorization", "bearer " + Getkey () + "");
+                request.AddHeader ("Authorization", "bearer " + Getkey1 () + "");
                 request.AddHeader ("Content-Type", "application/json");
                 request.AddParameter ("application/json", jsoncon.ToString (), ParameterType.RequestBody);
                 IRestResponse response = client.Execute (request);
@@ -236,7 +220,7 @@ namespace SugarM.Controllers {
             }
 
         }
-        public string Getkey () {
+        public string Getkey1 () {
             var getkey = Request.Cookies["Authorization"];
             return getkey;
         }
