@@ -62,6 +62,7 @@
         @{await Html.RenderPartialAsync("_AdminlteMainSidebar", appUser);}
         <!-- Content Wrapper. Contains page content -->
         @RenderBody()
+
         <!-- /.content-wrapper -->
         @{await Html.RenderPartialAsync("_AdminlteFooter");}
         @*@Html.Partial("_AdminlteFooter")*@
@@ -116,6 +117,7 @@
     <script src="~/js/Customs.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="~/scripts/Kisugar/delete/delete.js"></script>
+    <script src="~/scripts/Kisugar/Checkloading.js"></script>
     @RenderSection("Scripts", required: false)
 
 </body>

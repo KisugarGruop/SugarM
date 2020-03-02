@@ -17,6 +17,7 @@ using SugarM.Extension;
 using SugarM.Filters;
 using SugarM.Models;
 using SugarM.Repository;
+using SugarM.ServiceExtension;
 using SugarM.Services;
 
 namespace SugarM {
@@ -29,48 +30,8 @@ namespace SugarM {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services) {
-            services.AddDbContext<ApplicationDbContext> (options =>
-                options.UseSqlServer (Configuration.GetConnectionString ("DefaultConnection")));
-
-            // Get Identity Default Options
-            IConfigurationSection identityDefaultOptionsConfigurationSection = Configuration.GetSection ("IdentityDefaultOptions");
-
-            services.Configure<IdentityDefaultOptions> (identityDefaultOptionsConfigurationSection);
-
-            var identityDefaultOptions = identityDefaultOptionsConfigurationSection.Get<IdentityDefaultOptions> ();
-
-            services.AddIdentity<ApplicationUser, ApplicationRole> (options => {
-                    // Password settings
-                    options.Password.RequireDigit = identityDefaultOptions.PasswordRequireDigit;
-                    options.Password.RequiredLength = identityDefaultOptions.PasswordRequiredLength;
-                    options.Password.RequireNonAlphanumeric = identityDefaultOptions.PasswordRequireNonAlphanumeric;
-                    options.Password.RequireUppercase = identityDefaultOptions.PasswordRequireUppercase;
-                    options.Password.RequireLowercase = identityDefaultOptions.PasswordRequireLowercase;
-                    options.Password.RequiredUniqueChars = identityDefaultOptions.PasswordRequiredUniqueChars;
-
-                    // Lockout settings
-                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes (identityDefaultOptions.LockoutDefaultLockoutTimeSpanInMinutes);
-                    options.Lockout.MaxFailedAccessAttempts = identityDefaultOptions.LockoutMaxFailedAccessAttempts;
-                    options.Lockout.AllowedForNewUsers = identityDefaultOptions.LockoutAllowedForNewUsers;
-
-                })
-                .AddEntityFrameworkStores<ApplicationDbContext> ()
-                .AddDefaultTokenProviders ();
-            // Add application services.
-            services.AddSingleton<IControllerDiscovery, ControllerDiscovery> ();
-
-            services.AddHttpContextAccessor ();
-            services.AddTransient<IUserprofileRepository, UserRepository> ();
-            services.AddTransient<IClientNotification, ClientNotification> ();
-            //// cookie settings
-            services.ConfigureApplicationCookie (options => {
-                options.LoginPath = identityDefaultOptions.LoginPath; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
-            });
-            services.AddControllers ().AddNewtonsoftJson (options => {
-                options.SerializerSettings.ContractResolver = new DefaultContractResolver ();
-            });
-            services.AddRazorPages ().AddRazorRuntimeCompilation ();
-            services.AddMvc ();
+            services.ConfigDatabase (Configuration);
+            services.IdentityConfig (Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -78,15 +78,13 @@
                 </div>
                         <ul class="list-inline pull-left">
                             <li><button type="button" asp-action="Index" class="btn bg-navy btn-flat margin back-step">Back</button></li>
-                            <li><button type="submit" id="SaveBankbranch" value="CreatebankbranchNew" class="btn bg-purple margin">Save</button></li>
+                            <li><button type="submit" id="Savesubmit" value="CreatebankbranchNew" class="btn bg-purple margin">Save</button></li>
                         </ul>
                     </div>
               </div>
             </form>
         </div>
-        <div class="overlay hidden">
-            <i class="fa fa-refresh fa-spin hidden"></i>
-        </div>
+             @await Html.PartialAsync("_Loadding")
         </section>
     </section>
    
@@ -96,10 +94,6 @@
         $(document).ready(function() {
             $(".back-step").on("click",()=>{
                 window.location.href = "/Bank/Index";
-            });
-            $("#SaveBankbranch").on("click",()=>{
-                $(".overlay").removeClass("hidden");
-                $(".fa-refresh").removeClass("hidden");
             });
         });
     </script>

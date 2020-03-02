@@ -25,17 +25,23 @@ namespace SugarM.Controllers {
             return View (Call);
         }
         public IActionResult Create () {
-            var _Quotamodel = new QuotaType ();
+            var _Quotamodel = new QuotaViewModel ();
             ViewBag.IsEditMode = "false";
             return View (_Quotamodel);
         }
 
         [DisplayName ("เพิ่มประเภทโควต้า")]
         [HttpPost]
-        public IActionResult Create (QuotaType _Quotamodel, string IsEditMode) {
+        public IActionResult Create (QuotaViewModel _Quotamodel, string IsEditMode) {
+            //*-------- Sen to save api
+            QuotaType _Quotagetapi = new QuotaType () {
+                TypeCode = _Quotamodel.TypeCode,
+                Description = _Quotamodel.Description
+            };
+
             var UserCurrent = GetCurrentUser ();
             if (IsEditMode.Equals ("false")) {
-                var _Re = CallRestApiPOST (_Quotamodel, "http://192.168.10.46/sdapi/sdapi/QuotaTypePost");
+                var _Re = CallRestApiPOST (_Quotagetapi, "http://192.168.10.46/sdapi/sdapi/QuotaTypePost");
                 if (_Re.success) {
                     _clientNotification.AddSweetNotification ("สำเร็จ",
                         "บันทึกข้อมูลเรียบร้อยแล้ว",
@@ -82,7 +88,7 @@ namespace SugarM.Controllers {
         public IActionResult Edit (string Id) {
             ViewBag.IsEditMode = "true";
             List<QuotaType> AuthorList = new List<QuotaType> ();
-            QuotaType _Quota = new QuotaType ();
+            QuotaViewModel _Quota = new QuotaViewModel ();
             var Call = CallRestApiGETEDIT (AuthorList, "http://192.168.10.46/sdapi/sdapi/QuotaTypeGet/" + Id);
             foreach (var item in Call) {
                 _Quota.TypeCode = item.TypeCode;

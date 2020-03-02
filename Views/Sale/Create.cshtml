@@ -84,16 +84,13 @@
                 <!-- /.col-lg-6 -->
                         <ul class="list-inline pull-left">
                             <li><button type="button" asp-action="Index" class="btn bg-navy btn-flat margin back-step">Back</button></li>
-                            <li><button type="submit" id="SaveSale" class="btn bg-purple margin">Save</button></li>
+                            <li><button type="submit" id="Savesubmit" class="btn bg-purple margin">Save</button></li>
                         </ul>
                     </div>
               </div>
             </form>
-
              </div>
-            <div class="overlay hidden">
-            <i class="fa fa-refresh fa-spin hidden"></i>
-            </div>
+     @await Html.PartialAsync("_Loadding")
         </section>
     </section>
    
@@ -102,10 +99,7 @@
     <script>
         $(document).ready(function() {
             $(".select2").select2();
-            $("#SaveSale").on("click",()=>{
-                $(".overlay").removeClass("hidden");
-                $(".fa-refresh").removeClass("hidden");
-            });
+
             $(".back-step").on("click",()=>{
                 window.location.href = "/Sale/Index";
             });

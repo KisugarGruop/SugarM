@@ -6,7 +6,6 @@ $(document).ready(function() {
 });
 var App = function() {
 	var key = $("#KIKEY").val();
-	debugger;
 	dataTablecm = $("#tablecompany").DataTable({
 		bDestroy: true, //ทำลายอันเก่าทิ้งแล้วรอคำสั่ง reload
 		paging: true, //showpaging
@@ -542,7 +541,6 @@ var Updatecompany = function Updatecompany() {
 				} else {
 					toastr.success(msg.message, "แจ้งเตือน");
 					dataTablecm.ajax.reload();
-					debugger;
 				}
 			} else {
 				$("#loginModal").modal("hide");
