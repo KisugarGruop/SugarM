@@ -106,7 +106,7 @@ namespace SugarM.Controllers {
         [HttpGet]
         public IActionResult EditMutiple (string Id, string RegId, string SaleId) {
             ViewBag.IsEditMode = "true";
-            //*- หา _ReOndesale หารหัสที่จะแก้ไข  saleviewmodel หาทั้งของ saleid ว่ามีกี่อันที่จะเอาไปโชว์หน้าแก้ไข
+            //*- หา _ReOndesale หารหัสที่จะแก้ไข  saleviewmodel จะเก็บได้ทั้ง models และ list หาทั้งของ saleid ว่ามีกี่อันที่จะเอาไปโชว์หน้าแก้ไข
             List<SaleAuth> saleview = new List<SaleAuth> ();
             SaleAuthViewmodel _Salestamodel = new SaleAuthViewmodel ();
             var _ReOneSale = CallRestApiGETEDIT (saleview, "http://192.168.10.46/sdapi/sdapi/SaleAuthGet/" + Id + "/" + SaleId + "/" + RegId);

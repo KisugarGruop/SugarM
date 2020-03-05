@@ -3,6 +3,7 @@ $(document).ready(function() {
 	$(".branch").hide();
 	$(".region").hide();
 	$(".select2").select2();
+	$('[data-toggle="tooltip"]').tooltip();
 });
 var App = function() {
 	var key = $("#KIKEY").val();
@@ -33,7 +34,11 @@ var App = function() {
 				orderable: false,
 				className: "text-center",
 				render: function(data, type) {
-					return "<a class='fa fa-book btn' data-id='" + data + "'></a>";
+					return (
+						"<a class='fa fa-book btn' data-id='" +
+						data +
+						"'  data-toggle='tooltip' data-placment='bottom' title='Edit'></a>"
+					);
 				}
 			},
 			{
@@ -67,7 +72,7 @@ var App = function() {
 					return (
 						"<a class='btn btn-danger btn-sm bt btndelect' data-id='" +
 						data +
-						"'><i class='fa fa-pencil'></i> Delect</a>"
+						"'><i class='fa fa-pencil'></i> Delete</a>"
 					);
 				},
 

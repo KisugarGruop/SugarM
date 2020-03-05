@@ -27,17 +27,16 @@ namespace SugarM.Controllers {
         public IActionResult Index (int page = 1) {
             List<Bank> AuthorList = new List<Bank> ();
             var Call = CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/bankGet");
-            var paginatedResult = PaginatedResult (Call, page, 10);
-            return View (paginatedResult);
+
+            return View (Call);
         }
 
         [DisplayName ("ดูรายละเอียดสาขาแบงค์")]
         public IActionResult GetBankBranch (string Id, int page) {
             List<Bank> AuthorList = new List<Bank> ();
             var Call = CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/bankBranchGet/" + Id);
-            var paginatedResult = PaginatedResult (Call, page, 10);
             ViewBag.BankCode = Id;
-            return View (paginatedResult);
+            return View (Call);
         }
 
         public IActionResult Create () {
