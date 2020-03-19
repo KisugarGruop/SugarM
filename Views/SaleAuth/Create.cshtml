@@ -31,22 +31,22 @@
                         <hr>
 
                 <div class="row">
-                    <div class="col-lg-1">
+                    <div class="col-lg-2">
                         <div class="form-group">
                          <label for="CompCode">รหัสบริษัท</label>
                         <input  class="form-control hidden" asp-for="CompCodeEdit" placeholder="Enter CompCode">
                         <input  class="form-control" asp-for="CompCode" value="KI" placeholder="Enter CompCode">
-                        <div class="col-sm-10">
+                        <div class="col-sm-3">
                         <span asp-validation-for="CompCode" class="text-danger"></span>
                         </div>
                         </div>
                   <!-- /input-group -->
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-2">
                         <div class="form-group">
                          <label for="Position">ตำแหน่ง</label>
                         <input  class="form-control" asp-for="Position" placeholder="Enter Position">
-                        <div class="col-sm-10">
+                        <div class="col-sm-3">
                         <span asp-validation-for="Position" class="text-danger"></span>
                         </div>
                         </div>
@@ -76,7 +76,7 @@
                         <option> </option>
                         </select>
                         </div>
-                         <div class="col-sm-10">
+                         <div class="col-sm-3">
                         <span asp-validation-for="SaleId" class="text-danger"></span>
                         </div>
                         <!-- /input-group -->

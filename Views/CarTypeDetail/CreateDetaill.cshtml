@@ -1,0 +1,277 @@
+@model CarTypeDetail
+@{
+    ViewData["Title"] = "CarTypeDetail";
+}
+<section class="content-wrapper">
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+      <section class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        <!---- Company -->
+        <div class="box-body">
+            <form asp-controller="CarTypeDetail" asp-action="SaveCarTypeDetaill" method="post">
+                <div>
+                    <input id="IsEditMode" name="IsEditMode" value="@ViewBag.IsEditMode" class="hidden">
+                </div>
+                <div>
+                    <input id="DeleteFlag" name="DeleteFlag" value="N" class="hidden">
+                </div>
+             <div class="btn-group menu">
+                    <button type="button" class="btn btn-info">...</button>
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a id="CarTypeDetail" href="#">เพิ่มประเภทย่อย</a></li>
+                            <li><a id="CarBrandAdd" href="#">เพิ่มยี่ห้อ</a></li>
+                            <li><a id="AddCarTypeMinor" href="#">เพิ่มชนิด</a></li>
+                        </ul>
+             </div>
+             <div class="CarType">
+                 <div class="tab-pane active" role="tabpanel" id="step1">
+                        <h3>ประเภทย่อย</h3>
+                        <hr>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                        <label for="CompCode">รหัสบริษัท</label>
+                        <input class="form-control" asp-for="CompCode" readonly="true" value="KI"  placeholder="Enter CompCode">
+                        </div>
+                         <div class="col-sm-10">
+                        <span asp-validation-for="CompCode" class="text-danger"></span>
+                        </div>
+                  <!-- /input-group -->
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                        <label>ประเภทรถ</label>
+                        <select class="form-control select2 select2-hidden-accessible select2CarDetail" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" asp-for="TypeCode" asp-items="@(new SelectList(ViewBag.Car,"TypeCode","Fullname"))">
+                        </select>
+                        </div>
+                  <!-- /input-group -->
+                    </div>
+                <!-- /.col-lg-6 -->
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                        <label for="SubTypeCode">รหัส</label>
+                        <input class="form-control" asp-for="SubTypeCode" placeholder="Enter SubTypeCode">
+                        </div>
+                         <div class="col-sm-10">
+                        <span asp-validation-for="SubTypeCode" class="text-danger"></span>
+                        </div>
+                  <!-- /input-group -->
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                        <label for="Description">ชนิดของรถ</label>
+                        <input class="form-control" asp-for="Description" placeholder="Enter Description">
+                        </div>
+                         <div class="col-sm-10">
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                  <!-- /input-group -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                        <label for="WeightIn">น.น ชั่งเข้า</label>
+                        <label for="WeightIn" class="pull-right">ตัน</label>
+                        <input class="form-control" style="text-align: right;" asp-for="WeightIn" placeholder="Enter WeightIn">
+                        </div>
+                         <div class="col-sm-10">
+                        <span asp-validation-for="WeightIn" class="text-danger"></span>
+                        </div>
+                  <!-- /input-group -->
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                        <label for="WeightOut">น.น ชั่งออก</label>
+                        <label for="WeightOut" class="pull-right">ตัน</label>
+                        <input class="form-control" style="text-align: right;" asp-for="WeightOut" placeholder="Enter WeightOut">
+                        </div>
+                         <div class="col-sm-10">
+                        <span asp-validation-for="WeightOut" class="text-danger"></span>
+                        </div>
+                  <!-- /input-group -->
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                        <label for="TotalFuel">ปริมานน้ำมัน</label>
+                        <label for="TotalFuel" class="pull-right">ลิตร</label>
+                        <input class="form-control" style="text-align: right;" asp-for="TotalFuel" placeholder="Enter TotalFuel">
+                        </div>
+                         <div class="col-sm-10">
+                        <span asp-validation-for="TotalFuel" class="text-danger"></span>
+                        </div>
+                  <!-- /input-group -->
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                        <label for="Active">การใช้งาน</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" asp-for="Active">
+                          <option value="Y">Y</option>
+                          <option value="N">N</option>
+                        </select>
+                        </div>
+                         <div class="col-sm-3">
+                        <span asp-validation-for="Active" class="text-danger"></span>
+                        </div>
+                  <!-- /input-group -->
+                    </div>
+                <!-- /.col-lg-6 -->
+                </div>
+                <hr>
+                <div class="row">
+                     <div class="col-lg-7">
+                         @if(Model.CarTypelist == null || Model.CarTypelist.Count == 0){
+
+                         }else{
+                        <table id="tablecardetaill" class="table table-striped table-bordered" style="width:100%;">
+                            <thead>
+                            <tr>
+                                <th>รหัส</th>
+                                <th>ชนิดของรถ</th>
+                                <th>น.น ชั่งเข้า</th>
+                                <th>น.น ชั่งออก</th>
+                                <th>ประมานน้ำมัน</th>
+                                <th>การใช้งาน</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                    @foreach (var item in Model.CarTypelist)
+                            {
+                                <tr>
+                                    <td>@item.SubTypeCode</td>
+                                    <td>@item.Description</td>
+                                    <td>@item.WeightIn</td>
+                                    <td>@item.WeightOut</td>
+                                    <td>@item.TotalFuel</td>
+                                    <td>@item.Active</td>
+                                    <td style="text-align: center;"> 
+                                        <a id="detailCarModal" asp-action="EditDetaill" asp-route-id="@item.CompCode" asp-route-TypeId="@item.TypeCode" asp-route-SubId="@item.SubTypeCode" class="btn btn-success btn-sm">
+                                            <i class="fa fa-folder-open-o" data-id="@item.CompCode"></i> รายละเอียด
+                                        </a>
+                                        <a id="deleteCarModal" asp-action="Delete" asp-route-id="@item.CompCode"
+                                           class="btn btn-danger btn-sm delete"
+                                           data-id="@item.CompCode"
+                                           data-id1="@item.TypeCode"
+                                           data-id2="@item.SubTypeCode"
+                                           data-controller="CarTypeDetail"
+                                           data-action="Delete"
+                                           data-body-message="คุณต้องการลบข้อมูลข้อมูลประเภทโควต้า @item.SubTypeCode ใช่หรือไม่?">
+                                            <i class="fa fa-pencil" data-id="@item.SubTypeCode"></i> ลบข้อมูล
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                            </table>
+                         }
+                       
+                     </div>
+                 </div>
+                        <ul class="list-inline pull-left">
+                            <li><button type="button" asp-action="Index" class="btn bg-navy btn-flat margin back-step">Back</button></li>
+                            <li><button type="submit" id="Savesubmit" class="btn bg-purple margin">Save</button></li>
+                        </ul>
+                    </div>
+              </div>
+            </form>
+        </div>
+             @await Html.PartialAsync("_Loadding")
+        </section>
+    </section>
+   
+</section>
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            var oTable = $('#tablecardetaill').DataTable();
+            dataTablebk = $("#tablecardetaill").DataTable({
+                bDestroy: true, //ทำลายอันเก่าทิ้งแล้วรอคำสั่ง reload
+                paging: true, //showpaging
+                lengthChange: false,
+                searching: false,
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                order: [[1, "asc"]],
+                language: {
+                    emptyTable: "No data found, Please click on <b>Add New</b> Button",
+                    sSearch: "ค้นหา",
+                    sLengthMenu: "แสดงข้อมูลทีละ _MENU_ ข้อมูล",
+                    sInfo: "ข้อมูล _START_ ถึง _END_ จากทั้งหมด _TOTAL_ ข้อมูล",
+                    oPaginate: {
+                        sFirst: "หน้าแรก",
+                        sPrevious: "ก่อนหน้า",
+                        sNext: "ถัดไป",
+                        sLast: "หน้าสุดท้าย"
+                    }
+                }
+            });
+            $(".select2").select2();
+            $(".back-step").on("click",()=>{
+                window.location.href = "/CarType/Index";
+            });
+            $("#CarBrandAdd").on("click",()=>{
+                var C = $("#CompCode").val();
+                var T = $("#TypeCode").val();
+                window.location.href = "/CarBrand/CreateCarBrand?Id="+ C +" &TypeId="+ T +"";
+                debugger;
+            });
+            $("#CarTypeDetail").on("click",()=>{
+                var C = $("#CompCode").val();
+                var T = $("#TypeCode").val();
+                window.location.href = "/CarTypeDetail/CreateDetaill?Id="+ C +" &TypeId="+ T +"";
+                debugger;
+            });
+            $("#AddCarTypeMinor").on("click",()=>{
+                var C = $("#CompCode").val();
+                var T = $("#TypeCode").val();
+                var S = $("#SubTypeCode").val();
+                if(S == null || S == undefined ||S == ""){
+                    swal("แจ้งเตือน", "กรุนาเลือกประเภทย่อยก่อนเพิ่มชนิด", {
+							icon: "warning"
+					});
+                }else{
+                   window.location.href = "/CarTypeMinor/CreateCarMinor?Id="+ C +" &TypeId="+ T +" &SubTypeId="+ S +"";
+                }
+            });
+            $("#tablecardetaill tbody").on("click", "#detailCarType", function (e) {
+                    if ($(this).hasClass('selected')) {
+                        $(this).removeClass('selected');
+                    }
+                    else {
+                        oTable.$('tr.selected').removeClass('selected');
+                        $(this).addClass('selected');
+                         var data = oTable.row($(this).parents('tr')).data();
+                        $("#SubTypeCode").val(data[0]);
+                        $("#Description").val(data[1]);
+                        $("#WeightIn").val(data[2]);
+                        $("#WeightOut").val(data[3]);
+                        $("#TotalFuel").val(data[4]);
+                    }
+            });
+            $("#tablecardetaill").on("click", "#deleteCarModal", function(e) {
+                $(".overlay").removeClass("hidden");
+                $(".fa-refresh").removeClass("hidden");
+            });
+        });
+    </script>
+}

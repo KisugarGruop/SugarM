@@ -1,6 +1,6 @@
-@model List<SugarM.Models.Companysale>
+@model List<SugarM.Models.DocCtrRunno>
 @{
-    ViewData["Title"] = "Sales";
+    ViewData["Title"] = "DocCtrlRunning";
 }
 
 
@@ -24,20 +24,25 @@
             </div>
         <!---- Company -->
         <div class="box-body">
-             <div class="Sales">
+             <div class="DocCtrlRunning">
                 <div class="row">
                  <div class="col-sm-6" style="padding-left: 25px;margin-top: 10px;">
                     <div class="mb-md">
-                    <a class="btn btn-primary" asp-action="Create" data-controller="Sales" data-action="Create" style="margin-bottom:10px"><i class="fa fa-plus"></i> Add New</a>
+                    <a class="btn btn-primary" asp-action="Create" data-controller="DocCtrRunno" data-action="Create"><i class="fa fa-plus"></i> Add New</a>
                     @*<button id="Delect" type="button" class="mb-xs mt-xs mr-xs btn btn-danger" onclick="return testCheck();">Delect</button>*@
                      </div>
                  </div>
                 </div>
-                 <table id="tableSales" class="table table-striped border" style="width:100%;">
+                 <table id="tableDocCtrRunning" class="table table-striped border" style="width:100%;">
                      <thead>
                          <tr>
-                             <th>รหัสนักเกษตร</th>
-                             <th>ชื่อนักเกษตร</th>
+                             <th>รหัส / ชื่อสาขา</th>
+                             <th>ชื่อเอกสาร</th>
+                             <th>รหัสเอกสาร</th>
+                             <th>ประเภทเอกสาร</th>
+                             <th>ชื่อประเภท</th>
+                             <th>จำนวนเลขที่</th>
+                             <th>ลำดับสุดท้าย</th>
                              <th></th>
                          </tr>
                      </thead>
@@ -45,21 +50,29 @@
                          @foreach (var item in Model)
                          {
                              <tr>
-                                 <td>@item.SaleId</td>
-                                 <td>@item.SaleName</td>
+                                 <td>@item.NameTH</td>
+                                 <td>@item.CodeName</td>
+                                 <td>@item.DocCode</td>
+                                 <td>@item.DocType</td>
+                                 <td>@item.TypeName</td>
+                                 <td>@item.DigitRunNo</td>
+                                 <td>@item.LastRunNo</td>
                                  <td> 
-                                      <a id="detailCarModal" asp-action="Edit" asp-route-id="@item.SaleId" class="btn btn-success btn-sm">
-                                            <i class="fa fa-folder-open-o" data-id="@item.SaleId"></i> รายละเอียด
+                                      <a id="detailCarModal" asp-action="Edit" asp-route-cmid="@item.CompCode" asp-route-Caneyear="@item.CaneYear" asp-route-Doccode="@item.DocCode" asp-route-DocType="@item.DocType" asp-route-BranchSy="@item.BranchSymbol" class="btn btn-success btn-sm">
+                                            <i class="fa fa-folder-open-o" data-id="@item.CompCode"></i> รายละเอียด
                                         </a>
-                                        <a id="deleteCarModal" asp-action="Delete" asp-route-id="@item.SaleId"
+                                        <a id="deleteCarModal" asp-action="Delete" asp-route-id="@item.CompCode"
                                            class="btn btn-danger btn-sm delete"
-                                           data-id="@item.SaleId"
-                                           data-controller="QuotaType"
-                                           data-ta="#tableSales"
+                                           data-id="@item.CompCode"
+                                           data-id1="@item.CaneYear"
+                                           data-id2="@item.DocCode"
+                                           data-id3="@item.DocType"
+                                           data-id4="@item.BranchSymbol"
+                                           data-controller="DocCtrRunno"
+                                           data-ta="#tableDocCtrRunning"
                                            data-action="Delete"
-                                           data-redirect-url="/Sale/Index"
-                                           data-body-message="คุณต้องการลบข้อมูลข้อมูลประเภทโควต้า @item.SaleId ใช่หรือไม่?">
-                                            <i class="fa fa-pencil" data-id="@item.SaleId"></i> ลบข้อมูล
+                                           data-body-message="คุณต้องการลบข้อมูลข้อมูลประเภทโควต้า @item.CompCode ใช่หรือไม่?">
+                                            <i class="fa fa-pencil" data-id="@item.CompCode"></i> ลบข้อมูล
                                         </a>
  
                                 </td>
@@ -87,7 +100,7 @@
 @section Scripts{
     <script>
     $(document).ready(function() {
-      $("#tableSales").DataTable({
+      $("#tableDocCtrRunning").DataTable({
         bDestroy: true, //ทำลายอันเก่าทิ้งแล้วรอคำสั่ง reload
 		paging: true, //showpaging
 		lengthChange: false,
@@ -109,10 +122,11 @@
 			}
 	    }
      });
-     $("#tableSales").on("click", "#deleteCarModal", function(e) {
+     $("#tableDocCtrRunning").on("click", "#deleteCarModal", function(e) {
          $(".overlay").removeClass("hidden");
         $(".fa-refresh").removeClass("hidden");
      });
+
     });
     </script>
 }

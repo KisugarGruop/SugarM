@@ -1,11 +1,11 @@
-$(document).ready(function() {
+$(document).ready(function () {
 	App();
 	$(".branch").hide();
 	$(".region").hide();
 	$(".select2").select2();
 	$('[data-toggle="tooltip"]').tooltip();
 });
-var App = function() {
+var App = function () {
 	var key = $("#KIKEY").val();
 	dataTablecm = $("#tablecompany").DataTable({
 		bDestroy: true, //ทำลายอันเก่าทิ้งแล้วรอคำสั่ง reload
@@ -33,28 +33,19 @@ var App = function() {
 				width: "20px",
 				orderable: false,
 				className: "text-center",
-				render: function(data, type) {
-					return (
-						"<a class='fa fa-book btn' data-id='" +
-						data +
-						"'  data-toggle='tooltip' data-placment='bottom' title='Edit'></a>"
-					);
+				width: "20px",
+				orderable: false,
+				className: "text-center",
+				render: function (data, type) {
+					return "<a class='fa fa-external-link btn detailbranch' data-toggle='tooltip' data-placment='bottom' title='สาขา'></a>";
 				}
 			},
 			{
 				width: "20px",
 				orderable: false,
 				className: "text-center",
-				render: function(data, type) {
-					return "<a class='fa fa-hand-o-up btn'></a>";
-				}
-			},
-			{
-				width: "20px",
-				orderable: false,
-				className: "text-center",
-				render: function(data, type) {
-					return "<a class='fa fa-globe btn'></a>";
+				render: function (data, type) {
+					return "<a class='fa fa-external-link btn detailregion' data-toggle='tooltip' data-placment='bottom' title='เขต'></a>";
 				}
 			},
 			{
@@ -68,9 +59,11 @@ var App = function() {
 			},
 			{
 				data: "CompCode",
-				render: function(data, type) {
+				render: function (data, type) {
 					return (
-						"<a class='btn btn-danger btn-sm bt btndelect' data-id='" +
+						"<a class='btn btn-success btn-sm detail' data-id='" +
+						data +
+						"'><i class='fa fa-folder-open-o'></i> Detail</a>  <a class='btn btn-danger btn-sm bt btndelect' data-id='" +
 						data +
 						"'><i class='fa fa-pencil'></i> Delete</a>"
 					);
@@ -85,7 +78,9 @@ var App = function() {
 		//'select': {
 		//    'style': 'multi'
 		//},
-		order: [[3, "asc"]],
+		order: [
+			[3, "asc"]
+		],
 		language: {
 			emptyTable: "No data found, Please click on <b>Add New</b> Button",
 			sSearch: "ค้นหา",
@@ -100,7 +95,7 @@ var App = function() {
 		}
 	});
 	//- ลบรายการ tablecompany
-	$("#tablecompany").on("click", ".btndelect", function(e) {
+	$("#tablecompany").on("click", ".btndelect", function (e) {
 		swal({
 			title: "แจ้งเตือน",
 			text: "คุณต้องการลบรายการนี้ใช่หรือไม่",
@@ -114,7 +109,7 @@ var App = function() {
 				$.ajax({
 					url: url,
 					type: "POST"
-				}).done(function(response) {
+				}).done(function (response) {
 					if (response.success) {
 						swal("แจ้งเตือน", "ลบสำเร็จ", {
 							icon: "success"
@@ -124,14 +119,12 @@ var App = function() {
 						toastr.error(msg.message, "แจ้งเตือน");
 					}
 				});
-			} else {
-			}
+			} else {}
 		});
-
 		return false;
 	});
 	//- ลบรายการ tablebranch
-	$("#tablebranch").on("click", ".btndelect", function(e) {
+	$("#tablebranch").on("click", ".btndelect", function (e) {
 		swal({
 			title: "แจ้งเตือน",
 			text: "คุณต้องการลบรายการนี้ใช่หรือไม่",
@@ -150,7 +143,7 @@ var App = function() {
 				$.ajax({
 					url: url,
 					type: "POST"
-				}).done(function(response) {
+				}).done(function (response) {
 					if (response.success) {
 						swal("แจ้งเตือน", "ลบสำเร็จ", {
 							icon: "success"
@@ -160,14 +153,13 @@ var App = function() {
 						toastr.error(msg.message, "แจ้งเตือน");
 					}
 				});
-			} else {
-			}
+			} else {}
 		});
 
 		return false;
 	});
 	//- โชว์รายละเอียด branch
-	$("#tablecompany").on("click", ".fa-book", function(e) {
+	$("#tablecompany").on("click", ".detail", function (e) {
 		$(".branch").hide();
 		$(".region").hide();
 		$("#loginModal").modal("show");
@@ -176,9 +168,11 @@ var App = function() {
 		var url = "/Company/Getcompany/" + roleid;
 		$.ajax({
 			url: url,
-			data: { data: "data" },
+			data: {
+				data: "data"
+			},
 			type: "GET",
-			success: function(data) {
+			success: function (data) {
 				var DT = data;
 				for (i = 0; i < DT.length; i++) {
 					var rec = DT[i];
@@ -205,7 +199,7 @@ var App = function() {
 		return false;
 	});
 	//---- รายละเอียดbranch
-	$("#tablecompany").on("click", ".fa-hand-o-up", function(e) {
+	$("#tablecompany").on("click", ".detailbranch", function (e) {
 		$(".company").hide();
 		$(".region").hide();
 		$(".branch").show();
@@ -229,7 +223,7 @@ var App = function() {
 					width: "20px",
 					orderable: false,
 					className: "text-center",
-					render: function(data, type) {
+					render: function (data, type) {
 						return "<a class='fa fa-book btn' data-id='" + data + "'></a>";
 					}
 				},
@@ -248,7 +242,7 @@ var App = function() {
 				},
 				{
 					data: "BranchCode",
-					render: function(data, type) {
+					render: function (data, type) {
 						return (
 							"<a class='btn btn-danger btn-sm bt btndelect' data-id='" +
 							data +
@@ -265,7 +259,9 @@ var App = function() {
 			//'select': {
 			//    'style': 'multi'
 			//},
-			order: [[3, "asc"]],
+			order: [
+				[3, "asc"]
+			],
 			language: {
 				emptyTable: "No data found, Please click on <b>Add New</b> Button",
 				sSearch: "ค้นหา",
@@ -281,7 +277,7 @@ var App = function() {
 		});
 	});
 	//---- รายละเอียดcompanyregion
-	$("#tablecompany").on("click", ".fa-globe", function(e) {
+	$("#tablecompany").on("click", ".detailregion", function (e) {
 		$(".company").hide();
 		$(".branch").hide();
 		$(".region").show();
@@ -305,7 +301,7 @@ var App = function() {
 					width: "20px",
 					orderable: false,
 					className: "text-center",
-					render: function(data, type) {
+					render: function (data, type) {
 						return "<a class='fa fa-book btn' data-id='" + data + "'></a>";
 					}
 				},
@@ -320,7 +316,7 @@ var App = function() {
 				},
 				{
 					data: "RegionCode",
-					render: function(data, type) {
+					render: function (data, type) {
 						return (
 							"<a class='btn btn-danger btn-sm bt btndelect' data-id='" +
 							data +
@@ -337,7 +333,9 @@ var App = function() {
 			//'select': {
 			//    'style': 'multi'
 			//},
-			order: [[1, "asc"]],
+			order: [
+				[1, "asc"]
+			],
 			language: {
 				emptyTable: "No data found, Please click on <b>Add New</b> Button",
 				sSearch: "ค้นหา",
@@ -353,7 +351,7 @@ var App = function() {
 		});
 	});
 	//- รายละเอียดbranch ข้างใน
-	$("#tablebranch").on("click", ".fa-book", function(e) {
+	$("#tablebranch").on("click", ".fa-book", function (e) {
 		$("#loginModal").modal("show");
 		$("#Statusform").val("Edit");
 		var banchid = $(this).data("id");
@@ -365,9 +363,11 @@ var App = function() {
 		var url = "/Company/Getcompanybanch/" + banchid + "/" + comid;
 		$.ajax({
 			url: url,
-			data: { data: "data" },
+			data: {
+				data: "data"
+			},
 			type: "GET",
-			success: function(data) {
+			success: function (data) {
 				var DT = data;
 				for (i = 0; i < DT.length; i++) {
 					var rec = DT[i];
@@ -422,7 +422,7 @@ var App = function() {
 					width: "20px",
 					orderable: false,
 					className: "text-center",
-					render: function(data, type) {
+					render: function (data, type) {
 						return "<a class='fa fa-book btn' data-id='" + data + "'></a>";
 					}
 				},
@@ -456,7 +456,9 @@ var App = function() {
 			//'select': {
 			//    'style': 'multi'
 			//},
-			order: [[3, "asc"]],
+			order: [
+				[3, "asc"]
+			],
 			language: {
 				emptyTable: "No data found",
 				sSearch: "ค้นหา",
@@ -473,7 +475,7 @@ var App = function() {
 		return false;
 	});
 	//- โชว์รายละเอียด region
-	$("#tableregion").on("click", ".fa-book", function(e) {
+	$("#tableregion").on("click", ".fa-book", function (e) {
 		$(".branch").hide();
 		$(".company").hide();
 		$(".companybranch").hide();
@@ -489,9 +491,11 @@ var App = function() {
 		var url = "/Company/GetcompanyRegionedit?Id=" + ComeCode + "&re=" + RegionC;
 		$.ajax({
 			url: url,
-			data: { data: "data" },
+			data: {
+				data: "data"
+			},
 			type: "GET",
-			success: function(data) {
+			success: function (data) {
 				var DT = data;
 				for (i = 0; i < DT.length; i++) {
 					var rec = DT[i];
@@ -507,7 +511,7 @@ var App = function() {
 		return false;
 	});
 
-	$("#tablecompany").on("click", "fa-globe", function(e) {});
+	$("#tablecompany").on("click", "fa-globe", function (e) {});
 	$("#btnHideModal").on("click", () => {
 		$("#loginModal").modal("hide");
 	});
@@ -538,7 +542,7 @@ var Updatecompany = function Updatecompany() {
 		dataType: "json",
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8", // this
 		data: valdata,
-		success: function(msg) {
+		success: function (msg) {
 			if (msg.success) {
 				$("#loginModal").modal("hide");
 				if (msg.message == "ข้อมูลซ้ำ") {
@@ -552,7 +556,7 @@ var Updatecompany = function Updatecompany() {
 				toastr.error(msg.message, "แจ้งเตือน");
 			}
 		},
-		error: function(errormessage) {
+		error: function (errormessage) {
 			//do something else
 			toastr.error(errormessage, "แจ้งเตือน");
 		}
@@ -569,7 +573,7 @@ var Updatecompanybranch = function Updatecompanybranch() {
 		dataType: "json",
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8", // this
 		data: valdata,
-		success: function(msg) {
+		success: function (msg) {
 			if (msg.success) {
 				$("#loginModal").modal("hide");
 				dataTablebn.ajax.reload();
@@ -579,7 +583,7 @@ var Updatecompanybranch = function Updatecompanybranch() {
 				toastr.error(msg.message, "แจ้งเตือน");
 			}
 		},
-		error: function(errormessage) {
+		error: function (errormessage) {
 			//do something else
 			toastr.error(errormessage, "แจ้งเตือน");
 		}

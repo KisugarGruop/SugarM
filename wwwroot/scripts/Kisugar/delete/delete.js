@@ -1,5 +1,5 @@
 ﻿$(
-	(function() {
+	(function () {
 		var url;
 		var redirectUrl;
 		var target;
@@ -8,14 +8,19 @@
 			e.preventDefault();
 
 			target = e.target;
+			var da = $(target).data("ta");
+			var table = $(da).DataTable();
 			var Id = $(target).data("id");
 			var controller = $(target).data("controller");
 			var action = $(target).data("action");
 			var Id1 = $(target).data("id1");
 			var Id2 = $(target).data("id2");
+			var Id3 = $(target).data("id3");
+			var Id4 = $(target).data("id4");
 			var bodyMessage = $(target).data("body-message");
 			redirectUrl = $(target).data("redirect-url");
-			if (typeof Id1 == "undefined" && typeof Id2 == "undefined") {
+			debugger;
+			if (typeof Id1 == "undefined" && typeof Id2 == "undefined" && typeof Id3 == "undefined" && Id4 == "undefined") {
 				url = "/" + controller + "/" + action + "?Id=" + Id;
 			} else {
 				url =
@@ -28,8 +33,10 @@
 					"&Del=" +
 					Id1 +
 					"&Del1=" +
-					Id2;
+					Id2 + "&Del2=" + Id3 + "&Del3=" + Id4;
+
 			}
+			debugger;
 			swal({
 				title: "แจ้งเตือน",
 				text: "คุณต้องการลบรายการนี้ใช่หรือไม่",
@@ -41,10 +48,12 @@
 					$.ajax({
 						url: url,
 						type: "GET"
-					}).done(function(response) {
+					}).done(function (response) {
 						if (response.success) {
 							swal("แจ้งเตือน", "ลบสำเร็จ", {
 								icon: "success"
+							}).then(function (e) {
+								table.row($(target).parents('tr')).remove().draw("page");
 							});
 							$(".overlay").addClass("hidden");
 							$(".fa-refresh").addClass("hidden");
@@ -54,7 +63,7 @@
 									.parent()
 									.hide("slow");
 							}
-							window.location.href = redirectUrl;
+
 						} else {
 							$(".overlay").addClass("hidden");
 							$(".fa-refresh").addClass("hidden");

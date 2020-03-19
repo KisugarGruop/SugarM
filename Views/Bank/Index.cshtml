@@ -47,7 +47,7 @@
                          {
                              <tr>
                                  <td>
-                                     <a class="fa fa-book btn" asp-action="GetBankBranch" asp-route-id="@item.BankCode" data-id="@item.BankCode" asp-controller="Bank">
+                                     <a class="fa fa-external-link btn" data-toggle="tooltip" data-placment="bottom" title="สาขา" asp-action="GetBankBranch" asp-route-id="@item.BankCode" data-id="@item.BankCode" asp-controller="Bank">
                                      </a>
                                      </td>
                                  <td>@item.BankCode</td>
@@ -61,10 +61,11 @@
                                            data-id="@item.BankCode"
                                            data-controller="Bank"
                                            data-action="Delete"
+                                           data-ta="#tablebank"
+                                           data-redirect-url="/Bank/Index"
                                            data-body-message="คุณต้องการลบข้อมูลข้อมูลหลักทรัพย์ @item.BankCode ใช่หรือไม่?">
                                             <i class="fa fa-pencil" data-id="@item.BankCode"></i> ลบข้อมูล
                                         </a>
- 
                                 </td>
                              </tr>
                          }

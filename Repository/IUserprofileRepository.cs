@@ -1,8 +1,10 @@
 using SugarM.GenerricRepository;
 using SugarM.Models;
 
-namespace SugarM.Repository {
-    public interface IUserprofileRepository : IGenericRepository<UserProfile> {
-
+namespace SugarM.Repository
+{
+    public interface IUserprofileRepository : IGenericRepository<UserProfile>
+    {
+        UserProfile GetCompCode(string Userid);
     }
 }

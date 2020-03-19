@@ -26,7 +26,7 @@ namespace SugarM.Controllers {
 
         public IActionResult Index (int page = 1) {
             List<Bank> AuthorList = new List<Bank> ();
-            var Call = CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/bankGet");
+            var Call = ServiceExtension.RestshapExtension.CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/bankGet", Getkey ());
 
             return View (Call);
         }
@@ -34,7 +34,7 @@ namespace SugarM.Controllers {
         [DisplayName ("ดูรายละเอียดสาขาแบงค์")]
         public IActionResult GetBankBranch (string Id, int page) {
             List<Bank> AuthorList = new List<Bank> ();
-            var Call = CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/bankBranchGet/" + Id);
+            var Call = ServiceExtension.RestshapExtension.CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/bankBranchGet/" + Id, Getkey ());
             ViewBag.BankCode = Id;
             return View (Call);
         }
@@ -50,7 +50,7 @@ namespace SugarM.Controllers {
         public IActionResult Create (Bank Bankmodel, string IsEditMode) {
             var UserCurrent = GetCurrentUser ();
             if (IsEditMode.Equals ("false")) {
-                var _Re = CallRestApiPOST (Bankmodel, "http://192.168.10.46/sdapi/sdapi/bankPost");
+                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (Bankmodel, "http://192.168.10.46/sdapi/sdapi/bankPost", Getkey ());
                 if (_Re.success) {
                     _clientNotification.AddSweetNotification ("สำเร็จ",
                         "บันทึกข้อมูลเรียบร้อยแล้ว",
@@ -69,7 +69,7 @@ namespace SugarM.Controllers {
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };
 
-                var _Re = CallRestApiPOST (bankup, "http://192.168.10.46/sdapi/sdapi/bankPut/" + Bankmodel.BankCode);
+                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (bankup, "http://192.168.10.46/sdapi/sdapi/bankPut/" + Bankmodel.BankCode, Getkey ());
                 if (_Re.success) {
                     _clientNotification.AddSweetNotification ("สำเร็จ",
                         "แก้ไขข้อมูลเรียบร้อยแล้ว",
@@ -89,7 +89,7 @@ namespace SugarM.Controllers {
             ViewBag.IsEditMode = "false";
             List<Bank> AuthorList = new List<Bank> ();
             Bank Bankmodel = new Bank ();
-            var Call = CallRestApiGETEDIT (AuthorList, "http://192.168.10.46/sdapi/sdapi/bankGet/" + Idbranch);
+            var Call = ServiceExtension.RestshapExtension.CallRestApiGETEDIT (AuthorList, "http://192.168.10.46/sdapi/sdapi/bankGet/" + Idbranch, Getkey ());
             foreach (var item in Call) {
                 Bankmodel.BankCode = item.BankCode;
                 Bankmodel.BankName = item.BankName;
@@ -102,7 +102,7 @@ namespace SugarM.Controllers {
         public IActionResult CreatebankbranchNew (Bank Bankmodel, string IsEditMode) {
             var UserCurrent = GetCurrentUser ();
             if (IsEditMode.Equals ("false")) {
-                var _Re = CallRestApiPOST (Bankmodel, "http://192.168.10.46/sdapi/sdapi/bankBranchPost");
+                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (Bankmodel, "http://192.168.10.46/sdapi/sdapi/bankBranchPost", Getkey ());
                 if (_Re.success) {
                     _clientNotification.AddSweetNotification ("สำเร็จ",
                         "บันทึกข้อมูลเรียบร้อยแล้ว",
@@ -123,7 +123,7 @@ namespace SugarM.Controllers {
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };
 
-                var _Re = CallRestApiPOST (bankup, "http://192.168.10.46/sdapi/sdapi/bankBranchPut/" + Bankmodel.BankCode + "/" + Bankmodel.BranchCode);
+                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (bankup, "http://192.168.10.46/sdapi/sdapi/bankBranchPut/" + Bankmodel.BankCode + "/" + Bankmodel.BranchCode, Getkey ());
                 if (_Re.success) {
                     _clientNotification.AddSweetNotification ("สำเร็จ",
                         "แก้ไขข้อมูลเรียบร้อยแล้ว",
@@ -142,7 +142,7 @@ namespace SugarM.Controllers {
         [HttpGet]
         public IActionResult Delete (string Id) {
             Bank Bankmodel = new Bank ();
-            var Call = CallRestApiPOST (Bankmodel, "http://192.168.10.46/sdapi/sdapi/bankDel/" + Id);
+            var Call = ServiceExtension.RestshapExtension.CallRestApiPOST (Bankmodel, "http://192.168.10.46/sdapi/sdapi/bankDel/" + Id, Getkey ());
             return Json (new { success = Call.success });
         }
 
@@ -150,7 +150,7 @@ namespace SugarM.Controllers {
         [HttpGet]
         public IActionResult DeleteBranch (string Id, string Del) {
             Bank Bankmodel = new Bank ();
-            var Call = CallRestApiPOST (Bankmodel, "http://192.168.10.46/sdapi/sdapi/bankBranchDel/" + Id + "/" + Del);
+            var Call = ServiceExtension.RestshapExtension.CallRestApiPOST (Bankmodel, "http://192.168.10.46/sdapi/sdapi/bankBranchDel/" + Id + "/" + Del, Getkey ());
             return Json (new { success = Call.success });
         }
 
@@ -160,7 +160,7 @@ namespace SugarM.Controllers {
             ViewBag.IsEditMode = "true";
             List<Bank> AuthorList = new List<Bank> ();
             Bank Bankmodel = new Bank ();
-            var Call = CallRestApiGETEDIT (AuthorList, "http://192.168.10.46/sdapi/sdapi/bankGet/" + Id);
+            var Call = ServiceExtension.RestshapExtension.CallRestApiGETEDIT (AuthorList, "http://192.168.10.46/sdapi/sdapi/bankGet/" + Id, Getkey ());
             foreach (var item in Call) {
                 Bankmodel.BankCode = item.BankCode;
                 Bankmodel.BankName = item.BankName;
@@ -174,7 +174,7 @@ namespace SugarM.Controllers {
             ViewBag.IsEditMode = "true";
             List<Bank> AuthorList = new List<Bank> ();
             Bank Bankmodel = new Bank ();
-            var Call = CallRestApiGETEDIT (AuthorList, "http://192.168.10.46/sdapi/sdapi/BankBankBranchGet/" + Id + "/" + branchId);
+            var Call = ServiceExtension.RestshapExtension.CallRestApiGETEDIT (AuthorList, "http://192.168.10.46/sdapi/sdapi/BankBankBranchGet/" + Id + "/" + branchId, Getkey ());
             foreach (var item in Call) {
                 Bankmodel.BankCode = item.BankCode;
                 Bankmodel.BankName = item.BankName;

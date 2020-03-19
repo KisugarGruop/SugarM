@@ -1,6 +1,6 @@
-@model List<SugarM.Models.Companysale>
+@model List<SugarM.Models.DocRunning>
 @{
-    ViewData["Title"] = "Sales";
+    ViewData["Title"] = "DocRunning";
 }
 
 
@@ -24,20 +24,20 @@
             </div>
         <!---- Company -->
         <div class="box-body">
-             <div class="Sales">
+             <div class="DocRunning">
                 <div class="row">
                  <div class="col-sm-6" style="padding-left: 25px;margin-top: 10px;">
                     <div class="mb-md">
-                    <a class="btn btn-primary" asp-action="Create" data-controller="Sales" data-action="Create" style="margin-bottom:10px"><i class="fa fa-plus"></i> Add New</a>
+                    <a class="btn btn-primary" asp-action="Create" data-controller="CarType" data-action="Create"><i class="fa fa-plus"></i> Add New</a>
                     @*<button id="Delect" type="button" class="mb-xs mt-xs mr-xs btn btn-danger" onclick="return testCheck();">Delect</button>*@
                      </div>
                  </div>
                 </div>
-                 <table id="tableSales" class="table table-striped border" style="width:100%;">
+                 <table id="tableDocRunning" class="table table-striped border" style="width:100%;">
                      <thead>
                          <tr>
-                             <th>รหัสนักเกษตร</th>
-                             <th>ชื่อนักเกษตร</th>
+                             <th>รหัส</th>
+                             <th>ชื่อ</th>
                              <th></th>
                          </tr>
                      </thead>
@@ -45,21 +45,21 @@
                          @foreach (var item in Model)
                          {
                              <tr>
-                                 <td>@item.SaleId</td>
-                                 <td>@item.SaleName</td>
+                                 <td>@item.RunningId</td>
+                                 <td>@item.RunningName</td>
                                  <td> 
-                                      <a id="detailCarModal" asp-action="Edit" asp-route-id="@item.SaleId" class="btn btn-success btn-sm">
-                                            <i class="fa fa-folder-open-o" data-id="@item.SaleId"></i> รายละเอียด
+                                      <a id="detailCarModal" asp-action="Edit" asp-route-id="@item.RunningId" asp-route-cmid="@item.CompCode" asp-route-TypeId="@item.RunningId" class="btn btn-success btn-sm">
+                                            <i class="fa fa-folder-open-o" data-id="@item.RunningId"></i> รายละเอียด
                                         </a>
-                                        <a id="deleteCarModal" asp-action="Delete" asp-route-id="@item.SaleId"
+                                        <a id="deleteCarModal" asp-action="Delete" asp-route-id="@item.RunningId"
                                            class="btn btn-danger btn-sm delete"
-                                           data-id="@item.SaleId"
-                                           data-controller="QuotaType"
-                                           data-ta="#tableSales"
+                                           data-id="@item.CompCode"
+                                           data-id1="@item.RunningId"
+                                           data-controller="DocRunning"
+                                           data-ta="#tableDocRunning"
                                            data-action="Delete"
-                                           data-redirect-url="/Sale/Index"
-                                           data-body-message="คุณต้องการลบข้อมูลข้อมูลประเภทโควต้า @item.SaleId ใช่หรือไม่?">
-                                            <i class="fa fa-pencil" data-id="@item.SaleId"></i> ลบข้อมูล
+                                           data-body-message="คุณต้องการลบข้อมูลข้อมูลประเภทโควต้า @item.CompCode ใช่หรือไม่?">
+                                            <i class="fa fa-pencil" data-id="@item.CompCode"></i> ลบข้อมูล
                                         </a>
  
                                 </td>
@@ -87,7 +87,7 @@
 @section Scripts{
     <script>
     $(document).ready(function() {
-      $("#tableSales").DataTable({
+      $("#tableDocRunning").DataTable({
         bDestroy: true, //ทำลายอันเก่าทิ้งแล้วรอคำสั่ง reload
 		paging: true, //showpaging
 		lengthChange: false,
@@ -109,7 +109,7 @@
 			}
 	    }
      });
-     $("#tableSales").on("click", "#deleteCarModal", function(e) {
+     $("#tableDocRunning").on("click", "#deleteCarModal", function(e) {
          $(".overlay").removeClass("hidden");
         $(".fa-refresh").removeClass("hidden");
      });

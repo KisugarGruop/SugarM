@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 	$("#Savesubmit").on("click", () => {
 		var RegId = $("#RegionCode").val();
 		var SalId = $("#SaleId").val();
@@ -8,6 +8,10 @@ $(document).ready(function() {
 		var BankName = $("#BankName").val();
 		var BankCode = $("#BankCode").val();
 		var BranchName = $("#BranchName").val();
+		var TypeCode = $("#TypeCode").val();
+		var Description = $("#Description").val();
+		var RunningId = $("#RunningId").val();
+		var RunningName = $("#RunningName").val();
 		if (
 			RegId == "" ||
 			SalId == "" ||
@@ -16,7 +20,12 @@ $(document).ready(function() {
 			SaleName == "" ||
 			BankName == "" ||
 			BankCode == "" ||
-			BranchName == ""
+			BranchName == "" ||
+			TypeCode == "" ||
+			Description == "" ||
+			RunningId == "" ||
+			RunningName == ""
+
 		) {
 			return;
 		} else {

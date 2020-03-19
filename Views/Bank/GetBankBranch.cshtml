@@ -58,6 +58,7 @@
                                            class="btn btn-danger btn-sm delete"
                                            data-id="@item.BankCode"
                                            data-id1="@item.BranchCode"
+                                           data-ta="#tablebank"
                                            data-controller="Bank"
                                            data-action="DeleteBranch">
                                             <i class="fa fa-pencil"></i> ลบข้อมูล
@@ -84,6 +85,28 @@
 @section Scripts{
     <script>
         $(document).ready(function() {
+                var dataTablebk = $("#tablebank").DataTable({
+                bDestroy: true, //ทำลายอันเก่าทิ้งแล้วรอคำสั่ง reload
+                paging: true, //showpaging
+                lengthChange: false,
+                searching: false,
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                order: [[1, "asc"]],
+                language: {
+                    emptyTable: "No data found, Please click on <b>Add New</b> Button",
+                    sSearch: "ค้นหา",
+                    sLengthMenu: "แสดงข้อมูลทีละ _MENU_ ข้อมูล",
+                    sInfo: "ข้อมูล _START_ ถึง _END_ จากทั้งหมด _TOTAL_ ข้อมูล",
+                    oPaginate: {
+                        sFirst: "หน้าแรก",
+                        sPrevious: "ก่อนหน้า",
+                        sNext: "ถัดไป",
+                        sLast: "หน้าสุดท้าย"
+                    }
+                }
+            });
             $(".add").on("click",()=>{
                 var row = $("#bankcode").val();
                 window.location.href = "/Bank/Createbankbranch/"+ row;

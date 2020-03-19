@@ -25,19 +25,19 @@ namespace SugarM.Controllers {
         }
         public IActionResult Index () {
             List<Companysale> AuthorList = new List<Companysale> ();
-            var Call = CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/saleGet");
+            var Call = ServiceExtension.RestshapExtension.CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/saleGet", Getkey ());
 
             return View (Call);
         }
         public IActionResult Create () {
             //*Dropdown sale ---------------------------
             List<Companysale> AuthorList = new List<Companysale> ();
-            var Call = CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/saleGet");
+            var Call = ServiceExtension.RestshapExtension.CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/saleGet", Getkey ());
             ViewBag.sale = Call;
             List<Companysale> Companyget = new List<Companysale> ();
-            var Call1 = CallRestApiGET (Companyget, "http://192.168.10.46/sdapi/sdapi/companyGet");
+            var Call1 = ServiceExtension.RestshapExtension.CallRestApiGET (Companyget, "http://192.168.10.46/sdapi/sdapi/companyGet", Getkey ());
             List<Companysale> Companyget1 = new List<Companysale> ();
-            var Call2 = CallRestApiGET (Companyget1, "http://192.168.10.46/sdapi/sdapi/branchGet");
+            var Call2 = ServiceExtension.RestshapExtension.CallRestApiGET (Companyget1, "http://192.168.10.46/sdapi/sdapi/branchGet", Getkey ());
             var branch = new List<Companysale> ();
             foreach (var users in Call2) {
                 branch.Add (new Companysale {
@@ -55,7 +55,7 @@ namespace SugarM.Controllers {
         }
         public IActionResult GetsaleID (string Id) {
             List<Companysale> AuthorList = new List<Companysale> ();
-            var Call = CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/saleGet/" + Id);
+            var Call = ServiceExtension.RestshapExtension.CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/saleGet/" + Id, Getkey ());
             var saleList = new List<Companysale> ();
             foreach (var users in Call) {
                 saleList.Add (new Companysale {
@@ -71,7 +71,7 @@ namespace SugarM.Controllers {
         public IActionResult Create (Companysale _Companysalemodel, string IsEditMode) {
             var UserCurrent = GetCurrentUser ();
             if (IsEditMode.Equals ("false")) {
-                var _Re = CallRestApiPOST (_Companysalemodel, "http://192.168.10.46/sdapi/sdapi/SalePost");
+                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Companysalemodel, "http://192.168.10.46/sdapi/sdapi/SalePost", Getkey ());
                 if (_Re.success) {
                     _clientNotification.AddSweetNotification ("สำเร็จ",
                         "บันทึกข้อมูลเรียบร้อยแล้ว",
@@ -92,7 +92,7 @@ namespace SugarM.Controllers {
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };
 
-                var _Re = CallRestApiPOST (_Quota, "http://192.168.10.46/sdapi/sdapi/SalePut/" + _Companysalemodel.SaleId);
+                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Quota, "http://192.168.10.46/sdapi/sdapi/SalePut/" + _Companysalemodel.SaleId, Getkey ());
                 if (_Re.success) {
                     _clientNotification.AddSweetNotification ("สำเร็จ",
                         "แก้ไขข้อมูลเรียบร้อยแล้ว",
@@ -114,7 +114,7 @@ namespace SugarM.Controllers {
 
             List<Companysale> AuthorList = new List<Companysale> ();
             Companysale _CmpSale = new Companysale ();
-            var Call = CallRestApiGETEDIT (AuthorList, "http://192.168.10.46/sdapi/sdapi/saleGet/" + Id);
+            var Call = ServiceExtension.RestshapExtension.CallRestApiGETEDIT (AuthorList, "http://192.168.10.46/sdapi/sdapi/saleGet/" + Id, Getkey ());
             foreach (var item in Call) {
                 _CmpSale.SaleId = item.SaleId;
                 _CmpSale.SaleName = item.SaleName;
@@ -123,12 +123,12 @@ namespace SugarM.Controllers {
             }
             //*Dropdown sale ---------------------------
             List<Companysale> _Autdorp = new List<Companysale> ();
-            var _rec = CallRestApiGET (_Autdorp, "http://192.168.10.46/sdapi/sdapi/saleGet");
+            var _rec = ServiceExtension.RestshapExtension.CallRestApiGET (_Autdorp, "http://192.168.10.46/sdapi/sdapi/saleGet", Getkey ());
             ViewBag.sale = _rec;
             List<Companysale> Companyget = new List<Companysale> ();
-            var _rec1 = CallRestApiGET (Companyget, "http://192.168.10.46/sdapi/sdapi/companyGet");
+            var _rec1 = ServiceExtension.RestshapExtension.CallRestApiGET (Companyget, "http://192.168.10.46/sdapi/sdapi/companyGet", Getkey ());
             List<Companysale> Companyget1 = new List<Companysale> ();
-            var _rec2 = CallRestApiGET (Companyget1, "http://192.168.10.46/sdapi/sdapi/branchGet");
+            var _rec2 = ServiceExtension.RestshapExtension.CallRestApiGET (Companyget1, "http://192.168.10.46/sdapi/sdapi/branchGet", Getkey ());
             var branch = new List<Companysale> ();
             foreach (var users in _rec2) {
                 branch.Add (new Companysale {
@@ -148,7 +148,7 @@ namespace SugarM.Controllers {
         [HttpGet]
         public IActionResult Delete (string Id) {
             Companysale _Companysale = new Companysale ();
-            var Call = CallRestApiPOST (_Companysale, "http://192.168.10.46/sdapi/sdapi/SaleDel/" + Id);
+            var Call = ServiceExtension.RestshapExtension.CallRestApiPOST (_Companysale, "http://192.168.10.46/sdapi/sdapi/SaleDel/" + Id, Getkey ());
             return Json (new { success = Call.success });
         }
     }

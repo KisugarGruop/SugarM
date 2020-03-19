@@ -169,12 +169,12 @@ namespace SugarM.Controllers {
         [ValidateAntiForgeryToken]
         public IActionResult SaveCompany (Company value) {
             if (value.Statusform == "Add") {
-                var _Re = CallRestApiPOST (value, "http://192.168.10.46/sdapi/sdapi/companypost");
+                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (value, "http://192.168.10.46/sdapi/sdapi/companypost", Getkey ());
                 return Json (new { success = _Re.success, message = _Re.message });
 
             } else {
                 //-------- Edit and save Company
-                var _Re = CallRestApiPOST (value, "http://192.168.10.46/sdapi/sdapi/companyput/" + value.CompCode);
+                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (value, "http://192.168.10.46/sdapi/sdapi/companyput/" + value.CompCode, Getkey ());
                 return Json (new { success = _Re.success, message = _Re.message });
             }
 

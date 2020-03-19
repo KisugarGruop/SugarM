@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	App();
+	$('[data-toggle="tooltip"]').tooltip();
 });
 var App = function() {
 	dataTablebnk = $("#tablebank").DataTable({

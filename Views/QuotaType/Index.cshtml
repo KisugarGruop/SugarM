@@ -55,7 +55,9 @@
                                            class="btn btn-danger btn-sm delete"
                                            data-id="@item.TypeCode"
                                            data-controller="QuotaType"
+                                           data-ta="#tableQuota"
                                            data-action="Delete"
+                                           data-redirect-url="/QuotaType/Index"
                                            data-body-message="คุณต้องการลบข้อมูลข้อมูลประเภทโควต้า @item.TypeCode ใช่หรือไม่?">
                                             <i class="fa fa-pencil" data-id="@item.TypeCode"></i> ลบข้อมูล
                                         </a>
@@ -85,6 +87,7 @@
 @section Scripts{
     <script>
     $(document).ready(function() {
+      var table = $('#tableQuota').DataTable();
       $("#tableQuota").DataTable({
         bDestroy: true, //ทำลายอันเก่าทิ้งแล้วรอคำสั่ง reload
 		paging: true, //showpaging
@@ -108,6 +111,7 @@
 	    }
      });
      $("#tableQuota").on("click", "#deleteCarModal", function(e) {
+       
          $(".overlay").removeClass("hidden");
         $(".fa-refresh").removeClass("hidden");
      });

@@ -8,40 +8,34 @@ using SugarM.Models;
 using SugarM.TagHelpers;
 
 namespace SugarM.Controllers {
-    public class QuotaTypeController : BaseController<QuotaType> {
+    public class CarTypeController : BaseController<CarType> {
         private IClientNotification _clientNotification;
         private readonly UserManager<ApplicationUser> _userManager;
         private string GetCurrentUser () => _userManager.GetUserName (HttpContext.User);
 
-        public QuotaTypeController (IClientNotification clientNotification, UserManager<ApplicationUser> userManager) {
+        public CarTypeController (IClientNotification clientNotification, UserManager<ApplicationUser> userManager) {
             //_context = context;
             _clientNotification = clientNotification;
             _userManager = userManager;
         }
 
-        public IActionResult Index (int page = 1) {
-            List<QuotaType> AuthorList = new List<QuotaType> ();
-            var Call = ServiceExtension.RestshapExtension.CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/QuotaTypeGet", Getkey ());
+        public IActionResult Index () {
+            List<CarType> AuthorList = new List<CarType> ();
+            var Call = ServiceExtension.RestshapExtension.CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/CarTypeGet", Getkey ());
             return View (Call);
         }
         public IActionResult Create () {
-            var _Quotamodel = new QuotaViewModel ();
+            var Cartypemodel = new CarType ();
             ViewBag.IsEditMode = "false";
-            return View (_Quotamodel);
+            return View (Cartypemodel);
         }
 
-        [DisplayName ("เพิ่มประเภทโควต้า")]
+        [DisplayName ("บันทึกประเภทรถ")]
         [HttpPost]
-        public IActionResult Create (QuotaViewModel _Quotamodel, string IsEditMode) {
-            //*-------- Sen to save api
-            QuotaType _Quotagetapi = new QuotaType () {
-                TypeCode = _Quotamodel.TypeCode,
-                Description = _Quotamodel.Description
-            };
-
+        public IActionResult Create (CarType _Cartype, string IsEditMode) {
             var UserCurrent = GetCurrentUser ();
             if (IsEditMode.Equals ("false")) {
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Quotagetapi, "http://192.168.10.46/sdapi/sdapi/QuotaTypePost", Getkey ());
+                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Cartype, "http://192.168.10.46/sdapi/sdapi/CarTypePost", Getkey ());
                 if (_Re.success) {
                     _clientNotification.AddSweetNotification ("สำเร็จ",
                         "บันทึกข้อมูลเรียบร้อยแล้ว",
@@ -53,14 +47,17 @@ namespace SugarM.Controllers {
                     return RedirectToAction (nameof (Index));
                 }
             } else {
-                QuotaType _Quota = new QuotaType () {
-                    TypeCode = _Quotamodel.TypeCode,
-                    Description = _Quotamodel.Description,
+                CarType _CarTypeDetail = new CarType () {
+                    CompCode = _Cartype.CompCode,
+                    TypeCode = _Cartype.TypeCode,
+                    Description = _Cartype.Description,
+                    Active = _Cartype.Active,
+                    DeleteFlag = _Cartype.DeleteFlag,
                     UpdateBy = UserCurrent,
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };
 
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Quota, "http://192.168.10.46/sdapi/sdapi/QuotaTypePut/" + _Quota.TypeCode, Getkey ());
+                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_CarTypeDetail, "http://192.168.10.46/sdapi/sdapi/CarTypePut/" + _Cartype.CompCode, Getkey ());
                 if (_Re.success) {
                     _clientNotification.AddSweetNotification ("สำเร็จ",
                         "แก้ไขข้อมูลเรียบร้อยแล้ว",
@@ -75,26 +72,29 @@ namespace SugarM.Controllers {
             return RedirectToAction (nameof (Index));
         }
 
-        [DisplayName ("ลบประเภทโควต้า")]
+        [DisplayName ("แก้ประเภทรถ")]
         [HttpGet]
-        public IActionResult Delete (string Id) {
-            QuotaType _Quota = new QuotaType ();
-            var Call = ServiceExtension.RestshapExtension.CallRestApiPOST (_Quota, "http://192.168.10.46/sdapi/sdapi/QuotaTypeDel/" + Id, Getkey ());
-            return Json (new { success = Call.success });
+        public IActionResult Edit (string Id, string TypeId) {
+            ViewBag.IsEditMode = "true";
+
+            List<CarType> AuthorList = new List<CarType> ();
+            CarType _CarType = new CarType ();
+            var Call = ServiceExtension.RestshapExtension.CallRestApiGETEDIT (AuthorList, "http://192.168.10.46/sdapi/sdapi/CarTypeGet/" + Id + "/" + TypeId, Getkey ());
+            foreach (var item in Call) {
+                _CarType.CompCode = item.CompCode;
+                _CarType.TypeCode = item.TypeCode;
+                _CarType.Description = item.Description;
+                _CarType.Active = item.Active;
+            }
+            return View ("Create", _CarType);
         }
 
-        [DisplayName ("แก้ประเภทโควต้า")]
+        [DisplayName ("ลบประเภทรถ")]
         [HttpGet]
-        public IActionResult Edit (string Id) {
-            ViewBag.IsEditMode = "true";
-            List<QuotaType> AuthorList = new List<QuotaType> ();
-            QuotaViewModel _Quota = new QuotaViewModel ();
-            var Call = ServiceExtension.RestshapExtension.CallRestApiGETEDIT (AuthorList, "http://192.168.10.46/sdapi/sdapi/QuotaTypeGet/" + Id, Getkey ());
-            foreach (var item in Call) {
-                _Quota.TypeCode = item.TypeCode;
-                _Quota.Description = item.Description;
-            }
-            return View ("Create", _Quota);
+        public IActionResult Delete (string Id, string Del) {
+            SaleAuth _SaleAuth = new SaleAuth ();
+            var Call = ServiceExtension.RestshapExtension.CallRestApiPOST (_SaleAuth, "http://192.168.10.46/sdapi/sdapi/CarTypeDel/" + Id + "/" + Del, Getkey ());
+            return Json (new { success = Call.success });
         }
     }
 }
