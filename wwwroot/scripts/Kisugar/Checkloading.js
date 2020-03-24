@@ -12,6 +12,7 @@ $(document).ready(function () {
 		var Description = $("#Description").val();
 		var RunningId = $("#RunningId").val();
 		var RunningName = $("#RunningName").val();
+		var RunningMark = $("#RunningMark").val();
 		if (
 			RegId == "" ||
 			SalId == "" ||
@@ -24,7 +25,8 @@ $(document).ready(function () {
 			TypeCode == "" ||
 			Description == "" ||
 			RunningId == "" ||
-			RunningName == ""
+			RunningName == "" ||
+			RunningMark == ""
 
 		) {
 			return;
