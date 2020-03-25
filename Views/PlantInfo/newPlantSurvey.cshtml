@@ -1,0 +1,162 @@
+﻿
+@{
+
+    ViewData["Title"] = "พื้นที่ใหม่รอส่งสำรวจ";
+    //Layout = null;
+}
+
+<section class="content-wrapper">
+
+    <h1>พื้นที่ใหม่รอส่งสำรวจ</h1>
+    <table id="gvShow" class="display">
+        <thead>
+            <tr>
+                <th>SaleId</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+
+    </table>
+
+</section>
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        var table;
+
+        function createObj() {
+
+
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        var authHeaders;
+        var xurl;
+
+        $(document).ready(function () {
+            $.ajax({
+                url: "../jbase/gettk",
+                success: function (data, status, xhr) {
+                    authHeaders = data.xtk;
+                    xurl = data.xurl;
+                },
+                error: function (xhr, status, e) {
+
+                },
+                complete: function (xhr, status) {
+
+                    if (status == 'success') {
+                        createObj();
+                        eventObj();
+                        getDataShow();
+
+                    } else {
+                        //Error
+                        // ไปไหนสักหน้า
+                    }
+
+
+                }
+            });
+        });
+
+    </script>
+
+    <script type="text/javascript">
+
+
+
+        function eventObj() {
+
+
+        }
+
+    </script>
+
+    <script type="text/javascript">
+
+
+
+        function getDataShow() {
+            $.ajax({
+                url: xurl + "PlantSurveyGet?SaleId=KI1101&Status=Approved",
+                dataType: "json",
+                headers: {
+                    Authorization: "bearer " + authHeaders
+                },
+                success: function (data, status, xhr) {
+                    gvShowData(data);
+
+                },
+                error: function (xhr, status, e) {
+
+
+                },
+                complete: function (xhr, status) {
+
+                    //if (status == 'success') {
+                    //    createObj();
+                    //    eventObj();
+                    //    getDataShow();
+
+                    //} else {
+                    //    //Error
+                    //    // ไปไหนสักหน้า
+                    //}
+
+                }
+            });
+
+        }
+
+    </script>
+
+
+
+    <script type="text/javascript">
+
+        function gvShowData(data) {
+
+            table = $('#gvShow').DataTable({
+                destroy: true,
+                data: data,
+                columns: [
+                    { data: 'SaleId' },
+                    {data: 'Description'}
+                ],
+
+                order: [[0, 'desc']],
+
+                columnDefs: [
+                    {
+                        targets: 'no-sort',
+                        orderable: false,
+                        searchable: false
+                    }
+
+                ],
+                language: {
+                    emptyTable: "ไม่พบข้อมูล",
+                    infoFiltered: " - กรองจากทั้งหมด _MAX_ ข้อมูล",
+                    infoEmpty: "ไม่มีข้อมูลจากการค้นหา",
+                    sSearch: "ค้นหา",
+                    sLengthMenu: "แสดงข้อมูลทีละ _MENU_ ข้อมูล",
+                    sInfo: "ข้อมูล _START_ ถึง _END_ จากทั้งหมด _TOTAL_ ข้อมูล",
+                    oPaginate: {
+                        sFirst: "หน้าแรก",
+                        sPrevious: "ก่อนหน้า",
+                        sNext: "ถัดไป",
+                        sLast: "หน้าสุดท้าย"
+                    }
+                }
+            });
+        }
+    </script>
+
+
+
+}
