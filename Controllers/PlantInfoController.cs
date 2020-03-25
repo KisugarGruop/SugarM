@@ -15,6 +15,7 @@ namespace SugarM.Controllers
 
         public IActionResult newPlantSurvey()
         {
+            //
             return View();
         }
 
