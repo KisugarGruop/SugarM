@@ -1,0 +1,59 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<style>
+    .modal {
+        background: rgba(255, 255, 255, 0.9);
+    }
+
+    .modal-dialog {
+        top: 20%;
+    }
+</style>
+
+@*<script>
+    var mdWait;
+
+    $(document).ready(function () {
+
+        mdWait = $("#mdWait");
+            mdWait.modal({
+                backdrop: false,
+                keyboard: false,
+                focus: true,
+                show: false
+            });
+
+        console.log("ready wait");
+
+    });
+
+</script>*@
+
+
+<!-- modal -->
+<div id="mdWait" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- dialog -->
+    <div class="modal-dialog">
+      
+        <div>
+            <label class="btn btn-info">
+
+                <span class="fa fa-refresh fa-spin"></span>
+             
+                <span class="sr-only">Loading...</span>
+                Loading...
+            </label>
+
+        </div>
+
+       
+
+    </div>
+    <!-- dialog -->
+
+</div>
+<!-- modal -->

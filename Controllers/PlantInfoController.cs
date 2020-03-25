@@ -20,5 +20,14 @@ namespace SugarM.Controllers
             return View();
         }
 
+
+        public IActionResult SurveyReq() 
+        
+        {
+
+            return View();
+
+        }
+
     }
 }

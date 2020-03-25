@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewData["Title"] = "SurveyReq";
+}
+
+<section class="content-wrapper">
+
+    <section class="content">
+
+        <div id="mdlAdd" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    @*<div class="modal-header">
+                            <h5 class="modal-title">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>*@
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div>
+            <button id="Add">Add</button>
+
+        </div>
+        <div class="box-body">
+            <h1>พื้นที่แจ้งปลูก</h1>
+            <table id="gvShow" class="display" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>SaleId</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+    </section>
+</section>
+@section Scripts{
+
+    <script type="text/javascript">
+
+        var table;
+        var mdAdd;
+
+        function createObj() {
+
+            mdAdd = $("#mdlAdd");
+
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        var authHeaders;
+        var xurl;
+
+        $(document).ready(function () {
+            $.ajax({
+                url: "../jbase/gettk",
+                success: function (data, status, xhr) {
+                    authHeaders = data.xtk;
+                    xurl = data.xurl;
+                },
+                error: function (xhr, status, e) {
+
+                },
+                complete: function (xhr, status) {
+
+                    if (status == 'success') {
+                        createObj();
+                        eventObj();
+
+                        mdlAdd.modal('show');
+                       // getDataShow();
+
+                    } else {
+                        //Error
+                        // ไปไหนสักหน้า
+                    }
+
+
+                }
+            });
+        });
+
+    </script>
+
+    <script type="text/javascript">
+
+        function eventObj() {
+
+
+        }
+
+    </script>
+
+
+}
+
