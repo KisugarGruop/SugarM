@@ -13,6 +13,10 @@ $(document).ready(function () {
 		var RunningId = $("#RunningId").val();
 		var RunningName = $("#RunningName").val();
 		var RunningMark = $("#RunningMark").val();
+		var BreadName = $("#BreadName").val();
+		var UnitName = $("#UnitName").val();
+		var DocName = $("DocName").val();
+
 		if (
 			RegId == "" ||
 			SalId == "" ||
@@ -26,7 +30,10 @@ $(document).ready(function () {
 			Description == "" ||
 			RunningId == "" ||
 			RunningName == "" ||
-			RunningMark == ""
+			RunningMark == "" ||
+			BreadName == "" ||
+			UnitName == "" ||
+			DocName == ""
 
 		) {
 			return;

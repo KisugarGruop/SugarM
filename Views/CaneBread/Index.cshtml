@@ -1,0 +1,119 @@
+@model List<SugarM.Models.CaneBread>
+@{
+    ViewData["Title"] = "CaneBread";
+}
+
+
+<section class="content-wrapper">
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+      <section class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        <!---- Company -->
+        <div class="box-body">
+             <div class="canebread">
+                <div class="row">
+                 <div class="col-sm-6" style="padding-left: 25px;margin-top: 10px;">
+                    <div class="mb-md">
+                    <a class="btn btn-primary" asp-action="Create" data-controller="CaneBread" data-action="Create" style="margin-bottom:10px"><i class="fa fa-plus"></i> Add New</a>
+                    @*<button id="Delect" type="button" class="mb-xs mt-xs mr-xs btn btn-danger" onclick="return testCheck();">Delect</button>*@
+                     </div>
+                 </div>
+                </div>
+                 <table id="tablecanebread" class="table table-striped table-bordered" style="width:100%;">
+                     <thead>
+                         <tr>
+                             <th>พันธุ์อ้อย</th>
+                             <th>จำนวนตันต่อไร่</th>
+                             <th>หมายเหตุ</th>
+                             <th></th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         @foreach (var item in Model)
+                         {
+                             <tr>
+                                 <td>@item.BreadName</td>
+                                 <td>@item.BreadWeight</td>
+                                 <td>@item.remarks</td>
+                                 <td> 
+                                      <a id="detailCarModal" asp-action="Edit" asp-route-id="@item.BreadName" class="btn btn-success btn-sm">
+                                            <i class="fa fa-folder-open-o" data-id="@item.BreadName"></i> รายละเอียด
+                                        </a>
+                                        <a id="deleteCarModal" asp-action="Delete" asp-route-id="@item.BreadName"
+                                           class="btn btn-danger btn-sm delete"
+                                           data-id="@item.BreadName"
+                                           data-controller="CaneBread"
+                                           data-action="Delete"
+                                           data-ta="#tablecanebread"
+                                           data-redirect-url="/Bank/Index"
+                                           data-body-message="คุณต้องการลบข้อมูลข้อมูลหลักทรัพย์ @item.BreadName ใช่หรือไม่?">
+                                            <i class="fa fa-pencil" data-id="@item.BreadName"></i> ลบข้อมูล
+                                        </a>
+                                </td>
+                             </tr>
+                         }
+                     </tbody>
+                 </table>
+              @* @await Html.PartialAsync("_Pagination", 10) *@
+              </div>
+        </div>
+        <div class="overlay hidden">
+            <i class="fa fa-refresh fa-spin hidden"></i>
+        </div>
+</div>                 
+        </div>
+</section>
+        </section>
+   
+    </section>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+@section Scripts{
+    <script>
+    $(document).ready(function() {
+     var dataTablebk = $("#tablecanebread").DataTable({
+        bDestroy: true, //ทำลายอันเก่าทิ้งแล้วรอคำสั่ง reload
+		paging: true, //showpaging
+		lengthChange: false,
+		searching: false,
+		ordering: true,
+		info: true,
+		autoWidth: false,
+        order: [[1, "asc"]],
+		language: {
+			emptyTable: "No data found, Please click on <b>Add New</b> Button",
+			sSearch: "ค้นหา",
+			sLengthMenu: "แสดงข้อมูลทีละ _MENU_ ข้อมูล",
+			sInfo: "ข้อมูล _START_ ถึง _END_ จากทั้งหมด _TOTAL_ ข้อมูล",
+			oPaginate: {
+				sFirst: "หน้าแรก",
+				sPrevious: "ก่อนหน้า",
+				sNext: "ถัดไป",
+				sLast: "หน้าสุดท้าย"
+			}
+	    }
+     });
+     $("#tablecanebread").on("click", "#deleteCarModal", function(e) {
+         $(".overlay").removeClass("hidden");
+        $(".fa-refresh").removeClass("hidden");
+     });
+    });
+    </script>
+}
