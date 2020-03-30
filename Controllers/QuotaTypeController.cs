@@ -57,6 +57,7 @@ namespace SugarM.Controllers {
                     TypeCode = _Quotamodel.TypeCode,
                     Description = _Quotamodel.Description,
                     UpdateBy = UserCurrent,
+                    Version = 0,
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };
 

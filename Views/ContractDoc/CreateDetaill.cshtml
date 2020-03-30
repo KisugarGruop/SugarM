@@ -1,0 +1,191 @@
+@model ContractDoc
+@{
+    ViewData["Title"] = "ContractDoc";
+}
+<section class="content-wrapper">
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+      <section class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        <!---- Company -->
+        <div class="box-body">
+            <form asp-controller="ContractDoc" asp-action="SaveCarTypeDetaill" method="post">
+                <div>
+                    <input id="IsEditMode" name="IsEditMode" value="@ViewBag.IsEditMode" class="hidden">
+                </div>
+                 <div>
+                    <input id="DeleteFlag" name="DeleteFlag" value="N" class="hidden">
+                </div>
+             <div class="Unit">
+                 <div class="tab-pane active" role="tabpanel" id="step1">
+                        <h3>เอกสารประกอบสัญญา</h3>
+                        <hr>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                        <label for="CompCode">รหัสบริษัท</label>
+                        <input class="form-control" asp-for="CompCode" readonly="true"  placeholder="Enter CompCode">
+                        </div>
+                         <div class="col-sm-10">
+                        <span asp-validation-for="CompCode" class="text-danger"></span>
+                        </div>
+                  <!-- /input-group -->
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                         <label for="CaneYear">ปีการผลิต :</label>
+                        <input  class="form-control" asp-for="CaneYear" readonly="true" placeholder="Enter CaneYear">
+                        <div class="col-sm-10">
+                        <span asp-validation-for="CaneYear" class="text-danger"></span>
+                        </div>
+                        </div>
+                  <!-- /input-group -->
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                         <label for="ContractCode">รหัสประเภทสัญญา</label>
+                        <input  class="form-control" asp-for="ContractCode" readonly="true" placeholder="Enter ContractCode">
+                        <div class="col-sm-10">
+                        <span asp-validation-for="ContractCode" class="text-danger"></span>
+                        </div>
+                        </div>
+                  <!-- /input-group -->
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                         <label for="ContyeName">ชื่อประเภทสัญญา</label>
+                        <input  class="form-control" asp-for="ContyeName" readonly="true" placeholder="Enter ContyeName">
+                        <div class="col-sm-10">
+                        <span asp-validation-for="ContyeName" class="text-danger"></span>
+                        </div>
+                        </div>
+                  <!-- /input-group -->
+                    </div>
+                <!-- /.col-lg-6 -->
+                </div>
+                <div class="row">
+                  <div class="col-lg-3">
+                       <input  class="form-control hidden" asp-for="DocCode" placeholder="Enter NameMap">
+                        <div class="form-group">
+                         <label for="NameMap">รหัสประเภทเอกสาร</label>
+                        <input  class="form-control" asp-for="NameMap" readonly="true" placeholder="Enter NameMap">
+                        <div class="col-sm-10">
+                        <span asp-validation-for="NameMap" class="text-danger"></span>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                         <label for="Description">รายละเอียด</label>
+                        <input  class="form-control" asp-for="Description" placeholder="Enter Description">
+                        <div class="col-sm-10">
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        </div>
+                  <!-- /input-group -->
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                        <label for="Active">การใช้งาน</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" asp-for="Active">
+                          <option value="Y">Y</option>
+                          <option value="N">N</option>
+                        </select>
+                        </div>
+                         <div class="col-sm-3">
+                        <span asp-validation-for="Active" class="text-danger"></span>
+                        </div>
+                  <!-- /input-group -->
+                    </div>
+
+                </div>
+                <hr>
+                    <div class="row">
+                        <div class="col-lg-7">
+                                @if(Model.ContractDoclist == null || Model.ContractDoclist.Count == 0){
+
+                                }else{
+                                <table id="tableDocDetaill" class="table table-striped table-bordered" style="width:100%;">
+                                    <thead>
+                                    <tr>
+                                        <th>รหัสประเภทสัญญา</th>
+                                        <th>ชื่อประเภทสัญญา</th>
+                                        <th>รหัสประเภทเอกสาร</th>
+                                        <th>ชื่อประเภทเอกสาร</th>
+                                        <th>การใช้งาน</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                            @foreach (var item in Model.ContractDoclist)
+                                    {
+                                        <tr>
+                                            <td>@item.ContractCode</td>
+                                            <td>@item.Description</td>
+                                            <td>@item.DocCode</td>
+                                            <td>@item.DocName</td>
+                                            <td>@item.Active</td>
+                                            <td style="text-align: center;"> 
+                                                <a id="detailCarModal" asp-action="EditDetaill" asp-route-CompCode="@item.CompCode" asp-route-CaneYear="@item.CaneYear" asp-route-ContractCode="@item.ContractCode" asp-route-DocCode="@item.DocCode" class="btn btn-success btn-sm">
+                                                    <i class="fa fa-folder-open-o" data-id="@item.CompCode"></i> รายละเอียด
+                                                </a>
+                                                <a id="deleteCarModal" asp-action="Delete" asp-route-id="@item.CompCode"
+                                                class="btn btn-danger btn-sm delete"
+                                                data-id="@item.CompCode"
+                                                data-id1="@item.CaneYear"
+                                                data-id2="@item.ContractCode"
+                                                data-id3="@item.DocCode"
+                                                data-ta="tableDocDetaill"
+                                                data-controller="ContractDoc"
+                                                data-action="Delete"
+                                                data-body-message="คุณต้องการลบข้อมูลข้อมูลประเภทโควต้า @item.CompCode ใช่หรือไม่?">
+                                                    <i class="fa fa-pencil" data-id="@item.CompCode"></i> ลบข้อมูล
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                    </table>
+                                }
+                            
+                            </div>
+                    </div>
+                        <ul class="list-inline pull-left">
+                            <li><button type="button" asp-action="Index" class="btn bg-navy btn-flat margin back-step">Back</button></li>
+                            <li><button type="submit" id="Savesubmit" class="btn bg-purple margin">Save</button></li>
+                        </ul>
+                    </div>
+                    
+              </div>
+            </form>
+        </div>
+             @await Html.PartialAsync("_Loadding")
+        </section>
+    </section>
+   
+</section>
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $(".select2").select2();
+            var ObjEdit = $("#IsEditMode").val();
+
+            $(".back-step").on("click",()=>{
+                window.location.href = "/ContractType/Index";
+            });
+        });
+    </script>
+}

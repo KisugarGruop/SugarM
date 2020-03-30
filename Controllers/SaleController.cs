@@ -83,16 +83,17 @@ namespace SugarM.Controllers {
                     return RedirectToAction (nameof (Index));
                 }
             } else {
-                Companysale _Quota = new Companysale () {
+                Companysale _sale = new Companysale () {
                     SaleId = _Companysalemodel.SaleId,
                     SaleName = _Companysalemodel.SaleName,
                     CompCode = _Companysalemodel.CompCode,
                     BranchCode = _Companysalemodel.BranchCode,
                     UpdateBy = UserCurrent,
+                    Version = 0,
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };
 
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Quota, "http://192.168.10.46/sdapi/sdapi/SalePut/" + _Companysalemodel.SaleId, Getkey ());
+                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_sale, "http://192.168.10.46/sdapi/sdapi/SalePut/" + _Companysalemodel.SaleId, Getkey ());
                 if (_Re.success) {
                     _clientNotification.AddSweetNotification ("สำเร็จ",
                         "แก้ไขข้อมูลเรียบร้อยแล้ว",

@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SugarM.Models
-{
-    public class UserProfile
-    {
+namespace SugarM.Models {
+    public class UserProfile {
 
         public int UserProfileId { get; set; }
         public string CompCode { get; set; }
+        public string EmployeeId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -19,5 +18,6 @@ namespace SugarM.Models
         public string ProfilePicture { get; set; } = "/upload/blank-person.png";
 
         public string ApplicationUserId { get; set; }
+
     }
 }

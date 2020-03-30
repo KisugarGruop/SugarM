@@ -5,7 +5,6 @@
 @{
 
     ApplicationUser appUser = await UserManager.GetUserAsync(User);
-    var getkey =  HttpContext.Current.Request.Cookies["Authorization"];
 }
 <html>
 <head>
@@ -51,9 +50,7 @@
 
 </head>
 <body class="hold-transition skin-blue fixed sidebar-mini">
-    <div>
-    <input class="form-control hidden" id="KIKEY" value="@getkey" placeholder="key">
-    </div>
+
     @await Component.InvokeAsync("ClientNotifications.Notify")
     <div class="wrapper">
         @*@Html.Partial("_AdminlteMainHeader", appUser)*@

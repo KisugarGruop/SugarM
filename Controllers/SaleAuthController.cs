@@ -84,6 +84,7 @@ namespace SugarM.Controllers {
                     CompCode = _SaleAuth.CompCode,
                     Position = _SaleAuth.Position,
                     UpdateBy = UserCurrent,
+                    Version = 0,
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };
 

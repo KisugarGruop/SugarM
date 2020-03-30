@@ -173,6 +173,7 @@ namespace SugarM.Controllers {
                 return Json (new { success = _Re.success, message = _Re.message });
 
             } else {
+                value.Version = 0;
                 //-------- Edit and save Company
                 var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (value, "http://192.168.10.46/sdapi/sdapi/companyput/" + value.CompCode, Getkey ());
                 return Json (new { success = _Re.success, message = _Re.message });
@@ -204,6 +205,7 @@ namespace SugarM.Controllers {
                 }
             } else {
                 //-------- Edit and save Company
+                value.Version = 0;
                 var jsoncon = JsonConvert.SerializeObject (value);
                 var client = new RestClient ("http://192.168.10.46/sdapi/sdapi/branchPut/" + value.CompCode + "/" + value.BranchCode);
                 client.Timeout = -1;
