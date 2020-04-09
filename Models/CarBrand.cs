@@ -8,7 +8,7 @@ namespace SugarM.Models {
         public string Remarks { get; set; }
         public string Description { get; set; }
         public string Active { get; set; }
-        public string DeleteFlag { get; set; }
+        public string DeleteFlag { get; set; } = "N";
         public string Fullname { get; set; }
         public List<CarBrand> CarBranList { get; set; }
     }

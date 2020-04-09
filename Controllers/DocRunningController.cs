@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using ClientNotifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ namespace SugarM.Controllers {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserprofileRepository _IUserprofileRepository;
         private string GetCurrentUser () => _userManager.GetUserName (HttpContext.User);
-        private string GetCurrenId () => _userManager.GetUserId (HttpContext.User);
+        private string GetCurrenCompCode () => _userManager.GetUserId (HttpContext.User);
         public DocRunningController (IClientNotification clientNotification, IUserprofileRepository IUserprofileRepository, UserManager<ApplicationUser> userManager) {
             //_context = context;
             _clientNotification = clientNotification;
@@ -48,12 +49,12 @@ namespace SugarM.Controllers {
             return View ("Create", _DocRunning);
         }
 
-        public IActionResult Create () {
+        public async Task<IActionResult> Create () {
 
-            var UserCurrenId = GetCurrenId ();
-            var _CompCode = _IUserprofileRepository.GetCompCode (UserCurrenId);
+            var UserCompCode = GetCurrenCompCode ();
+            var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCompCode);
             var DocRunningmodel = new DocRunning () {
-                CompCode = _CompCode.CompCode,
+                CompCode = _UserProfile.CompCode,
             };
 
             ViewBag.IsEditMode = "false";
@@ -70,8 +71,9 @@ namespace SugarM.Controllers {
 
         [DisplayName ("บันทึกประเภทรถ")]
         [HttpPost]
-        public IActionResult Create (DocRunning _DocRunning, string IsEditMode) {
-            var UserCurrent = GetCurrentUser ();
+        public async Task<IActionResult> Create (DocRunning _DocRunning, string IsEditMode) {
+            var UserCompCode = GetCurrenCompCode ();
+            var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCompCode);
             if (IsEditMode.Equals ("false")) {
                 var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_DocRunning, "http://192.168.10.46/sdapi/sdapi/DocRunningPost", Getkey ());
                 if (_Re.success) {
@@ -86,6 +88,7 @@ namespace SugarM.Controllers {
                 }
             } else {
                 DocRunning _DocRunningDetaill = new DocRunning () {
+                    CompCode = _DocRunning.CompCode,
                     RunningId = _DocRunning.RunningId,
                     RunningName = _DocRunning.RunningName,
                     RunningMark = _DocRunning.RunningMark,
@@ -93,7 +96,7 @@ namespace SugarM.Controllers {
                     SeparateChar = _DocRunning.SeparateChar,
                     DigitRunning = _DocRunning.DigitRunning,
                     LastRunning = _DocRunning.LastRunning,
-                    UpdateBy = UserCurrent,
+                    UpdateBy = _UserProfile.EmployeeId,
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };
 

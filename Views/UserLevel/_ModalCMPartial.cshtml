@@ -1,0 +1,47 @@
+
+@model List<SugarM.Models.Override>
+      <table id="tableUserLevel" class="table table-striped border" style="width:100%;">
+                     <thead>
+                         <tr>
+                             <th>ระดับผู้อนุมัติ</th>
+                             <th>รายละเอียด</th>
+                             <th>MinAmount</th>
+                             <th>MaxAmount</th>
+                             <th>การใช้งาน</th>
+                             <th></th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         @foreach (var item in Model)
+                         {
+                             <tr>
+                                 <td>@item.OverrideLevel</td>
+                                 <td>@item.Description</td>
+                                 <td>@item.MinAmount</td>
+                                 <td>@item.MaxAmount</td>
+                                 <td>@item.Active</td>
+                                  <td>                                 
+                                    <a id="detailCarModal"  class="btn btn-success btn-sm selectdata">
+                                    <i class="fa fa-folder-open-o"></i> รายละเอียด
+                                 </a>
+                                 </td>
+                             </tr>
+                         }
+                    </tbody>
+       </table>
+          <script>
+            var target;
+            var url;
+          $(".table tbody").on('click', '.selectdata', function () {
+              var currow = $(this).closest('tr');
+              var col0 = currow.find('td:eq(0)').text();
+              var col1 = currow.find('td:eq(1)').text();
+              var col2 = currow.find('td:eq(2)').text();
+              var col3 = currow.find('td:eq(3)').text();
+              $('#UseridLevel').val(col0);
+              $('#Description').val(col1);
+              $('#MinAmount').val(col2);
+              $('#MaxAmount').val(col3);
+              $("#Overridemodal").modal('hide');
+          });
+        </script>

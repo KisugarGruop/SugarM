@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using ClientNotifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SugarM.Models;
+using SugarM.Repository;
 using SugarM.TagHelpers;
 
 namespace SugarM.Controllers {
@@ -12,12 +14,15 @@ namespace SugarM.Controllers {
 
         private IClientNotification _clientNotification;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserprofileRepository _IUserprofileRepository;
         private string GetCurrentUser () => _userManager.GetUserName (HttpContext.User);
+        private string GetCurrenCompCode () => _userManager.GetUserId (HttpContext.User);
 
-        public SaleAuthController (IClientNotification clientNotification, UserManager<ApplicationUser> userManager) {
+        public SaleAuthController (IClientNotification clientNotification, IUserprofileRepository IUserprofileRepository, UserManager<ApplicationUser> userManager) {
             //_context = context;
             _clientNotification = clientNotification;
             _userManager = userManager;
+            _IUserprofileRepository = IUserprofileRepository;
         }
         public IActionResult Index () {
             List<SaleAuth> AuthorList = new List<SaleAuth> ();
@@ -63,8 +68,9 @@ namespace SugarM.Controllers {
 
         [DisplayName ("เพิ่มประเภทโควต้า")]
         [HttpPost]
-        public IActionResult Create (SaleAuth _SaleAuth, string IsEditMode) {
-            var UserCurrent = GetCurrentUser ();
+        public async Task<IActionResult> Create (SaleAuth _SaleAuth, string IsEditMode) {
+            var UserCompCode = GetCurrenCompCode ();
+            var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCompCode);
             if (IsEditMode.Equals ("false")) {
                 var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_SaleAuth, "http://192.168.10.46/sdapi/sdapi/saleAuthPost", Getkey ());
                 if (_Re.success) {
@@ -83,7 +89,7 @@ namespace SugarM.Controllers {
                     RegionCode = _SaleAuth.RegionCode,
                     CompCode = _SaleAuth.CompCode,
                     Position = _SaleAuth.Position,
-                    UpdateBy = UserCurrent,
+                    UpdateBy = _UserProfile.EmployeeId,
                     Version = 0,
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };

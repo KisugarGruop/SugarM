@@ -588,4 +588,47 @@ var Updatecompanybranch = function Updatecompanybranch() {
 			toastr.error(errormessage, "แจ้งเตือน");
 		}
 	});
+
+	$(function () {
+		$("#ShowModal").on('click', (e) => {
+			$("#SearchString").val('');
+			$.ajax({
+				url: "/AssetPlantSugar/SearchPlantCode",
+				type: "GET",
+				dataType: "html",
+				success: function (response) {
+					$("#Preview").html(response);
+				},
+			}).then(function () {
+				$("#ModalSelectPlant").modal('show');
+			});
+		});
+		$("#btSearch").on('click', (e) => {
+			e.preventDefault();
+			var valsearch = $("#SearchString").val();
+			var datas = {
+				"currentFilter": valsearch,
+				"searchString": valsearch,
+				"pageNumber": 0
+			};
+			GetPlant(datas)
+		});
+
+		function GetPlant(dataSearch) {
+			$.ajax({
+				url: "/AssetPlantSugar/SearchPlantCode",
+				type: "GET",
+				dataType: "html",
+				contentType: "application/json; charset=utf-8",
+				data: dataSearch,
+				success: function (response) {
+					$("#Preview").html(response);
+				},
+			}).then(function () {
+				$("#ModalSelectPlant").modal('show');
+			});
+		};
+	});
+
+       
 };

@@ -1,22 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using ClientNotifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SugarM.Models;
+using SugarM.Repository;
 using SugarM.TagHelpers;
 
 namespace SugarM.Controllers {
     public class CarTypeDetailController : BaseController<CarTypeDetail> {
         private IClientNotification _clientNotification;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserprofileRepository _IUserprofileRepository;
         private string GetCurrentUser () => _userManager.GetUserName (HttpContext.User);
+        private string GetCurrenCompCode () => _userManager.GetUserId (HttpContext.User);
 
-        public CarTypeDetailController (IClientNotification clientNotification, UserManager<ApplicationUser> userManager) {
+        public CarTypeDetailController (IClientNotification clientNotification, IUserprofileRepository IUserprofileRepository, UserManager<ApplicationUser> userManager) {
             //_context = context;
             _clientNotification = clientNotification;
             _userManager = userManager;
+            _IUserprofileRepository = IUserprofileRepository;
         }
 
         [DisplayName ("เพิ่มประเภทย่อย")]
@@ -73,8 +78,9 @@ namespace SugarM.Controllers {
 
         [HttpPost]
         [DisplayName ("บันทึกประเภทย่อย")]
-        public IActionResult SaveCarTypeDetaill (CarTypeDetail _Cardetaill, string IsEditMode) {
-            var UserCurrent = GetCurrentUser ();
+        public async Task<IActionResult> SaveCarTypeDetaill (CarTypeDetail _Cardetaill, string IsEditMode) {
+            var UserCompCode = GetCurrenCompCode ();
+            var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCompCode);
             if (IsEditMode.Equals ("false")) {
                 var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Cardetaill, "http://192.168.10.46/sdapi/sdapi/CarTypeDetailPost", Getkey ());
                 if (_Re.success) {
@@ -88,6 +94,8 @@ namespace SugarM.Controllers {
                 }
             } else {
                 CarTypeDetail _CardetaillUP = new CarTypeDetail () {
+                    CompCode = _Cardetaill.CompCode,
+                    TypeCode = _Cardetaill.TypeCode,
                     SubTypeCode = _Cardetaill.SubTypeCode,
                     Description = _Cardetaill.Description,
                     WeightIn = _Cardetaill.WeightIn,
@@ -95,7 +103,7 @@ namespace SugarM.Controllers {
                     TotalFuel = _Cardetaill.TotalFuel,
                     Active = _Cardetaill.Active,
                     DeleteFlag = _Cardetaill.DeleteFlag,
-                    UpdateBy = UserCurrent,
+                    UpdateBy = _UserProfile.EmployeeId,
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };
 

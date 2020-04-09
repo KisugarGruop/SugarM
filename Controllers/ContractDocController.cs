@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using ClientNotifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ namespace SugarM.Controllers {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserprofileRepository _IUserprofileRepository;
         private string GetCurrentUser () => _userManager.GetUserName (HttpContext.User);
-        private string GetCurrenId () => _userManager.GetUserId (HttpContext.User);
+        private string GetCurrenCompCode () => _userManager.GetUserId (HttpContext.User);
         public ContractDocController (IClientNotification clientNotification, IUserprofileRepository IUserprofileRepository, UserManager<ApplicationUser> userManager) {
             //_context = context;
             _clientNotification = clientNotification;
@@ -60,8 +61,10 @@ namespace SugarM.Controllers {
 
         [HttpPost]
         [DisplayName ("บันทึกเอกสารประกอบสัญญา")]
-        public IActionResult SaveCarTypeDetaill (ContractDoc _Cardetaill, string IsEditMode) {
+        public async Task<IActionResult> SaveCarTypeDetaill (ContractDoc _Cardetaill, string IsEditMode) {
             var UserCurrent = GetCurrentUser ();
+            var UserCurrenCompCode = GetCurrenCompCode ();
+            var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCurrenCompCode);
             if (IsEditMode.Equals ("false")) {
                 var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Cardetaill, "http://192.168.10.46/sdapi/sdapi/ContractDocPost", Getkey ());
                 if (_Re.success) {
@@ -82,7 +85,7 @@ namespace SugarM.Controllers {
                     Description = _Cardetaill.Description,
                     Active = _Cardetaill.Active,
                     DeleteFlag = _Cardetaill.DeleteFlag,
-                    UpdateBy = UserCurrent,
+                    UpdateBy = _UserProfile.EmployeeId,
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };
 

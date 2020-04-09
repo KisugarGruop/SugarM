@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
 using SugarM.Data;
+using SugarM.Filters;
 using SugarM.Models;
 using SugarM.Repository;
 using SugarM.Services;
@@ -57,12 +58,15 @@ namespace SugarM.ServiceExtension
             services.AddTransient<IUserprofileRepository, UserRepository>();
             services.AddTransient<IClientNotification, ClientNotification>();
             //// cookie settings
-
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(typeof(UserFilterAttribute));
+            });
             services.AddMvc();
             services.ConfigureApplicationCookie(options =>
             {

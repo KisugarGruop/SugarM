@@ -3,10 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SugarM.Models {
     public class Maptable {
+        public int Currentpage { get; set; }
         public string Statusform { get; set; }
         public string UpdateBy { get; set; }
         public string UpdateDate { get; set; }
-        public int? Version { get; set; }
+        public int? Version { get; set; } = 0;
         public string CreateDate { get; set; }
         public string CreateTime { get; set; }
 

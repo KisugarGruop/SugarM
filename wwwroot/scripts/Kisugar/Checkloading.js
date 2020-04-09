@@ -15,8 +15,15 @@ $(document).ready(function () {
 		var RunningMark = $("#RunningMark").val();
 		var BreadName = $("#BreadName").val();
 		var UnitName = $("#UnitName").val();
-		var DocName = $("DocName").val();
-
+		var DocName = $("#DocName").val();
+		var Position = $("#Position").val();
+		var SubTypeCode = $("#SubTypeCode").val();
+		var DocCode = $("#DocCode").val();
+		var ContractCode = $("#ContractCode").val();
+		var OverrideLevel = $("#OverrideLevel").val();
+		var GradeCode = $("#GradeCode").val();
+		var CodeName = $("#CodeName").val();
+		var MinorTypeCode = $("#MinorTypeCode").val();
 		if (
 			RegId == "" ||
 			SalId == "" ||
@@ -33,7 +40,15 @@ $(document).ready(function () {
 			RunningMark == "" ||
 			BreadName == "" ||
 			UnitName == "" ||
-			DocName == ""
+			DocName == "" ||
+			OverrideLevel == "" ||
+			GradeCode == "" ||
+			ContractCode == "" ||
+			DocCode == "" ||
+			CodeName == "" ||
+			SubTypeCode == "" ||
+			MinorTypeCode == "" ||
+			Position == ""
 
 		) {
 			return;

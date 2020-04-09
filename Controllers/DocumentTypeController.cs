@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using ClientNotifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ namespace SugarM.Controllers {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserprofileRepository _IUserprofileRepository;
         private string GetCurrentUser () => _userManager.GetUserName (HttpContext.User);
-        private string GetCurrenId () => _userManager.GetUserId (HttpContext.User);
+        private string GetCurrenCompCode () => _userManager.GetUserId (HttpContext.User);
         public DocumentTypeController (IClientNotification clientNotification, IUserprofileRepository IUserprofileRepository, UserManager<ApplicationUser> userManager) {
             //_context = context;
             _clientNotification = clientNotification;
@@ -23,19 +24,19 @@ namespace SugarM.Controllers {
             _IUserprofileRepository = IUserprofileRepository;
         }
         public IActionResult Index () {
-            var UserCurrenId = GetCurrenId ();
-            var _CompCode = _IUserprofileRepository.GetCompCode (UserCurrenId);
+            var UserCurrenCompCode = GetCurrenCompCode ();
+            var _UserProfile = _IUserprofileRepository.GetUserProfile (UserCurrenCompCode);
             var year = ConvertYear ();
             List<DocumentType> AuthorList = new List<DocumentType> ();
             var Call = ServiceExtension.RestshapExtension.CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/DocumentTypeGet", Getkey ());
             return View (Call);
         }
-        public IActionResult Create () {
-            var UserCurrenId = GetCurrenId ();
-            var _CompCode = _IUserprofileRepository.GetCompCode (UserCurrenId);
+        public async Task<IActionResult> Create () {
+            var UserCurrenCompCode = GetCurrenCompCode ();
+            var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCurrenCompCode);
             var year = ConvertYear ();
             var __DocumentType = new DocumentType () {
-                CompCode = _CompCode.CompCode,
+                CompCode = _UserProfile.CompCode,
                 CaneYear = year,
             };
             ViewBag.IsEditMode = "false";
@@ -60,6 +61,9 @@ namespace SugarM.Controllers {
                 }
             } else {
                 DocumentType _DocumentTypeEdit = new DocumentType () {
+                    CompCode = _DocumentType.CompCode,
+                    CaneYear = _DocumentType.CaneYear,
+                    DocCode = _DocumentType.DocCode,
                     DocName = _DocumentType.DocName,
                     Description = _DocumentType.Description,
                     Active = _DocumentType.Active,

@@ -6,6 +6,8 @@ namespace SugarM.Models {
         public string SaleId { get; set; }
         public string RegionCode { get; set; }
         public string Position { get; set; }
+
+        [Required (ErrorMessage = "กรุณาระบุชื่อ(SaleName)"), MinLength (2, ErrorMessage = "Minimum length is 2.")]
         public string SaleName { get; set; }
         public string SaleFullname { get; set; }
         public string RegCodeAndName { get; set; }

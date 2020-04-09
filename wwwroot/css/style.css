@@ -10,7 +10,7 @@
 	border-bottom-color: #e0e0e0;
 }
 
-.wizard > div.wizard-inner {
+.wizard>div.wizard-inner {
 	position: relative;
 }
 
@@ -26,9 +26,9 @@
 	z-index: 1;
 }
 
-.wizard .nav-tabs > li.active > a,
-.wizard .nav-tabs > li.active > a:hover,
-.wizard .nav-tabs > li.active > a:focus {
+.wizard .nav-tabs>li.active>a,
+.wizard .nav-tabs>li.active>a:hover,
+.wizard .nav-tabs>li.active>a:focus {
 	color: #555555;
 	cursor: default;
 	border: 0;
@@ -49,13 +49,16 @@ span.round-tab {
 	text-align: center;
 	font-size: 25px;
 }
+
 span.round-tab i {
 	color: #555555;
 }
+
 .wizard li.active span.round-tab {
 	background: #fff;
 	border: 2px solid #5bc0de;
 }
+
 .wizard li.active span.round-tab i {
 	color: #5bc0de;
 }
@@ -65,7 +68,7 @@ span.round-tab:hover {
 	border: 2px solid #333;
 }
 
-.wizard .nav-tabs > li {
+.wizard .nav-tabs>li {
 	width: 20%;
 }
 
@@ -92,7 +95,7 @@ span.round-tab:hover {
 	border-bottom-color: #5bc0de;
 }
 
-.wizard .nav-tabs > li a {
+.wizard .nav-tabs>li a {
 	width: 70px;
 	height: 70px;
 	margin: 20px auto;
@@ -100,7 +103,7 @@ span.round-tab:hover {
 	padding: 0;
 }
 
-.wizard .nav-tabs > li a:hover {
+.wizard .nav-tabs>li a:hover {
 	background: transparent;
 }
 
@@ -112,6 +115,7 @@ span.round-tab:hover {
 .wizard h3 {
 	margin-top: 0;
 }
+
 
 @media (max-width: 585px) {
 	.wizard {
@@ -126,7 +130,7 @@ span.round-tab:hover {
 		line-height: 50px;
 	}
 
-	.wizard .nav-tabs > li a {
+	.wizard .nav-tabs>li a {
 		width: 50px;
 		height: 50px;
 		line-height: 50px;

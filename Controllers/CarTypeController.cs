@@ -1,22 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using ClientNotifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SugarM.Models;
+using SugarM.Repository;
 using SugarM.TagHelpers;
 
 namespace SugarM.Controllers {
     public class CarTypeController : BaseController<CarType> {
         private IClientNotification _clientNotification;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserprofileRepository _IUserprofileRepository;
         private string GetCurrentUser () => _userManager.GetUserName (HttpContext.User);
+        private string GetCurrenCompCode () => _userManager.GetUserId (HttpContext.User);
 
-        public CarTypeController (IClientNotification clientNotification, UserManager<ApplicationUser> userManager) {
-            //_context = context;
+        public CarTypeController (IClientNotification clientNotification, IUserprofileRepository IUserprofileRepository, UserManager<ApplicationUser> userManager) {
             _clientNotification = clientNotification;
             _userManager = userManager;
+            _IUserprofileRepository = IUserprofileRepository;
         }
 
         public IActionResult Index () {
@@ -32,8 +36,9 @@ namespace SugarM.Controllers {
 
         [DisplayName ("บันทึกประเภทรถ")]
         [HttpPost]
-        public IActionResult Create (CarType _Cartype, string IsEditMode) {
-            var UserCurrent = GetCurrentUser ();
+        public async Task<IActionResult> Create (CarType _Cartype, string IsEditMode) {
+            var UserCompCode = GetCurrenCompCode ();
+            var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCompCode);
             if (IsEditMode.Equals ("false")) {
                 var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Cartype, "http://192.168.10.46/sdapi/sdapi/CarTypePost", Getkey ());
                 if (_Re.success) {
@@ -53,11 +58,11 @@ namespace SugarM.Controllers {
                     Description = _Cartype.Description,
                     Active = _Cartype.Active,
                     DeleteFlag = _Cartype.DeleteFlag,
-                    UpdateBy = UserCurrent,
+                    UpdateBy = _UserProfile.EmployeeId,
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };
 
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_CarTypeDetail, "http://192.168.10.46/sdapi/sdapi/CarTypePut/" + _Cartype.CompCode, Getkey ());
+                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_CarTypeDetail, "http://192.168.10.46/sdapi/sdapi/CarTypePut/" + _Cartype.CompCode + "/" + _Cartype.TypeCode, Getkey ());
                 if (_Re.success) {
                     _clientNotification.AddSweetNotification ("สำเร็จ",
                         "แก้ไขข้อมูลเรียบร้อยแล้ว",

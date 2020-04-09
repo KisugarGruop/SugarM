@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using ClientNotifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RestSharp;
 using SugarM.Models;
+using SugarM.Repository;
 using SugarM.TagHelpers;
 
 namespace SugarM.Controllers {
@@ -16,12 +18,15 @@ namespace SugarM.Controllers {
     public class BankController : BaseController<Bank> {
         private IClientNotification _clientNotification;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserprofileRepository _IUserprofileRepository;
         private string GetCurrentUser () => _userManager.GetUserName (HttpContext.User);
+        private string GetCurrenCompCode () => _userManager.GetUserId (HttpContext.User);
 
-        public BankController (IClientNotification clientNotification, UserManager<ApplicationUser> userManager) {
+        public BankController (IClientNotification clientNotification, IUserprofileRepository IUserprofileRepository, UserManager<ApplicationUser> userManager) {
             //_context = context;
             _clientNotification = clientNotification;
             _userManager = userManager;
+            _IUserprofileRepository = IUserprofileRepository;
         }
 
         public IActionResult Index (int page = 1) {
@@ -47,8 +52,9 @@ namespace SugarM.Controllers {
 
         [DisplayName ("เพิ่มแบงค์")]
         [HttpPost]
-        public IActionResult Create (Bank Bankmodel, string IsEditMode) {
-            var UserCurrent = GetCurrentUser ();
+        public async Task<IActionResult> Create (Bank Bankmodel, string IsEditMode) {
+            var UserCompCode = GetCurrenCompCode ();
+            var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCompCode);
             if (IsEditMode.Equals ("false")) {
                 var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (Bankmodel, "http://192.168.10.46/sdapi/sdapi/bankPost", Getkey ());
                 if (_Re.success) {
@@ -65,7 +71,7 @@ namespace SugarM.Controllers {
                 Bank bankup = new Bank () {
                     BankCode = Bankmodel.BankCode,
                     BankName = Bankmodel.BankName,
-                    UpdateBy = UserCurrent,
+                    UpdateBy = _UserProfile.EmployeeId,
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };
 

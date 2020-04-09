@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using ClientNotifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RestSharp;
 using SugarM.Models;
+using SugarM.Repository;
 using SugarM.TagHelpers;
 
 namespace SugarM.Controllers {
     public class SaleController : BaseController<Companysale> {
-
         private IClientNotification _clientNotification;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserprofileRepository _IUserprofileRepository;
         private string GetCurrentUser () => _userManager.GetUserName (HttpContext.User);
-
-        public SaleController (IClientNotification clientNotification, UserManager<ApplicationUser> userManager) {
-            //_context = context;
+        private string GetCurrenCompCode () => _userManager.GetUserId (HttpContext.User);
+        public SaleController (IClientNotification clientNotification, IUserprofileRepository IUserprofileRepository, UserManager<ApplicationUser> userManager) {
             _clientNotification = clientNotification;
             _userManager = userManager;
+            _IUserprofileRepository = IUserprofileRepository;
         }
         public IActionResult Index () {
             List<Companysale> AuthorList = new List<Companysale> ();
@@ -68,8 +70,9 @@ namespace SugarM.Controllers {
 
         [DisplayName ("เพิ่มประเภทโควต้า")]
         [HttpPost]
-        public IActionResult Create (Companysale _Companysalemodel, string IsEditMode) {
-            var UserCurrent = GetCurrentUser ();
+        public async Task<IActionResult> Create (Companysale _Companysalemodel, string IsEditMode) {
+            var UserCompCode = GetCurrenCompCode ();
+            var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCompCode);
             if (IsEditMode.Equals ("false")) {
                 var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Companysalemodel, "http://192.168.10.46/sdapi/sdapi/SalePost", Getkey ());
                 if (_Re.success) {
@@ -88,7 +91,7 @@ namespace SugarM.Controllers {
                     SaleName = _Companysalemodel.SaleName,
                     CompCode = _Companysalemodel.CompCode,
                     BranchCode = _Companysalemodel.BranchCode,
-                    UpdateBy = UserCurrent,
+                    UpdateBy = _UserProfile.EmployeeId,
                     Version = 0,
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };

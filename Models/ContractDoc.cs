@@ -7,7 +7,7 @@ namespace SugarM.Models {
         public string DocCode { get; set; }
         public string Description { get; set; }
         public string Active { get; set; }
-        public string DeleteFlag { get; set; }
+        public string DeleteFlag { get; set; } = "N";
         public string NameMap { get; set; }
         public string ContyeName { get; set; }
         public string DocName { get; set; }

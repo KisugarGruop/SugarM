@@ -38,6 +38,8 @@ namespace SugarM.Controllers {
             _signInManager = signInManager;
             this.httpContextAccessor = httpContextAccessor;
             _dbContext = dbContext;
+            _clientNotification = clientNotification;
+            _IUserprofileRepository = IUserprofileRepository;
         }
 
         [TempData]

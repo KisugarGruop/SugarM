@@ -229,7 +229,8 @@ namespace SugarM.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
+                    b.Property<string>("CompCode")
+            .HasColumnType("nvarchar(20)");
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(max)");
 

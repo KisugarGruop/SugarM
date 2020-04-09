@@ -1,22 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using ClientNotifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SugarM.Models;
+using SugarM.Repository;
 using SugarM.TagHelpers;
 
 namespace SugarM.Controllers {
     public class QuotaTypeController : BaseController<QuotaType> {
+
         private IClientNotification _clientNotification;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserprofileRepository _IUserprofileRepository;
         private string GetCurrentUser () => _userManager.GetUserName (HttpContext.User);
+        private string GetCurrenCompCode () => _userManager.GetUserId (HttpContext.User);
 
-        public QuotaTypeController (IClientNotification clientNotification, UserManager<ApplicationUser> userManager) {
-            //_context = context;
+        public QuotaTypeController (IClientNotification clientNotification, IUserprofileRepository IUserprofileRepository, UserManager<ApplicationUser> userManager) {
             _clientNotification = clientNotification;
             _userManager = userManager;
+            _IUserprofileRepository = IUserprofileRepository;
         }
 
         public IActionResult Index (int page = 1) {
@@ -32,14 +37,14 @@ namespace SugarM.Controllers {
 
         [DisplayName ("เพิ่มประเภทโควต้า")]
         [HttpPost]
-        public IActionResult Create (QuotaViewModel _Quotamodel, string IsEditMode) {
+        public async Task<IActionResult> Create (QuotaViewModel _Quotamodel, string IsEditMode) {
             //*-------- Sen to save api
             QuotaType _Quotagetapi = new QuotaType () {
                 TypeCode = _Quotamodel.TypeCode,
                 Description = _Quotamodel.Description
             };
-
-            var UserCurrent = GetCurrentUser ();
+            var UserCompCode = GetCurrenCompCode ();
+            var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCompCode);
             if (IsEditMode.Equals ("false")) {
                 var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Quotagetapi, "http://192.168.10.46/sdapi/sdapi/QuotaTypePost", Getkey ());
                 if (_Re.success) {
@@ -56,7 +61,7 @@ namespace SugarM.Controllers {
                 QuotaType _Quota = new QuotaType () {
                     TypeCode = _Quotamodel.TypeCode,
                     Description = _Quotamodel.Description,
-                    UpdateBy = UserCurrent,
+                    UpdateBy = _UserProfile.EmployeeId,
                     Version = 0,
                     UpdateDate = ConvertDatetime (DateTime.UtcNow)
                 };
