@@ -73,42 +73,66 @@ namespace SugarM.Controllers {
         public async Task<IActionResult> Create (Companysale _Companysalemodel, string IsEditMode) {
             var UserCompCode = GetCurrenCompCode ();
             var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCompCode);
-            if (IsEditMode.Equals ("false")) {
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Companysalemodel, "http://192.168.10.46/sdapi/sdapi/SalePost", Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "บันทึกข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
+            if (ModelState.IsValid) {
+                if (IsEditMode.Equals ("false")) {
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Companysalemodel, "http://192.168.10.46/sdapi/sdapi/SalePost", Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "บันทึกข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                        return RedirectToAction (nameof (Index));
+                    }
                 } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
-                    return RedirectToAction (nameof (Index));
-                }
-            } else {
-                Companysale _sale = new Companysale () {
-                    SaleId = _Companysalemodel.SaleId,
-                    SaleName = _Companysalemodel.SaleName,
-                    CompCode = _Companysalemodel.CompCode,
-                    BranchCode = _Companysalemodel.BranchCode,
-                    UpdateBy = _UserProfile.EmployeeId,
-                    Version = 0,
-                    UpdateDate = ConvertDatetime (DateTime.UtcNow)
-                };
+                    Companysale _sale = new Companysale () {
+                        SaleId = _Companysalemodel.SaleId,
+                        SaleName = _Companysalemodel.SaleName,
+                        CompCode = _Companysalemodel.CompCode,
+                        BranchCode = _Companysalemodel.BranchCode,
+                        UpdateBy = _UserProfile.EmployeeId,
+                        Version = 0,
+                        UpdateDate = ConvertDatetime (DateTime.UtcNow)
+                    };
 
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_sale, "http://192.168.10.46/sdapi/sdapi/SalePut/" + _Companysalemodel.SaleId, Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "แก้ไขข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
-                } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
-                    return RedirectToAction (nameof (Index));
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_sale, "http://192.168.10.46/sdapi/sdapi/SalePut/" + _Companysalemodel.SaleId, Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "แก้ไขข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                        return RedirectToAction (nameof (Index));
+                    }
                 }
+                return RedirectToAction (nameof (Index));
             }
-            return RedirectToAction (nameof (Index));
+
+            //*Dropdown sale ---------------------------
+            List<Companysale> AuthorList = new List<Companysale> ();
+            var Call = ServiceExtension.RestshapExtension.CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/saleGet", Getkey ());
+            ViewBag.sale = Call;
+            List<Companysale> Companyget = new List<Companysale> ();
+            var Call1 = ServiceExtension.RestshapExtension.CallRestApiGET (Companyget, "http://192.168.10.46/sdapi/sdapi/companyGet", Getkey ());
+            List<Companysale> Companyget1 = new List<Companysale> ();
+            var Call2 = ServiceExtension.RestshapExtension.CallRestApiGET (Companyget1, "http://192.168.10.46/sdapi/sdapi/branchGet", Getkey ());
+            var branch = new List<Companysale> ();
+            foreach (var users in Call2) {
+                branch.Add (new Companysale {
+                    BranchCode = users.BranchCode,
+                        DpComIdandname = users.BranchCode + " " + users.NameTH
+                });
+
+            }
+            ViewBag.sale = Call;
+            ViewBag.company = Call1;
+            ViewBag.branch = branch;
+            ViewBag.IsEditMode = "false";
+            return View ("Create", _Companysalemodel);
         }
 
         [DisplayName ("แก้ประเภทโควต้า")]

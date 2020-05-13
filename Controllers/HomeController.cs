@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using SugarM.Models;
 
 namespace SugarM.Controllers
 {
-     [Authorize]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -19,17 +20,13 @@ namespace SugarM.Controllers
         {
             _logger = logger;
         }
-
+        [DisplayName("หน้าหลัก")]
         public IActionResult Index()
         {
             return RedirectToAction("UserProfile", "UserRole");
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
+        [DisplayName("Error")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

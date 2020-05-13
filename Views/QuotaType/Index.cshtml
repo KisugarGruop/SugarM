@@ -1,88 +1,73 @@
 @model List<SugarM.Models.QuotaType>
 @{
     ViewData["Title"] = "QuotaType";
+        ViewData["CurrentPage"]= "menu2";
 }
 
+						<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+							<div class="kt-portlet kt-portlet--mobile">
+								<div class="kt-portlet__head kt-portlet__head--lg">
+									<div class="kt-portlet__head-label">
+										<span class="kt-portlet__head-icon">
+											<i class="kt-font-brand flaticon2-line-chart"></i>
+										</span>
+										<h3 class="kt-portlet__head-title">
+											 @ViewData["Title"]
+										</h3>
+									</div>
+									<div class="kt-portlet__head-toolbar">
+										<div class="kt-portlet__head-wrapper">
+											<div class="kt-portlet__head-actions">
+												&nbsp;
+												<a asp-action="Create" data-controller="Bank" data-action="Create" class="btn btn-brand btn-elevate btn-icon-sm active">
+													<i class="la la-plus"></i>
+													New Record
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="kt-portlet__body">
 
-<section class="content-wrapper">
+									<!--begin: Datatable -->
+                                    <table id="tableQuota" class="table table-striped table-bordered" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>ประเภทโควต้า</th>
+                                                <th>รายละเอียด</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>@item.TypeCode</td>
+                                                    <td>@item.Description</td>
+                                                    <td style="width: 180px;">
+                                                        <a id="detailCarModal" asp-action="Edit" asp-route-id="@item.TypeCode" class="btn btn-primary btn-sm active">
+                                                                <i class="flaticon-folder-1" data-id="@item.TypeCode"></i> Detail
+                                                            </a>
+                                                            <a id="deleteCarModal" asp-action="Delete" asp-route-id="@item.TypeCode"
+                                                            class="btn btn-danger btn-sm active delete"
+                                                            data-id="@item.TypeCode"
+                                                            data-controller="QuotaType"
+                                                            data-ta="#tableQuota"
+                                                            data-action="Delete"
+                                                            data-redirect-url="/QuotaType/Index"
+                                                            data-body-message="คุณต้องการลบข้อมูลข้อมูลประเภทโควต้า @item.TypeCode ใช่หรือไม่?">
+                                                                <i class="flaticon-delete-1" data-id="@item.TypeCode"></i> Delete
+                                                            </a>
 
-    <!-- Main content -->
-    <section class="content">
-        <!-- Default box -->
-      <section class="box box-danger">
-            <div class="box-header with-border">
-                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                            title="Collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-        <!---- Company -->
-        <div class="box-body">
-             <div class="Quota">
-                <div class="row">
-                 <div class="col-sm-6" style="padding-left: 25px;margin-top: 10px;">
-                    <div class="mb-md">
-                    <a class="btn btn-primary" asp-action="Create" data-controller="Quota" data-action="Create" style="margin-bottom:10px"><i class="fa fa-plus"></i> Add New</a>
-                    @*<button id="Delect" type="button" class="mb-xs mt-xs mr-xs btn btn-danger" onclick="return testCheck();">Delect</button>*@
-                     </div>
-                 </div>
-                </div>
-                 <table id="tableQuota" class="table table-striped table-bordered" style="width:100%;">
-                     <thead>
-                         <tr>
-                             <th>ประเภทโควต้า</th>
-                             <th>รายละเอียด</th>
-                             <th></th>
-                         </tr>
-                     </thead>
-                     <tbody>
-                         @foreach (var item in Model)
-                         {
-                             <tr>
-                                 <td>@item.TypeCode</td>
-                                 <td>@item.Description</td>
-                                 <td> 
-                                      <a id="detailCarModal" asp-action="Edit" asp-route-id="@item.TypeCode" class="btn btn-success btn-sm">
-                                            <i class="fa fa-folder-open-o" data-id="@item.TypeCode"></i> รายละเอียด
-                                        </a>
-                                        <a id="deleteCarModal" asp-action="Delete" asp-route-id="@item.TypeCode"
-                                           class="btn btn-danger btn-sm delete"
-                                           data-id="@item.TypeCode"
-                                           data-controller="QuotaType"
-                                           data-ta="#tableQuota"
-                                           data-action="Delete"
-                                           data-redirect-url="/QuotaType/Index"
-                                           data-body-message="คุณต้องการลบข้อมูลข้อมูลประเภทโควต้า @item.TypeCode ใช่หรือไม่?">
-                                            <i class="fa fa-pencil" data-id="@item.TypeCode"></i> ลบข้อมูล
-                                        </a>
- 
-                                </td>
-                             </tr>
-                         }
-                     </tbody>
-                 </table>
-             @*     @await Html.PartialAsync("_Pagination", 10) *@
-              </div>
-        </div>
-        <div class="overlay hidden">
-            <i class="fa fa-refresh fa-spin hidden"></i>
-        </div>
-</div>                 
-        </div>
-</section>
-        </section>
-   
-    </section>
-        <!-- /.box -->
-    </section>
-    <!-- /.content -->
-</div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+									<!--end: Datatable -->
+								</div>
+							</div>
+						</div>
 
 @section Scripts{
     <script>
@@ -111,7 +96,7 @@
 	    }
      });
      $("#tableQuota").on("click", "#deleteCarModal", function(e) {
-       
+
          $(".overlay").removeClass("hidden");
         $(".fa-refresh").removeClass("hidden");
      });

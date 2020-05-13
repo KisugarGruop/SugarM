@@ -37,22 +37,24 @@
 
 			}
 			debugger;
-			swal({
-				title: "แจ้งเตือน",
-				text: "คุณต้องการลบรายการนี้ใช่หรือไม่",
-				icon: "warning",
-				buttons: ["ไม่แน่ใจ, ยกเลิก!", "แน่ใจ, ลบเดี๋ยวนี้!"],
-				dangerMode: true
-			}).then(willDelete => {
-				if (willDelete) {
+			swal.fire({
+				title: 'แจ้งเตือน',
+				text: "คุณต้องการลบรายการนี้ใช่หรือไม่!",
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'แน่ใจ, ลบเดี๋ยวนี้!!'
+			}).then(function (result) {
+				if (result.value) {
 					$.ajax({
 						url: url,
 						type: "GET"
 					}).done(function (response) {
 						if (response.success) {
-							swal("แจ้งเตือน", "ลบสำเร็จ", {
-								icon: "success"
-							}).then(function (e) {
+							swal.fire(
+								'แจ้งเตือน!',
+								'ลบสำเร็จ.',
+								'success'
+							).then(function (e) {
 								table.row($(target).parents('tr')).remove().draw("page");
 							});
 							$(".overlay").addClass("hidden");
@@ -70,9 +72,6 @@
 							toastr.error(msg.message, "แจ้งเตือน");
 						}
 					});
-				} else {
-					$(".overlay").addClass("hidden");
-					$(".fa-refresh").addClass("hidden");
 				}
 			});
 		});

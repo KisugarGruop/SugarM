@@ -2,148 +2,98 @@
 
 @{
     ViewData["Title"] = "CreateDocCtrRunno";
+    ViewData["CurrentPage"]= "menu2";
 }
-<section class="content-wrapper">
 
-    <!-- Main content -->
-    <section class="content">
-        <!-- Default box -->
-      <section class="box box-danger">
-            <div class="box-header with-border">
-                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                            title="Collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-        <!---- Company -->
-        <div class="box-body">
-            <form asp-controller="DocCtrRunno" asp-action="Create" method="post">
-                <div>
-                    <input id="IsEditMode" name="IsEditMode" value="@ViewBag.IsEditMode" class="hidden">
-                </div>
-             <div class="DocCtrRunno">
-                 <div class="tab-pane active" role="tabpanel" id="step1">
-                        <h3>กำหนดรหัสการพิมพ์เอกสาร</h3>
-                        <hr>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="CompCode">CompCode</label>
-                        <input class="form-control" asp-for="CompCode" readonly="true"  placeholder="Enter CompCode">
-                        </div>
-                         <div class="col-sm-10">
-                        <span asp-validation-for="CompCode" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="CaneYear">CaneYear</label>
-                        <input class="form-control" asp-for="CaneYear" readonly="true"  placeholder="Enter CaneYear">
-                        </div>
-                         <div class="col-sm-10">
-                        <span asp-validation-for="CaneYear" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                        <input  class="form-control hidden" asp-for="BranchSymbol" placeholder="Enter BranchSymbol">
-                         <label for="BranchCode">รหัสสาขา</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" asp-for="BranchCode" asp-items="@(new SelectList(ViewBag.branch,"BranchCode","DpComIdandname"))">
-                        <option> </option>
-                        </select>
-                        <div class="col-sm-10">
-                        <span asp-validation-for="BranchCode" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="DocCode">รหัสเอกสาร</label>
-                        <input  class="form-control" asp-for="DocCode" readonly="true" placeholder="Enter DocCode">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="DocCode" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                <!-- /.col-lg-6 -->
-                </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="DocType">ประเภทเอกสาร</label>
-                        <input  class="form-control" asp-for="DocType" readonly="true" placeholder="Enter DocType">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="DocType" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="CodeName">ชื่อเอกสาร</label>
-                        <input  class="form-control" asp-for="CodeName" placeholder="Enter CodeName">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="CodeName" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="TypeName">ชื่อประเภท</label>
-                        <input  class="form-control" asp-for="TypeName" placeholder="Enter TypeName">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="TypeName" class="text-danger"></span>
-                        </div>
-                        </div>
-                    <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="DigitRunNo">จำนวนตัวเลข</label>
-                        <input  class="form-control" asp-for="DigitRunNo" placeholder="Enter DigitRunNo">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="DigitRunNo" class="text-danger"></span>
-                        </div>
-                        </div>
-                    <!-- /input-group -->
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="LastRunNo">เลขที่ลำดับสุดท้าย</label>
-                        <input  class="form-control" asp-for="LastRunNo" placeholder="Enter LastRunNo">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="LastRunNo" class="text-danger"></span>
-                        </div>
-                        </div>
-                    <!-- /input-group -->
-                    </div>
-                </div>
-                        <ul class="list-inline pull-left">
-                            <li><button type="button" asp-action="Index" class="btn bg-navy btn-flat margin back-step">Back</button></li>
-                            <li><button type="submit" id="Savesubmit" class="btn bg-purple margin">Save</button></li>
-                        </ul>
-                    </div>
-              </div>
-            </form>
-        </div>
-             @await Html.PartialAsync("_Loadding")
-        </section>
-    </section>
-   
-</section>
+                               <div class="kt-portlet">
+										<div class="kt-portlet__head">
+											<div class="kt-portlet__head-label">
+												<h3 class="kt-portlet__head-title">
+													กำหนดรหัสการพิมพ์เอกสาร
+												</h3>
+											</div>
+										</div>
+
+										<!--begin::Form-->
+										<form asp-controller="DocCtrRunno" asp-action="Create" method="post" class="kt-form kt-form--label-right">
+                                              <input id="IsEditMode" style="display: none;" name="IsEditMode" value="@ViewBag.IsEditMode">
+                                              <input id="DeleteFlag" style="display: none;" name="DeleteFlag" value="N" class="hidden">
+                                            <div class="kt-portlet__body">
+												<div class="form-group row">
+													<div class="col-lg-3">
+														<label>CompCode:</label>
+														<input type="text" asp-for="CompCode" readonly="true" class="form-control" placeholder="Enter CompCode">
+														<span asp-validation-for="CompCode" class="text-danger"></span>
+													</div>
+													<div class="col-lg-3">
+														<label for="CaneYear" class="">CaneYear:</label>
+														<input type="text" asp-for="CaneYear" readonly="true" class="form-control" placeholder="Enter CaneYear">
+														<span asp-validation-for="CaneYear" class="text-danger"></span>
+													</div>
+                                                    <div class="col-lg-3">
+                                                        <input type="text" asp-for="BranchSymbol" style="display: none;" class="form-control" placeholder="Enter CaneYear">
+                                                        <label>รหัสสาขา:</label>
+                                                        <div class="input-group flex-nowrap">
+                                                            <div class="input-group-append">
+                                                                  <span class="input-group-text" id="basic-addon1"><i class="flaticon2-line-chart"></i></span>
+                                                              </div>
+                                                          <select class="form-control kt-select2" asp-for="BranchCode" asp-items="@(new SelectList(ViewBag.branch,"BranchCode","DpComIdandname"))">
+                                                              <option> </option>
+                                                              </select>
+                                                        </div>
+                                                    </div>
+													<div class="col-lg-3">
+														<label for="DocCode" class="">รหัสเอกสาร:</label>
+														<input type="text" asp-for="DocCode" class="form-control" placeholder="Enter DocCode">
+														<span asp-validation-for="DocCode" class="text-danger"></span>
+													</div>
+												</div>
+                                                <div class="form-group row">
+                                                    <div class="col-lg-3">
+														<label for="DocType" class="">ประเภทเอกสาร:</label>
+														<input type="text" asp-for="DocType" class="form-control" placeholder="Enter DocType">
+														<span asp-validation-for="DocType" class="text-danger"></span>
+													</div>
+                                                    <div class="col-lg-3">
+														<label for="CodeName" class="">ชื่อเอกสาร:</label>
+														<input type="text" asp-for="CodeName" class="form-control" placeholder="Enter CodeName">
+														<span asp-validation-for="CodeName" class="text-danger"></span>
+													</div>
+                                                    <div class="col-lg-3">
+														<label for="TypeName" class="">ชื่อประเภท:</label>
+														<input type="text" asp-for="TypeName" class="form-control" placeholder="Enter TypeName">
+														<span asp-validation-for="TypeName" class="text-danger"></span>
+													</div>
+                                                    <div class="col-lg-3">
+														<label for="DigitRunNo" class="">จำนวนตัวเลข:</label>
+														<input type="text" asp-for="DigitRunNo" class="form-control" placeholder="Enter DigitRunNo">
+														<span asp-validation-for="DigitRunNo" class="text-danger"></span>
+													</div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-lg-3">
+														<label for="LastRunNo" class="">เลขที่ลำดับสุดท้าย:</label>
+														<input type="text" asp-for="LastRunNo" class="form-control" placeholder="Enter LastRunNo">
+														<span asp-validation-for="LastRunNo" class="text-danger"></span>
+													</div>
+                                                </div>
+											<div class="kt-portlet__foot">
+												<div class="kt-form__actions">
+													<div class="row">
+														<div class="col-lg-4">
+                                                            <button type="button" asp-action="Index" class="btn btn-dark back-step">Back</button>
+                                                            <button type="submit" id="Savesubmit" value="CreatebankbranchNew" class="btn btn-brand">Save</button>
+                                                        </div>
+													</div>
+												</div>
+											</div>
+										</form>
+
+										<!--end::Form-->
+									</div>
+                                </div>
+
+
 @section Scripts{
     <script>
         $(document).ready(function() {

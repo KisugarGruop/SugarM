@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 
-namespace SugarM.Models {
-    public class CarBrand : Maptable {
+namespace SugarM.Models
+{
+    public class CarBrand : Maptable
+    {
         public string TypeCode { get; set; }
         public string BrandCode { get; set; }
         public string BrandName { get; set; }
@@ -9,7 +11,7 @@ namespace SugarM.Models {
         public string Description { get; set; }
         public string Active { get; set; }
         public string DeleteFlag { get; set; } = "N";
-        public string Fullname { get; set; }
+        public string TypeFullname { get; set; }
         public List<CarBrand> CarBranList { get; set; }
     }
 }

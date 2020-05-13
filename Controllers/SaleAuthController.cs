@@ -68,45 +68,72 @@ namespace SugarM.Controllers {
 
         [DisplayName ("เพิ่มประเภทโควต้า")]
         [HttpPost]
-        public async Task<IActionResult> Create (SaleAuth _SaleAuth, string IsEditMode) {
+        public async Task<IActionResult> Create (SaleAuthViewmodel _SaleAuth, string IsEditMode) {
             var UserCompCode = GetCurrenCompCode ();
             var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCompCode);
-            if (IsEditMode.Equals ("false")) {
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_SaleAuth, "http://192.168.10.46/sdapi/sdapi/saleAuthPost", Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "บันทึกข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
+            if (ModelState.IsValid) {
+                if (IsEditMode.Equals ("false")) {
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_SaleAuth, "http://192.168.10.46/sdapi/sdapi/saleAuthPost", Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "บันทึกข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                        return RedirectToAction (nameof (Create));
+                    }
                 } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
-                    return RedirectToAction (nameof (Create));
-                }
-            } else {
-                SaleAuth _SaleAuthUp = new SaleAuth () {
-                    SaleId = _SaleAuth.SaleId,
-                    RegionCode = _SaleAuth.RegionCode,
-                    CompCode = _SaleAuth.CompCode,
-                    Position = _SaleAuth.Position,
-                    UpdateBy = _UserProfile.EmployeeId,
-                    Version = 0,
-                    UpdateDate = ConvertDatetime (DateTime.UtcNow)
-                };
+                    SaleAuth _SaleAuthUp = new SaleAuth () {
+                        SaleId = _SaleAuth.SaleId,
+                        RegionCode = _SaleAuth.RegionCode,
+                        CompCode = _SaleAuth.CompCode,
+                        Position = _SaleAuth.Position,
+                        UpdateBy = _UserProfile.EmployeeId,
+                        Version = 0,
+                        UpdateDate = ConvertDatetime (DateTime.UtcNow)
+                    };
 
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_SaleAuthUp, "http://192.168.10.46/sdapi/sdapi/saleAuthPut/" + _SaleAuth.CompCodeEdit + "/" + _SaleAuth.SaleIdEdit + "/" + _SaleAuth.RegionCodeEdit, Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "แก้ไขข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
-                } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
-                    return RedirectToAction (nameof (Index));
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_SaleAuthUp, "http://192.168.10.46/sdapi/sdapi/saleAuthPut/" + _SaleAuth.CompCodeEdit + "/" + _SaleAuth.SaleIdEdit + "/" + _SaleAuth.RegionCodeEdit, Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "แก้ไขข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                        return RedirectToAction (nameof (Index));
+                    }
                 }
+                return RedirectToAction (nameof (Create), new { _Id = _SaleAuth.SaleId });
             }
-            return RedirectToAction (nameof (Create), new { _Id = _SaleAuth.SaleId });
+
+            //*Dropdown sale ---------------------------
+            List<SaleAuth> AuthorList = new List<SaleAuth> ();
+            var Call = ServiceExtension.RestshapExtension.CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/saleGet", Getkey ());
+            var salefull = new List<SaleAuth> ();
+            foreach (var sname in Call) {
+                salefull.Add (new SaleAuth {
+                    SaleId = sname.SaleId,
+                        SaleFullname = sname.SaleId + " " + sname.SaleName
+                });
+            }
+            List<SaleAuth> Companyget1 = new List<SaleAuth> ();
+            var Call2 = ServiceExtension.RestshapExtension.CallRestApiGET (Companyget1, "http://192.168.10.46/sdapi/sdapi/regionGet", Getkey ());
+            var branch = new List<SaleAuth> ();
+            foreach (var users in Call2) {
+                branch.Add (new SaleAuth {
+                    RegionCode = users.RegionCode,
+                        RegCodeAndName = users.RegionCode + " " + users.NameTH
+                });
+
+            }
+            ViewBag.sale = salefull;
+            ViewBag.branch = branch;
+            ViewBag.IsEditMode = "false";
+            return View (_SaleAuth);
         }
 
         [DisplayName ("แก้ไขนักเกษตร")]

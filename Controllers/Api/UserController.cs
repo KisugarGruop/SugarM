@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.ComponentModel;
 
 namespace SugarM.Controllers.Api
 {
@@ -33,6 +34,7 @@ namespace SugarM.Controllers.Api
 
         // GET: api/User
         [HttpGet]
+        [DisplayName("ค้นหาUserAll")]
         public IActionResult GetUser()
         {
             List<UserProfile> Items = new List<UserProfile>();
@@ -42,6 +44,7 @@ namespace SugarM.Controllers.Api
         }
 
         [HttpGet("[action]/{id}")]
+        [DisplayName("ค้นหาUser | รายคน")]
         public IActionResult GetByApplicationUserId([FromRoute]string id)
         {
             UserProfile userProfile = _context.UserProfile.SingleOrDefault(x => x.ApplicationUserId.Equals(id));
@@ -55,6 +58,7 @@ namespace SugarM.Controllers.Api
         }
 
         [HttpPost("[action]")]
+        [DisplayName("บันทึก User")]
         public async Task<IActionResult> Insert([FromBody]CrudViewModel<UserProfile> payload)
         {
             UserProfile register = payload.value;
@@ -70,12 +74,13 @@ namespace SugarM.Controllers.Api
                     _context.UserProfile.Add(register);
                     await _context.SaveChangesAsync();
                 }
-                
+
             }
             return Ok(register);
         }
 
         [HttpPost("[action]")]
+        [DisplayName("บันทึกการแก้ไขUser")]
         public async Task<IActionResult> Update([FromBody]CrudViewModel<UserProfile> payload)
         {
             UserProfile profile = payload.value;
@@ -85,19 +90,21 @@ namespace SugarM.Controllers.Api
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> ChangePassword([FromBody]CrudViewModel<UserProfile> payload)
+        [DisplayName("บันทึกการแก้ไขPassword")]
+        public async Task<IActionResult> ChangePassword(UserProfile payload)
         {
-            UserProfile profile = payload.value;
-            if (profile.Password.Equals(profile.ConfirmPassword))
+
+            if (payload.Password.Equals(payload.ConfirmPassword))
             {
-                var user = await _userManager.FindByIdAsync(profile.ApplicationUserId);
-                var result = await _userManager.ChangePasswordAsync(user, profile.OldPassword, profile.Password);
+                var user = await _userManager.FindByIdAsync(payload.ApplicationUserId);
+                var result = await _userManager.ChangePasswordAsync(user, payload.OldPassword, payload.Password);
             }
-            profile = _context.UserProfile.SingleOrDefault(x => x.ApplicationUserId.Equals(profile.ApplicationUserId));
-            return Ok(profile);
+            payload = _context.UserProfile.SingleOrDefault(x => x.ApplicationUserId.Equals(payload.ApplicationUserId));
+            return View(payload);
         }
-        
+
         [HttpPost("[action]")]
+        [DisplayName("แก้ไขRole")]
         public IActionResult ChangeRole([FromBody]CrudViewModel<UserProfile> payload)
         {
             UserProfile profile = payload.value;
@@ -105,6 +112,7 @@ namespace SugarM.Controllers.Api
         }
 
         [HttpPost("[action]")]
+        [DisplayName("ลบRole")]
         public async Task<IActionResult> Remove([FromBody]CrudViewModel<UserProfile> payload)
         {
             var userProfile = _context.UserProfile.SingleOrDefault(x => x.UserProfileId.Equals((int)payload.key));
@@ -117,13 +125,10 @@ namespace SugarM.Controllers.Api
                     _context.Remove(userProfile);
                     await _context.SaveChangesAsync();
                 }
-                
             }
-            
             return Ok();
-
         }
-        
-        
+
+
     }
 }

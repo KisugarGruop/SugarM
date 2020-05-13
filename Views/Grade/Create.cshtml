@@ -2,106 +2,76 @@
 
 @{
     ViewData["Title"] = "CreateGrade";
+    ViewData["CurrentPage"]= "menu2";
 }
-<section class="content-wrapper">
 
-    <!-- Main content -->
-    <section class="content">
-        <!-- Default box -->
-      <section class="box box-danger">
-            <div class="box-header with-border">
-                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                            title="Collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                        <i class="fa fa-times"></i>
-                    </button>
+
+<div class="kt-portlet">
+        <div class="kt-portlet__head">
+            <div class="kt-portlet__head-label">
+                <h3 class="kt-portlet__head-title">
+                    เกรดจัดชั้นหนี้
+                </h3>
+            </div>
+        </div>
+
+        <!--begin::Form-->
+        <form asp-controller="Grade" asp-action="Create" method="post" class="kt-form kt-form--label-right">
+                <input id="IsEditMode" style="display: none;" name="IsEditMode" value="@ViewBag.IsEditMode">
+                <input id="DeleteFlag" style="display: none;" name="DeleteFlag" value="N" class="hidden">
+            <div class="kt-portlet__body">
+                <div class="form-group row">
+                    <div class="col-lg-3">
+                        <label>รหัสบริษัท:</label>
+                        <input type="text" asp-for="CompCode" readonly="true" class="form-control" placeholder="Enter CompCode">
+                        <span asp-validation-for="CompCode" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-3">
+                        <label for="CaneYear" class="">ปีการผลิต:</label>
+                        <input type="text" asp-for="CaneYear" readonly="true" class="form-control" placeholder="Enter CaneYear">
+                        <span asp-validation-for="CaneYear" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-3">
+                        <label for="GradeCode" class="">เกรดจัดชั้นหนี้:</label>
+                        <input type="text" asp-for="GradeCode" class="form-control" placeholder="Enter GradeCode">
+                        <span asp-validation-for="GradeCode" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-3">
+                        <label for="Description" class="">รายละเอียด:</label>
+                        <input type="text" asp-for="Description" class="form-control" placeholder="Enter Description">
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                        <div class="col-lg-3">
+                            <label>การใช้งาน:</label>
+                            <div class="input-group flex-nowrap">
+                                <div class="input-group-append">
+                                        <span class="input-group-text" id="basic-addon1"><i class="flaticon2-line-chart"></i></span>
+                                    </div>
+                                <select class="form-control kt-select2" asp-for="Active">
+                                    <option value="Y">Y</option>
+                                    <option value="N">N</option>
+                                    </select>
+                            </div>
+                        </div>
+                </div>
+            <div class="kt-portlet__foot">
+                <div class="kt-form__actions">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <button type="button" asp-action="Index" class="btn btn-dark back-step">Back</button>
+                            <button type="submit" id="Savesubmit" value="CreatebankbranchNew" class="btn btn-brand">Save</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        <!---- Company -->
-        <div class="box-body">
-            <form asp-controller="Grade" asp-action="Create" method="post">
-                <div>
-                    <input id="IsEditMode" name="IsEditMode" value="@ViewBag.IsEditMode" class="hidden">
-                </div>
-             <div class="DocRunning">
-                 <div class="tab-pane active" role="tabpanel" id="step1">
-                        <h3>เกรดจัดชั้นหนี้</h3>
-                        <hr>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="CompCode">รหัสบริษัท</label>
-                        <input class="form-control" asp-for="CompCode" readonly="true"  placeholder="Enter CompCode">
-                        </div>
-                         <div class="col-sm-10">
-                        <span asp-validation-for="CompCode" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="CaneYear">ปีการผลิต</label>
-                        <input  class="form-control" asp-for="CaneYear" readonly="true" placeholder="Enter CaneYear">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="CaneYear" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="GradeCode">เกรดจัดชั้นหนี้</label>
-                        <input  class="form-control" asp-for="GradeCode" readonly="true" placeholder="Enter GradeCode">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="GradeCode" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="Description">รายละเอียด</label>
-                        <input  class="form-control" asp-for="Description" placeholder="Enter Description">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                <!-- /.col-lg-6 -->
-                </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="Active">การใช้งาน</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" asp-for="Active">
-                          <option value="Y">Y</option>
-                          <option value="N">N</option>
-                        </select>
-                        </div>
-                         <div class="col-sm-3">
-                        <span asp-validation-for="Active" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                </div>
-                        <ul class="list-inline pull-left">
-                            <li><button type="button" asp-action="Index" class="btn bg-navy btn-flat margin back-step">Back</button></li>
-                            <li><button type="submit" id="Savesubmit" class="btn bg-purple margin">Save</button></li>
-                        </ul>
-                    </div>
-              </div>
-            </form>
-        </div>
-             @await Html.PartialAsync("_Loadding")
-        </section>
-    </section>
-   
-</section>
+        </form>
+
+        <!--end::Form-->
+    </div>
+</div>
+
 @section Scripts{
     <script>
         var Isedit = $("#IsEditMode").val();

@@ -1,280 +1,269 @@
 
 @model Company
 
-
- <div class="modal fade" id="loginModal"
-                         data-keyboard="false" data-backdrop="static">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">
-
-                                    </button>
-                                    <h4 class="modal-title">Company Detail</h4>
-                                </div>
-                                <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-              <li class="active"><a href="#Branch" data-toggle="tab">รายละเอียด</a></li>
-              <li class="branch branchregion"><a href="#Branchloca" data-toggle="tab">พื้นที่รับผิดชอบ</a></li>
-            </ul>
-        <div class="tab-content">
-          <div class="active tab-pane" id="Branch">
-              <div class="modal-body">
-                <form class="form-horizontal" asp-action="Savebranch" id="formcm">
-                    <div class="box-body">
-                              <div class="form-group">
-                                    <label class="col-sm-2 control-label">CompanyCode</label>
-                                   <div class="col-sm-2">
-                                     <input class="form-control" asp-for="CompCode" placeholder="CompanyCode">
-                                   </div>
-                                    <div class="col-sm-3">
-                                    <span asp-validation-for="CompCode" class="text-danger"></span>
-                                </div>
-                              </div>
-                              <div class="form-group branch">
-                                    <label class="col-sm-2 control-label">BranchCode</label>
-                                   <div class="col-sm-2">
-                                     <input class="form-control" asp-for="BranchCode" placeholder="BranchCode">
-                                   </div>
-                                <label class="col-sm-2 control-label">ประเภท</label>
-
-                                  <div class="col-sm-3">
-                                      <select class="form-control select2 select2-hidden-accessible" id="selectitems" asp-for="BranchTypeId" asp-items="@(new SelectList(ViewBag.Banch,"Id","BranchType"))">
-                                       <option> </option>
-                                      </select>
+<div class="modal fade" id="kt_modal_4_2"  role="dialog" aria-labelledby="" aria-hidden="true">
+								<div class="modal-dialog modal-xl" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Company Detail</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											</button>
+										</div>
+										<div class="modal-body">
+                            <div class="kt-portlet kt-portlet--tabs">
+                                <div class="kt-portlet__head">
+                                  <div class="kt-portlet__head-toolbar">
+                                    <ul class="nav nav-tabs nav-tabs-line nav-tabs-line-danger nav-tabs-line-2x nav-tabs-line-right" role="tablist">
+                                      <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#kt_portlet_base_demo_2_3_tab_content" role="tab" aria-selected="true">
+                                          <i class="fa fa-calendar-check-o" aria-hidden="true"></i>รายละเอียด
+                                        </a>
+                                      </li>
+                                      <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#kt_portlet_base_demo_2_2_tab_content" role="tab" aria-selected="false">
+                                          <i class="fa fa-bar-chart" aria-hidden="true"></i>พื้นที่รับผิดชอบ
+                                        </a>
+                                      </li>
+                                    </ul>
                                   </div>
-                              </div>
-                               <div class="form-group">
-                                    <label class="col-sm-2 control-label">ชื่อภาษาอังกฤษ</label>
-                                   <div class="col-sm-6">
-                                     <input class="form-control" asp-for="NameEN" placeholder="ชื่อภาษาอังกฤษ">
-                                   </div>
-                                    <div class="col-sm-3">
-                                    <span asp-validation-for="NameEN" class="text-danger"></span>
                                 </div>
-                              </div>
-                              <div class="form-group">
-                                    <label class="col-sm-2 control-label">ชื่อภาษาไทย</label>
-                                <div class="col-sm-6">
-                                     <input class="form-control" asp-for="NameTH" placeholder="ชื่อภาษาไทย">
-                                   </div>
-                                    <div class="col-sm-3">
-                                    <span asp-validation-for="NameTH" class="text-danger"></span>
-                                </div>
-                              </div>
-                              <div class="form-group companybranch">
-                                    <label class="col-sm-2 control-label">ที่อยู่</label>
-                                <div class="col-sm-6">
-                                     <input class="form-control" asp-for="Addr1" placeholder="(บ้านเลขที่-หมู่ที่-ตำบล)">
-                                   </div>
-                                    <div class="col-sm-3">
-                                    <span asp-validation-for="Addr1" class="text-danger"></span>
-                                </div>
-                              </div>
-                              <div class="form-group companybranch">
-                                    <label class="col-sm-2 control-label">อำเภอ</label>
-                                <div class="col-sm-3">
-                                     <input class="form-control" asp-for="Addr2" placeholder="อำเภอ">
-                                   </div>
-                                    <div class="col-sm-2">
-                                    <span asp-validation-for="Addr2" class="text-danger"></span>
-                                </div>
-                              </div>
-                               <div class="form-group companybranch">
-                                    <label class="col-sm-2 control-label">จังหวัด</label>
-                                <div class="col-sm-3">
-                                     <input class="form-control" asp-for="Addr3" placeholder="จังหวัด">
-                                   </div>
-                                    <div class="col-sm-2">
-                                    <span asp-validation-for="Addr3" class="text-danger"></span>
-                                </div>
-                              </div>
-                              <div class="form-group companybranch">
-                                    <label class="col-sm-2 control-label">รหัสไปรษณีย์</label>
-                                <div class="col-sm-3">
-                                     <input class="form-control" asp-for="ZIP" placeholder="รหัสไปรษณีย์">
-                                   </div>
-                                    <div class="col-sm-4">
-                                    <span asp-validation-for="ZIP" class="text-danger"></span>
-                                </div>
-                              </div>
-                              <div class="form-group companybranch">
-                                    <label class="col-sm-2 control-label">เบอร์โทร</label>
-                                <div class="col-sm-3">
-                                     <input class="form-control" asp-for="Tel" placeholder="เบอร์โทร">
-                                   </div>
-                                    <div class="col-sm-4">
-                                    <span asp-validation-for="Tel" class="text-danger"></span>
-                                </div>
-                              </div>
-                              <div class="form-group companybranch">
-                                    <label class="col-sm-2 control-label">Fax</label>
-                                <div class="col-sm-3">
-                                     <input class="form-control" asp-for="Fax" placeholder="รหัสไปรษณีย์">
-                                   </div>
-                                    <div class="col-sm-4">
-                                    <span asp-validation-for="Fax" class="text-danger"></span>
-                                </div>
-                              </div>
-                             <div class="form-group companybranch">
-                                    <label class="col-sm-2 control-label">อีเมล์</label>
-                                <div class="col-sm-3">
-                                     <input class="form-control" asp-for="Email" placeholder="อีเมล์">
-                                   </div>
-                                    <div class="col-sm-4">
-                                    <span asp-validation-for="Email" class="text-danger"></span>
-                                </div>
-                              </div>
-                              <div class="form-group companybranch">
-                                    <label class="col-sm-2 control-label">เว็ปไซต์</label>
-                                <div class="col-sm-3">
-                                     <input class="form-control" asp-for="WebSite" placeholder="เว็ปไซต์">
-                                   </div>
-                                    <div class="col-sm-2">
-                                    <span asp-validation-for="WebSite" class="text-danger"></span>
-                                </div>
-                              </div>
-                              <div class="form-group companybranch">
-                                    <label class="col-sm-2 control-label">TAX ID</label>
-                                  <div class="col-sm-3">
-                                    <input class="form-control" asp-for="TaxID" placeholder="TAX ID">
-                                   </div>
-                                   <label class="col-sm-2 control-label company">DistFrPlant</label>
-                                  <div class="col-sm-3 company">
-                                    <input class="form-control" asp-for="DistFrPlant" placeholder="DistFrPlant">
-                                   </div>
-                                    <div class="col-sm-2">
+                                <div class="kt-portlet__body">
+                                  <div class="tab-content">
+                                    @* Tab แรก *@
+                                    <div class="tab-pane active" id="kt_portlet_base_demo_2_3_tab_content" role="tabpanel">
+                                        <form class="kt-form kt-form--label-right" asp-action="Savebranch" id="formcm">
+                                            <div class="kt-portlet__body">
+                                              <div class="form-group row">
+                                                <div class="col-lg-3">
+                                                  <label>CompCode</label>
+                                                  <input type="text" class="form-control" asp-for="CompCode" placeholder="CompanyCode">
+                                                   <span asp-validation-for="CompCode" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                  <label class="">NameEN:</label>
+                                                  <input type="text" class="form-control" asp-for="NameEN" placeholder="ชื่อภาษาอังกฤษ">
+                                                   <span asp-validation-for="NameEN" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                  <label class="">NameTH:</label>
+                                                   <input type="text" class="form-control" asp-for="NameTH" placeholder="ชื่อภาษาไทย">
+                                                   <span asp-validation-for="NameTH" class="text-danger"></span>
+                                                </div>
+                                              </div>
+                                              <div class="form-group row branch">
+                                                  <div class="col-lg-3">
+                                                    <label class="">BranchCode:</label>
+                                                    <input type="text" class="form-control" asp-for="BranchCode" placeholder="BranchCode">
+                                                  </div>
+                                                  <div class="col-lg-3">
+                                                        <label class="">ประเภท:</label>
+                                                        <div class="input-group flex-nowrap">
+                                                            <div class="input-group-append">
+                                                                  <span class="input-group-text" id="basic-addon1"><i class="flaticon2-line-chart"></i></span>
+                                                              </div>
+                                                          <select class="form-control kt-select2" asp-for="BranchTypeId" asp-items="@(new SelectList(ViewBag.Banch,"Id","BranchType"))">
+                                                              <option> </option>
+                                                              </select>
+                                                        </div>
+                                                  </div>
+                                              </div>
+                                              <div class="form-group row companybranch">
+                                                <div class="col-lg-3">
+                                                  <label class="">ที่อยู่:</label>
+                                                   <input type="text" class="form-control" asp-for="Addr1" placeholder="(บ้านเลขที่-หมู่ที่-ตำบล)">
+                                                   <span asp-validation-for="Addr1" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                  <label class="">อำเภอ:</label>
+                                                    <input type="text" class="form-control" asp-for="Addr2" placeholder="อำเภอ">
+                                                   <span asp-validation-for="Addr2" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                  <label class="">จังหวัด:</label>
+                                                   <input type="text" class="form-control" asp-for="Addr3" placeholder="จังหวัด">
+                                                   <span asp-validation-for="Addr3" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                  <label class="">รหัสไปรษณีย์:</label>
+                                                   <input type="text" class="form-control" asp-for="ZIP" placeholder="รหัสไปรษณีย์">
+                                                   <span asp-validation-for="ZIP" class="text-danger"></span>
+                                                </div>
+                                              </div>
+                                              <div class="form-group row companybranch">
+                                                <div class="col-lg-3">
+                                                  <label class="">เบอร์โทร:</label>
+                                                   <input type="text" class="form-control" asp-for="Tel" placeholder="เบอร์โทร">
+                                                   <span asp-validation-for="Tel" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                  <label class="">เบอร์Fax:</label>
+                                                    <input type="text" class="form-control" asp-for="Fax" placeholder="เบอร์Fax">
+                                                   <span asp-validation-for="Fax" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                  <label class="">อีเมล์:</label>
+                                                    <input type="email" class="form-control" asp-for="Email" placeholder="อีเมล์">
+                                                   <span asp-validation-for="Email" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                  <label class="">เว็ปไซต์:</label>
+                                                   <input type="text" class="form-control" asp-for="WebSite" placeholder="เว็ปไซต์">
+                                                   <span asp-validation-for="WebSite" class="text-danger"></span>
+                                                </div>
+                                              </div>
+                                              <div class="form-group row companybranch">
+                                                <div class="col-lg-3">
+                                                  <label class="">TAX ID:</label>
+                                                  <input type="text" class="form-control" asp-for="TaxID" placeholder="TAX ID">
+                                                </div>
+                                                <div class="col-lg-3 company">
+                                                  <label class="">DistFrPlant:</label>
+                                                   <input type="text" class="form-control company" asp-for="DistFrPlant" placeholder="DistFrPlant">
+                                                </div>
+                                                <div class="col-lg-3">
+                                                  <label class="">Registration ID:</label>
+                                                    <input type="text" class="form-control" asp-for="RegID" placeholder="Registration ID">
+                                                </div>
+                                                <div class="col-lg-3">
+                                                  <label class="">Registration Date:</label>
+                                                    <input type="text" class="form-control" asp-for="RegDate" placeholder="Registration Date">
+                                                </div>
+                                              </div>
+                                              <div class="form-group row branch">
+                                                <div class="col-lg-3">
+                                                        <label class="">หัวหน้าศูนย์:</label>
+                                                        <div class="input-group flex-nowrap">
+                                                            <div class="input-group-append">
+                                                                  <span class="input-group-text" id="basic-addon1"><i class="flaticon2-line-chart"></i></span>
+                                                              </div>
+                                                                 <select class="form-control kt-select2" asp-for="Head" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
+                                                              <option> </option>
+                                                              </select>
+                                                        </div>
+                                                  </div>
+                                                  <div class="col-lg-3">
+                                                       <label class="">บัญชีเกษตร:</label>
+                                                        <div class="input-group flex-nowrap">
+                                                            <div class="input-group-append">
+                                                                  <span class="input-group-text" id="basic-addon1"><i class="flaticon2-line-chart"></i></span>
+                                                            </div>
+                                                          <select class="form-control kt-select2" asp-for="CfsUserId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
+                                                              <option> </option>
+                                                              </select>
+                                                        </div>
+                                                  </div>
+                                              </div>
+                                              <div class="form-group row branch">
+                                                  <div class="col-lg-3">
+                                                        <label class="">ผู้มีอำนาจลงนามสัญญาเงินทุนหมุนเวียน:</label>
+                                                        <div class="input-group flex-nowrap">
+                                                            <div class="input-group-append">
+                                                                  <span class="input-group-text" id="basic-addon1"><i class="flaticon2-line-chart"></i></span>
+                                                              </div>
+                                                          <select class="form-control kt-select2" asp-for="LoanContractId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
+                                                              <option> </option>
+                                                              </select>
+                                                        </div>
+                                                  </div>
+                                                  <div class="col-lg-3">
+                                                         <label class="">ผู้มีอำนาจลงนามสัญยาค้ำประกัน:</label>
+                                                        <div class="input-group flex-nowrap">
+                                                            <div class="input-group-append">
+                                                                  <span class="input-group-text" id="basic-addon1"><i class="flaticon2-line-chart"></i></span>
+                                                              </div>
+                                                          <select class="form-control kt-select2"  asp-for="GuaranteeContractId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
+                                                              <option> </option>
+                                                              </select>
+                                                        </div>
+                                                  </div>
+                                                <div class="col-lg-3">
+                                                  <label class="">ผู้มีอำนาจลงนามหนังสสัญญาเช่าเชื้อ:</label>
+                                                  <div class="input-group flex-nowrap">
+                                                      <div class="input-group-append">
+                                                            <span class="input-group-text" id="basic-addon1"><i class="flaticon2-line-chart"></i></span>
+                                                        </div>
+                                                     <select class="form-control kt-select2"   asp-for="LeasingContractId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
+                                                        <option> </option>
+                                                        </select>
+                                                  </div>
+                                                </div>
+                                                  <div class="col-lg-3">
+                                                    <label class="">ผู้มีอำนาจลงนามสัญญาเงินกู้ระยะยาว:</label>
+                                                      <div class="input-group flex-nowrap">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text" id="basic-addon1"><i class="flaticon2-line-chart"></i></span>
+                                                            </div>
+                                                            <select class="form-control kt-select2"  asp-for="CaneContractId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
+                                                            <option> </option>
+                                                            </select>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                            
+                                              <div class="form-group row company">
+                                                <div class="col-lg-3">
+                                                  <label class="">Longdd:</label>
+                                                   <input type="text" class="form-control" asp-for="Latdd" placeholder="Latdd">
+                                                   <span asp-validation-for="Latdd" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                  <label class="">Latdd:</label>
+                                                   <input type="text" class="form-control" asp-for="Longdd" placeholder="Longdd">
+                                                   <span asp-validation-for="Longdd" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                  <label class="">fisComp:</label>
+                                                     <input class="form-control" asp-for="FisCompCode" placeholder="FisCompCode">
+                                                   <span asp-validation-for="FisCompCode" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                  <label class="">fisBranch:</label>
+                                                   <input class="form-control" asp-for="FisBranchCode" placeholder="FisBranchCode">
+                                                   <span asp-validation-for="FisBranchCode" class="text-danger"></span>
+                                                </div>
+                                              </div>
+                                              <div class="form-group row region">
+                                                <div class="col-lg-3">
+                                                  <label class="">รหัสเขต:</label>
+                                                   <input class="form-control" asp-for="RegionCode" placeholder="RegionCode">
+                                                   <span asp-validation-for="FisBranchCode" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                        <label class="">หัวหน้าเขต:</label>
+                                                        <div class="input-group flex-nowrap">
+                                                            <div class="input-group-append">
+                                                                  <span class="input-group-text" id="basic-addon1"><i class="flaticon2-line-chart"></i></span>
+                                                              </div>
+                                                          <select class="form-control kt-select2" id="Head1" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
+                                                              <option> </option>
+                                                              </select>
+                                                        </div>
+                                                </div>
+                                                <div class="col-lg-3 hidden" style="display: none;">
+                                                  <label class="">สถานะ:</label>
+                                                    <input class="form-control" asp-for="Statusform" value="" placeholder="สถานะ">
+                                                   <span asp-validation-for="Statusform" class="text-danger"></span>
+                                                </div>
+                                              </div>
+                                          </div>
+                                        </form>
                                     </div>
-                              </div>
-                              <div class="form-group companybranch">
-                                    <label class="col-sm-2 control-label">Registration ID</label>
-                                  <div class="col-sm-3">
-                                    <input class="form-control" asp-for="RegID" placeholder="Registration ID">
-                                   </div>
-                                   <label class="col-sm-2 control-label">Registration Date</label>
-                                  <div class="col-sm-3">
-                                    <input class="form-control" asp-for="RegDate" placeholder="Registration Date">
-                                   </div>
-                                    <div class="col-sm-2">
+                                    @* Tab ที่สอง *@
+                                    <div class="tab-pane" id="kt_portlet_base_demo_2_2_tab_content" role="tabpanel">
+                                      <div class="branchregion">
+                                        <table id="tablebranchregion" class="table table-bordered table-striped dataTable" style="width:100%;"></table>
+                                      </div>
                                     </div>
-                              </div>
-                              <div class="form-group branch">
-                                  <label class="col-sm-2 control-label">หัวหน้าศูนย์:</label>
-                                  <div class="col-sm-3">
-                                      <select class="form-control select2 select2-hidden-accessible" asp-for="Head" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
-                                      <option> </option>
-                                      </select>
                                   </div>
-                                   <label class="col-sm-2 control-label">บัญชีเกษตร</label>
-                                  <div class="col-sm-3">
-                                      <select class="form-control select2 select2-hidden-accessible" asp-for="CfsUserId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
-                                      <option> </option>
-                                      </select>
-                                  </div>
-                                    <div class="col-sm-2">
-                                    </div>
-                              </div>
-                              <div class="form-group branch">
-                                  <label class="col-sm-7 control-label">ผู้มีอำนาจลงนามสัญญาเงินทุนหมุนเวียนเพื่อการปลูกอ้อย:</label>
-                                  <div class="col-sm-5">
-                                      <select class="form-control select2 select2-hidden-accessible" asp-for="LoanContractId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
-                                      <option> </option>
-                                      </select>
-                                  </div>
-                              </div>
-                              <div class="form-group branch">
-                                  <label class="col-sm-7 control-label">ผู้มีอำนาจลงนามสัญยาค้ำประกัน:</label>
-                                  <div class="col-sm-5">
-                                      <select class="form-control select2 select2-hidden-accessible" asp-for="GuaranteeContractId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
-                                      <option> </option>
-                                      </select>
-                                  </div>
-                              </div>
-                              <div class="form-group branch">
-                                  <label class="col-sm-7 control-label">ผู้มีอำนาจลงนามหนังสสัญญาเช่าเชื้อ:</label>
-                                  <div class="col-sm-5">
-                                      <select class="form-control select2 select2-hidden-accessible" asp-for="LeasingContractId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
-                                      <option> </option>
-                                      </select>
-                                  </div>
-                              </div>
-                              <div class="form-group branch">
-                                  <label class="col-sm-7 control-label">ผู้มีอำนาจลงนามสัญญาเงินกู้ระยะยาว:</label>
-                                  <div class="col-sm-5">
-                                      <select class="form-control select2 select2-hidden-accessible" asp-for="CaneContractId" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
-                                      <option> </option>
-                                      </select>
-                                  </div>
-                              </div>
-                              <div class="form-group company">
-                                    <label class="col-sm-2 control-label">Longdd:/Latdd:</label>
-                                  <div class="col-sm-3">
-                                    <input class="form-control" asp-for="Latdd" placeholder="Latdd">
-                                   </div>
-                                  <div class="col-sm-3">
-                                    <input class="form-control" asp-for="Longdd" placeholder="Longdd">
-                                   </div>
-                                   <label class="col-sm-2 control-label">fisComp:/fisBranch:</label>
-                                    <div class="col-sm-1">
-                                    <input class="form-control" asp-for="FisCompCode" placeholder="FisCompCode">
-                                    </div>
-                                    <div class="col-sm-1">
-                                    <input class="form-control" asp-for="FisBranchCode" placeholder="FisBranchCode">
-                                    </div>
-                              </div>
-                              <div class="form-group region">
-                                    <label class="col-sm-2 control-label">รหัสเขต:</label>
-                                  <div class="col-sm-3">
-                                    <input class="form-control" asp-for="RegionCode" placeholder="RegionCode">
-                                  </div>
-                              </div>
-                              <div class="form-group region">
-                                  <label class="col-sm-2 control-label">หัวหน้าเขต:</label>
-                                  <div class="col-sm-3">
-                                      <select class="form-control select2 select2-hidden-accessible" id="Head1" asp-items="@(new SelectList(ViewBag.sale,"SaleId","SaleName"))">
-                                       <option> </option>
-                                      </select>
-                                  </div>
-                              </div>
-                             <div class="form-group hidden">
-                                    <label class="col-sm-2 control-label">สถานะ</label>
-                                <div class="col-sm-3">
-                                     <input class="form-control" asp-for="Statusform" value="" placeholder="สถานะ">
-                                   </div>
-                                    <div class="col-sm-4">
-                                    <span asp-validation-for="Statusform" class="text-danger"></span>
                                 </div>
-                              </div>
-                     </div>
-                   <!-- /.box-footer -->
-                </form>
-              <div class="modal-footer">
-                   <button id="Btncm" type="button"  class="btn btn-primary button button4 company">บันทึก</button>
-                   <button id="Btnbanch" type="button"  class="btn btn-primary button button4 branch">บันทึก</button>
-                   <button id="Btnregion" type="button"  class="btn btn-primary button button4 region">บันทึก</button>
-                   <button type="button" id="btnHideModal" class="btn btn-primary button button4">
-                                        ปิด
-                    </button>
-              </div>
-            </div>
-          </div>
-              <!-- /.tab-pane -->
-          <div class="tab-pane" id="Branchloca">
-              <div class="branchregion">
-                <table id="tablebranchregion" class="table table-bordered table-striped dataTable" style="width:100%;"></table>
-              </div>
-          </div>
-            </div>
-            <!-- /.tab-content -->
-        </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-
-</div>
+                          </div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											<button id="Btncm" type="button" class="btn btn-primary company">บันทึก</button>
+                      <button id="Btnbanch" type="button" class="btn btn-primary branch">บันทึก</button>
+                      <button id="Btnregion" type="button" class="btn btn-primary region">บันทึก</button>
+										</div>
+									</div>
+								</div>
+							</div>

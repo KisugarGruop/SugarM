@@ -49,42 +49,45 @@ namespace SugarM.Controllers {
         public async Task<IActionResult> Create (CaneQlt _CaneQlt, string IsEditMode) {
             var UserCompCode = GetCurrenCompCode ();
             var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCompCode);
-            if (IsEditMode.Equals ("false")) {
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_CaneQlt, "http://192.168.10.46/sdapi/sdapi/CaneQltPost", Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "บันทึกข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
+            if (ModelState.IsValid) {
+                if (IsEditMode.Equals ("false")) {
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_CaneQlt, "http://192.168.10.46/sdapi/sdapi/CaneQltPost", Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "บันทึกข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                        return RedirectToAction (nameof (Index));
+                    }
                 } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
-                    return RedirectToAction (nameof (Index));
-                }
-            } else {
-                CaneQlt _CaneQltDetail = new CaneQlt () {
-                    CompCode = _CaneQlt.CompCode,
-                    CaneYear = _CaneQlt.CaneYear,
-                    Quality = _CaneQlt.Quality,
-                    Description = _CaneQlt.Description,
-                    Pass = _CaneQlt.Pass,
-                    UpdateBy = _UserProfile.EmployeeId,
-                    UpdateDate = ConvertDatetime (DateTime.UtcNow)
-                };
+                    CaneQlt _CaneQltDetail = new CaneQlt () {
+                        CompCode = _CaneQlt.CompCode,
+                        CaneYear = _CaneQlt.CaneYear,
+                        Quality = _CaneQlt.Quality,
+                        Description = _CaneQlt.Description,
+                        Pass = _CaneQlt.Pass,
+                        UpdateBy = _UserProfile.EmployeeId,
+                        UpdateDate = ConvertDatetime (DateTime.UtcNow)
+                    };
 
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_CaneQltDetail, "http://192.168.10.46/sdapi/sdapi/CaneQltPut/" + _CaneQlt.CompCode + "/" + _CaneQlt.CaneYear + "/" + _CaneQlt.Quality, Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "แก้ไขข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
-                } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
-                    return RedirectToAction (nameof (Index));
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_CaneQltDetail, "http://192.168.10.46/sdapi/sdapi/CaneQltPut/" + _CaneQlt.CompCode + "/" + _CaneQlt.CaneYear + "/" + _CaneQlt.Quality, Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "แก้ไขข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                        return RedirectToAction (nameof (Index));
+                    }
                 }
+                return RedirectToAction (nameof (Index));
             }
-            return RedirectToAction (nameof (Index));
+            return View ("Create", _CaneQlt);
         }
 
         [DisplayName ("แก้คุณภาพอ้อย")]

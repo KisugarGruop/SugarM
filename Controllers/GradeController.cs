@@ -66,43 +66,46 @@ namespace SugarM.Controllers {
         public async Task<IActionResult> Create (Grade _Grade, string IsEditMode) {
             var UserCompCode = GetCurrenCompCode ();
             var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCompCode);
-            if (IsEditMode.Equals ("false")) {
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Grade, "http://192.168.10.46/sdapi/sdapi/GradePost", Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "บันทึกข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
+            if (ModelState.IsValid) {
+                if (IsEditMode.Equals ("false")) {
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Grade, "http://192.168.10.46/sdapi/sdapi/GradePost", Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "บันทึกข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                        return RedirectToAction (nameof (Index));
+                    }
                 } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
-                    return RedirectToAction (nameof (Index));
-                }
-            } else {
-                Grade _GradeDetaill = new Grade () {
-                    CompCode = _Grade.CompCode,
-                    CaneYear = _Grade.CaneYear,
-                    GradeCode = _Grade.GradeCode,
-                    Description = _Grade.Description,
-                    Active = _Grade.Active,
-                    DeleteFlag = _Grade.DeleteFlag,
-                    UpdateBy = _UserProfile.EmployeeId,
-                    UpdateDate = ConvertDatetime (DateTime.UtcNow)
-                };
+                    Grade _GradeDetaill = new Grade () {
+                        CompCode = _Grade.CompCode,
+                        CaneYear = _Grade.CaneYear,
+                        GradeCode = _Grade.GradeCode,
+                        Description = _Grade.Description,
+                        Active = _Grade.Active,
+                        DeleteFlag = _Grade.DeleteFlag,
+                        UpdateBy = _UserProfile.EmployeeId,
+                        UpdateDate = ConvertDatetime (DateTime.UtcNow)
+                    };
 
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_GradeDetaill, "http://192.168.10.46/sdapi/sdapi/GradePut?CompCode=" + _Grade.CompCode + "&CaneYear=" + _Grade.CaneYear + "&GradeCode=" + _Grade.GradeCode, Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "แก้ไขข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
-                } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
-                    return RedirectToAction (nameof (Index));
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_GradeDetaill, "http://192.168.10.46/sdapi/sdapi/GradePut?CompCode=" + _Grade.CompCode + "&CaneYear=" + _Grade.CaneYear + "&GradeCode=" + _Grade.GradeCode, Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "แก้ไขข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                        return RedirectToAction (nameof (Index));
+                    }
                 }
+                return RedirectToAction (nameof (Index));
             }
-            return RedirectToAction (nameof (Index));
+            return View ("Create", _Grade);
         }
 
         [DisplayName ("ลบเกรดจัดชั้นหนี้")]

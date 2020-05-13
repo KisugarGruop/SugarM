@@ -35,35 +35,24 @@ namespace SugarM.Controllers
 
             var UserCompCode = GetCurrenCompCode();
             var _CompCode = await _IUserprofileRepository.GetUserProfile(UserCompCode);
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+
+            // var stopwatch = new Stopwatch ();
+            // stopwatch.Start ();
+            // List<GrowMethod> AuthorList = new List<GrowMethod> ();
+            // List<GrowMethod> GrowMethod;
+            // if (!_memorycahe.TryGetValue ("GrowMethod", out GrowMethod)) {
+            //     var Call1 = ServiceExtension.RestshapExtension.CallRestApiGET (AuthorList, "http://192.168.10.46/sdapi/sdapi/GrowMethodGet?CompCode=" + _CompCode.CompCode + "&CaneYear=" + ConvertYear (), Getkey ());
+            //     _memorycahe.Set ("GrowMethod", Call1);
+            // }
+            // GrowMethod = _memorycahe.Get ("GrowMethod") as List<GrowMethod>;
+            // stopwatch.Stop ();
+            // ViewBag.Totaltime = stopwatch.Elapsed;
             List<GrowMethod> AuthorList = new List<GrowMethod>();
-            List<GrowMethod> GrowMethod;
-            if (!_memorycahe.TryGetValue("GrowMethod", out GrowMethod))
-            {
-                var Call1 = ServiceExtension.RestshapExtension.CallRestApiGET(AuthorList, "http://192.168.10.46/sdapi/sdapi/GrowMethodGet?CompCode=" + _CompCode.CompCode + "&CaneYear=" + ConvertYear(), Getkey());
-                _memorycahe.Set("GrowMethod", Call1);
-            }
-            GrowMethod = _memorycahe.Get("GrowMethod") as List<GrowMethod>;
-            stopwatch.Stop();
-            ViewBag.Totaltime = stopwatch.Elapsed;
+
+            var Call1 = ServiceExtension.RestshapExtension.CallRestApiGET(AuthorList, "http://192.168.10.46/sdapi/sdapi/GrowMethodGet?CompCode=" + _CompCode.CompCode + "&CaneYear=" + ConvertYear(), Getkey());
 
 
-
-            var stopwatch1 = new Stopwatch();
-            stopwatch1.Start();
-            List<category> AuthorList1 = new List<category>();
-            List<category> Getcategory;
-            if (!_memorycahe.TryGetValue("category", out Getcategory))
-            {
-                var Call1 = ServiceExtension.RestshapExtension.CallRestApiGET(AuthorList1, "http://localhost:52044/api/category/GetAllCategory", "");
-                _memorycahe.Set("category", Call1);
-            }
-            Getcategory = _memorycahe.Get("category") as List<category>;
-            stopwatch1.Stop();
-            ViewBag.Totaltime1 = stopwatch1.Elapsed;
-
-            return View(GrowMethod);
+            return View(Call1);
         }
 
         public async Task<IActionResult> Create()

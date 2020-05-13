@@ -1,81 +1,60 @@
 @model CaneBread
 @{
     ViewData["Title"] = "CreateCaneBread";
+    ViewData["CurrentPage"]= "menu2";
 }
-<section class="content-wrapper">
 
-    <!-- Main content -->
-    <section class="content">
-        <!-- Default box -->
-      <section class="box box-danger">
-            <div class="box-header with-border">
-                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                            title="Collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                        <i class="fa fa-times"></i>
-                    </button>
+
+<div class="kt-portlet">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">
+                @ViewData["Title"]
+            </h3>
+        </div>
+    </div>
+
+    <!--begin::Form-->
+    <form asp-controller="CaneBread" asp-action="Create" method="post" class="kt-form kt-form--label-right">
+            <input id="IsEditMode" style="display: none;" name="IsEditMode" value="@ViewBag.IsEditMode">
+            <input id="DeleteFlag" style="display: none;" name="DeleteFlag" value="N" class="hidden">
+        <div class="kt-portlet__body">
+            <div class="form-group row">
+                <div class="col-lg-3">
+                    <label>พันธุ์อ้อย:</label>
+                    <input type="text" asp-for="BreadName" readonly="true" class="form-control" placeholder="Enter BreadName">
+                    <span asp-validation-for="BreadName" class="text-danger"></span>
+                </div>
+                <div class="col-lg-3">
+                    <label for="BreadWeight" class="">จำนวนตันต่อไร่:</label>
+                    <input type="text" asp-for="BreadWeight" class="form-control" placeholder="Enter BreadWeight">
+                    <span asp-validation-for="BreadWeight" class="text-danger"></span>
+                </div>
+                <div class="col-lg-3">
+                    <label for="remarks" class="">หมายเหตุ:</label>
+                    <input type="text" asp-for="remarks" class="form-control" placeholder="Enter remarks">
+                    <span asp-validation-for="remarks" class="text-danger"></span>
                 </div>
             </div>
-        <!---- Company -->
-        <div class="box-body">
-            <form asp-controller="CaneBread" asp-action="Create" method="post">
-                <div>
-                    <input id="IsEditMode" name="IsEditMode" value="@ViewBag.IsEditMode" class="hidden">
-                </div>
-             <div class="CaneBread">
-                 <div class="tab-pane active" role="tabpanel" id="step1">
-                        <h3>พันธุ์อ้อย</h3>
-                        <hr>
+
+        <div class="kt-portlet__foot">
+            <div class="kt-form__actions">
                 <div class="row">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="BreadName">พันธุ์อ้อย</label>
-                        <input class="form-control" asp-for="BreadName" readonly="true"  placeholder="Enter BreadName">
-                        </div>
-                         <div class="col-sm-10">
-                        <span asp-validation-for="BreadName" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
+                    <div class="col-lg-4">
+                        <button type="button" asp-action="Index" class="btn btn-dark back-step">Back</button>
+                        <button type="submit" id="Savesubmit" value="CreatebankbranchNew" class="btn btn-brand">Save</button>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="BreadWeight">จำนวนตันต่อไร่</label>
-                        <input  class="form-control" asp-for="BreadWeight" placeholder="Enter BreadWeight">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="BreadWeight" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="remarks">หมายเหตุ</label>
-                        <input  class="form-control" asp-for="remarks" placeholder="Enter remarks">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="remarks" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                <!-- /.col-lg-6 -->
                 </div>
-                        <ul class="list-inline pull-left">
-                            <li><button type="button" asp-action="Index" class="btn bg-navy btn-flat margin back-step">Back</button></li>
-                            <li><button type="submit" id="Savesubmit" class="btn bg-purple margin">Save</button></li>
-                        </ul>
-                    </div>
-              </div>
-            </form>
+            </div>
         </div>
-             @await Html.PartialAsync("_Loadding")
-        </section>
-    </section>
-   
-</section>
+    </form>
+
+    <!--end::Form-->
+</div>
+</div>
+
+
+
 @section Scripts{
     <script>
         $(document).ready(function() {

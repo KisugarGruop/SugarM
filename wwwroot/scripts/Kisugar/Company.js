@@ -2,7 +2,10 @@ $(document).ready(function () {
 	App();
 	$(".branch").hide();
 	$(".region").hide();
-	$(".select2").select2();
+	$('.kt-select2').select2({
+		placeholder: "Select a state"
+	});
+
 	$('[data-toggle="tooltip"]').tooltip();
 });
 var App = function () {
@@ -37,7 +40,7 @@ var App = function () {
 				orderable: false,
 				className: "text-center",
 				render: function (data, type) {
-					return "<a class='fa fa-external-link btn detailbranch' data-toggle='tooltip' data-placment='bottom' title='สาขา'></a>";
+					return "<div class='kt-demo-icon__preview detailbranch' style='cursor: pointer' data-toggle='tooltip' data-placment='bottom' title='สาขา'><i class='fa fa-book-open'></i></div>";
 				}
 			},
 			{
@@ -45,7 +48,8 @@ var App = function () {
 				orderable: false,
 				className: "text-center",
 				render: function (data, type) {
-					return "<a class='fa fa-external-link btn detailregion' data-toggle='tooltip' data-placment='bottom' title='เขต'></a>";
+					return "<div class='kt-demo-icon__preview detailregion' style='cursor: pointer' data-toggle='tooltip' data-placment='bottom' title='เขต'><i class='fa fa-book-open'></i></div>";
+
 				}
 			},
 			{
@@ -61,17 +65,17 @@ var App = function () {
 				data: "CompCode",
 				render: function (data, type) {
 					return (
-						"<a class='btn btn-success btn-sm detail' data-id='" +
+						"<a class='btn btn-primary btn-sm active detail' data-id='" +
 						data +
-						"'><i class='fa fa-folder-open-o'></i> Detail</a>  <a class='btn btn-danger btn-sm bt btndelect' data-id='" +
+						"'><font color='white'><i class='flaticon-folder-1'></i> Detail</a>  <a class='btn btn-danger btn-sm active btndelect' data-id='" +
 						data +
-						"'><i class='fa fa-pencil'></i> Delete</a>"
+						"'><i class='flaticon-delete-1'></i> Delete</a>"
 					);
 				},
 
 				orderable: false,
 				searchable: false,
-				width: "150px"
+				width: "180px"
 			}
 		],
 
@@ -96,14 +100,15 @@ var App = function () {
 	});
 	//- ลบรายการ tablecompany
 	$("#tablecompany").on("click", ".btndelect", function (e) {
-		swal({
-			title: "แจ้งเตือน",
-			text: "คุณต้องการลบรายการนี้ใช่หรือไม่",
-			icon: "warning",
+		swal.fire({
+			title: 'แจ้งเตือน',
+			text: "คุณต้องการลบรายการนี้ใช่หรือไม่!",
+			type: 'warning',
+			showCancelButton: true,
 			buttons: ["ไม่แน่ใจ, ยกเลิก!", "แน่ใจ, ลบเดี๋ยวนี้!"],
 			dangerMode: true
-		}).then(willDelete => {
-			if (willDelete) {
+		}).then(function (result) {
+			if (result.value) {
 				var roleid = $(this).data("id");
 				var url = "/Company/Delectcompany/" + roleid;
 				$.ajax({
@@ -111,15 +116,18 @@ var App = function () {
 					type: "POST"
 				}).done(function (response) {
 					if (response.success) {
-						swal("แจ้งเตือน", "ลบสำเร็จ", {
-							icon: "success"
-						});
+						swal.fire(
+							'แจ้งเตือน!',
+							'ลบสำเร็จ.',
+							'success'
+						)
 						dataTablecm.ajax.reload();
 					} else {
 						toastr.error(msg.message, "แจ้งเตือน");
 					}
 				});
-			} else {}
+
+			}
 		});
 		return false;
 	});
@@ -162,7 +170,7 @@ var App = function () {
 	$("#tablecompany").on("click", ".detail", function (e) {
 		$(".branch").hide();
 		$(".region").hide();
-		$("#loginModal").modal("show");
+		$("#kt_modal_4_2").modal("show");
 		$("#Statusform").val("Edit");
 		var roleid = $(this).data("id");
 		var url = "/Company/Getcompany/" + roleid;
@@ -224,7 +232,7 @@ var App = function () {
 					orderable: false,
 					className: "text-center",
 					render: function (data, type) {
-						return "<a class='fa fa-book btn' data-id='" + data + "'></a>";
+						return "<div class='kt-demo-icon__preview' style='cursor: pointer' data-toggle='tooltip' data-placment='bottom' title='แก้ไข' data-id='" + data + "'><i class='fa fa-folder-open'></i></div>";
 					}
 				},
 				{
@@ -244,15 +252,15 @@ var App = function () {
 					data: "BranchCode",
 					render: function (data, type) {
 						return (
-							"<a class='btn btn-danger btn-sm bt btndelect' data-id='" +
+							"<font color='white'><a class='btn btn-danger btn-sm btndelect' font-corlor='with' data-id='" +
 							data +
-							"'><i class='fa fa-pencil'></i> Delect</a>"
+							"'><i class='fa fa-pencil'></i> Delete</a>"
 						);
 					},
 
 					orderable: false,
 					searchable: false,
-					width: "150px"
+					width: "80px"
 				}
 			],
 
@@ -279,6 +287,7 @@ var App = function () {
 	//---- รายละเอียดcompanyregion
 	$("#tablecompany").on("click", ".detailregion", function (e) {
 		$(".company").hide();
+		$(".companybranch").hide();
 		$(".branch").hide();
 		$(".region").show();
 		dataTablebnregion = $("#tableregion").DataTable({
@@ -302,7 +311,8 @@ var App = function () {
 					orderable: false,
 					className: "text-center",
 					render: function (data, type) {
-						return "<a class='fa fa-book btn' data-id='" + data + "'></a>";
+						return "<div class='kt-demo-icon__preview' style='cursor: pointer' data-toggle='tooltip' data-placment='bottom' title='แก้ไข' data-id='" + data + "'><i class='fa fa-folder-open'></i></div>";
+
 					}
 				},
 				{
@@ -318,15 +328,15 @@ var App = function () {
 					data: "RegionCode",
 					render: function (data, type) {
 						return (
-							"<a class='btn btn-danger btn-sm bt btndelect' data-id='" +
+							"<font color='white'><a class='btn btn-danger btn-sm btndelect' font-corlor='with' data-id='" +
 							data +
-							"'><i class='fa fa-pencil'></i> Delect</a>"
+							"'><i class='fa fa-pencil'></i> Delete</a>"
 						);
 					},
 
 					orderable: false,
 					searchable: false,
-					width: "150px"
+					width: "80px"
 				}
 			],
 
@@ -351,8 +361,8 @@ var App = function () {
 		});
 	});
 	//- รายละเอียดbranch ข้างใน
-	$("#tablebranch").on("click", ".fa-book", function (e) {
-		$("#loginModal").modal("show");
+	$("#tablebranch").on("click", ".kt-demo-icon__preview", function (e) {
+		$("#kt_modal_4_2").modal("show");
 		$("#Statusform").val("Edit");
 		var banchid = $(this).data("id");
 		var comid = $(this)
@@ -397,6 +407,7 @@ var App = function () {
 					$("#LoanContractId").val(rec.LoanContractId);
 					$("#GuaranteeContractId").val(rec.GuaranteeContractId);
 					$("#CaneContractId").val(rec.CaneContractId);
+					debugger;
 					updateElement();
 				}
 			}
@@ -475,12 +486,12 @@ var App = function () {
 		return false;
 	});
 	//- โชว์รายละเอียด region
-	$("#tableregion").on("click", ".fa-book", function (e) {
+	$("#tableregion").on("click", ".kt-demo-icon__preview", function (e) {
 		$(".branch").hide();
 		$(".company").hide();
 		$(".companybranch").hide();
 
-		$("#loginModal").modal("show");
+		$("#kt_modal_4_2").modal("show");
 		$("#Statusform").val("Edit");
 		var ComeCode = $(this).data("id");
 		var RegionC = $(this)
@@ -513,10 +524,10 @@ var App = function () {
 
 	$("#tablecompany").on("click", "fa-globe", function (e) {});
 	$("#btnHideModal").on("click", () => {
-		$("#loginModal").modal("hide");
+		$("#kt_modal_4_2").modal("hide");
 	});
 	$("#btnHideModal").on("click", () => {
-		$("#loginModal").modal("hide");
+		$("#kt_modal_4_2").modal("hide");
 	});
 	$("#Btncm").on("click", () => {
 		Updatecompany();
@@ -525,14 +536,17 @@ var App = function () {
 		Updatecompanybranch();
 	});
 	$("#Addcompany").on("click", () => {
-		$("#loginModal").modal("show");
+		$("#kt_modal_4_2").modal("show");
 		$("#formcm")[0].reset();
 		$("#Statusform").val("Add");
 		updateElement();
 	});
 };
 var updateElement = function updateElement() {
-	$(".select2").select2();
+	$('.kt-select2').select2({
+		placeholder: "Select a state"
+	});
+
 };
 var Updatecompany = function Updatecompany() {
 	var valdata = $("#formcm").serialize();
@@ -544,7 +558,7 @@ var Updatecompany = function Updatecompany() {
 		data: valdata,
 		success: function (msg) {
 			if (msg.success) {
-				$("#loginModal").modal("hide");
+				$("#kt_modal_4_2").modal("hide");
 				if (msg.message == "ข้อมูลซ้ำ") {
 					toastr.warning(msg.message, "แจ้งเตือน");
 				} else {
@@ -552,7 +566,7 @@ var Updatecompany = function Updatecompany() {
 					dataTablecm.ajax.reload();
 				}
 			} else {
-				$("#loginModal").modal("hide");
+				$("#kt_modal_4_2").modal("hide");
 				toastr.error(msg.message, "แจ้งเตือน");
 			}
 		},
@@ -575,11 +589,11 @@ var Updatecompanybranch = function Updatecompanybranch() {
 		data: valdata,
 		success: function (msg) {
 			if (msg.success) {
-				$("#loginModal").modal("hide");
+				$("#kt_modal_4_2").modal("hide");
 				dataTablebn.ajax.reload();
 				toastr.success(msg.message, "แจ้งเตือน");
 			} else {
-				$("#loginModal").modal("hide");
+				$("#kt_modal_4_2").modal("hide");
 				toastr.error(msg.message, "แจ้งเตือน");
 			}
 		},
@@ -630,5 +644,5 @@ var Updatecompanybranch = function Updatecompanybranch() {
 		};
 	});
 
-       
+
 };

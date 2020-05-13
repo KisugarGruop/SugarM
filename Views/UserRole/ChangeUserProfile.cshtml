@@ -1,0 +1,467 @@
+@model ApplicationUser
+@inject SugarM.Data.ApplicationDbContext Context
+@{
+    ViewData["Title"] = "User Profile";
+        ViewData["CurrentPage"]= "";
+    UserProfile profile = Context.UserProfile.SingleOrDefault(x => x.ApplicationUserId.Equals(Model.Id));
+    
+}
+
+
+
+
+<!------------- NEW PAGE---------------->
+<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+		
+<!--Begin::App-->
+<div class="kt-grid kt-grid--desktop kt-grid--ver kt-grid--ver-desktop kt-app">
+    <!--Begin:: App Aside Mobile Toggle-->
+    <button class="kt-app__aside-close" id="kt_user_profile_aside_close">
+        <i class="la la-close"></i>
+    </button>
+    <!--End:: App Aside Mobile Toggle-->
+
+    <!--Begin:: App Aside-->
+    <div class="kt-grid__item kt-app__toggle kt-app__aside" id="kt_user_profile_aside">
+        <!--begin:: Widgets/Applications/User/Profile1-->
+<div class="kt-portlet ">
+    <div class="kt-portlet__head  kt-portlet__head--noborder">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">
+            </h3>
+        </div>
+    </div>
+    <div class="kt-portlet__body kt-portlet__body--fit-y">
+        <!--begin::Widget -->
+        <div class="kt-widget kt-widget--user-profile-1">
+            <div class="kt-widget__head">
+                <div class="kt-widget__media">
+                    <img src="~/upload/blank-person.png" alt="image">
+                </div>
+                <div class="kt-widget__content">
+                    <div class="kt-widget__section">
+                        <a href="#" class="kt-widget__username">
+                            @profile.FirstName  @profile.LastName
+                            <i class="flaticon2-correct kt-font-success"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="kt-widget__body">
+                <div class="kt-widget__content">
+                    <div class="kt-widget__info">
+                        <span class="kt-widget__label">Email:</span>
+                        <a href="#" class="kt-widget__data">@profile.Email</a>
+                    </div>
+                </div>
+                <div class="kt-widget__items">
+                    <a asp-controller="UserRole" asp-action="UserProfile" class="kt-widget__item ">
+                        <span class="kt-widget__section">
+                            <span class="kt-widget__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon points="0 0 24 0 24 24 0 24"></polygon>
+        <path d="M12.9336061,16.072447 L19.36,10.9564761 L19.5181585,10.8312381 C20.1676248,10.3169571 20.2772143,9.3735535 19.7629333,8.72408713 C19.6917232,8.63415859 19.6104327,8.55269514 19.5206557,8.48129411 L12.9336854,3.24257445 C12.3871201,2.80788259 11.6128799,2.80788259 11.0663146,3.24257445 L4.47482784,8.48488609 C3.82645598,9.00054628 3.71887192,9.94418071 4.23453211,10.5925526 C4.30500305,10.6811601 4.38527899,10.7615046 4.47382636,10.8320511 L4.63,10.9564761 L11.0659024,16.0730648 C11.6126744,16.5077525 12.3871218,16.5074963 12.9336061,16.072447 Z" fill="#000000" fill-rule="nonzero"></path>
+        <path d="M11.0563554,18.6706981 L5.33593024,14.122919 C4.94553994,13.8125559 4.37746707,13.8774308 4.06710397,14.2678211 C4.06471678,14.2708238 4.06234874,14.2738418 4.06,14.2768747 L4.06,14.2768747 C3.75257288,14.6738539 3.82516916,15.244888 4.22214834,15.5523151 C4.22358765,15.5534297 4.2250303,15.55454 4.22647627,15.555646 L11.0872776,20.8031356 C11.6250734,21.2144692 12.371757,21.2145375 12.909628,20.8033023 L19.7677785,15.559828 C20.1693192,15.2528257 20.2459576,14.6784381 19.9389553,14.2768974 C19.9376429,14.2751809 19.9363245,14.2734691 19.935,14.2717619 L19.935,14.2717619 C19.6266937,13.8743807 19.0546209,13.8021712 18.6572397,14.1104775 C18.654352,14.112718 18.6514778,14.1149757 18.6486172,14.1172508 L12.9235044,18.6705218 C12.377022,19.1051477 11.6029199,19.1052208 11.0563554,18.6706981 Z" fill="#000000" opacity="0.3"></path>
+    </g>
+</svg>                      
+                       </span>
+                            <span class="kt-widget__desc">
+                                Personal Information
+                            </span>
+                        </span>
+                    </a>
+                    <a asp-controller="UserRole" asp-action="ChangeUserProfile" class="kt-widget__item ">
+                        <span class="kt-widget__section">
+                            <span class="kt-widget__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect x="0" y="0" width="24" height="24"></rect>
+        <path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" fill="#000000" opacity="0.3"></path>
+        <path d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z" fill="#000000"></path>
+    </g>
+</svg>                             </span>
+                            <span class="kt-widget__desc">
+                                Change Personal Information
+                            </span>
+                        </span>
+                        
+                    </a>
+
+                          <a asp-controller="UserRole" asp-action="ChangePassword" class="kt-widget__item ">
+                        <span class="kt-widget__section">
+                            <span class="kt-widget__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect x="0" y="0" width="24" height="24"></rect>
+        <path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" fill="#000000" opacity="0.3"></path>
+        <path d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z" fill="#000000"></path>
+    </g>
+</svg>                             </span>
+                            <span class="kt-widget__desc">
+                                 Change Passwort
+                            </span>
+                        </span>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--end::Widget -->
+    </div>
+</div>
+<!--end:: Widgets/Applications/User/Profile1-->
+    </div>
+    <!--End:: App Aside-->
+
+    <!--Begin:: App Content-->
+    <div class="kt-grid__item kt-grid__item--fluid kt-app__content">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="kt-portlet">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">Personal Information <small>Change Personal Information</small></h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <div class="kt-portlet__head-wrapper">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="kt-form kt-form--label-right" asp-controller="UserRole" asp-action="ChangeUserProfile" method="post">
+                       <input hidden id="UserProfileId" name="UserProfileId" value="{{:UserProfileId}}" />
+                        <input hidden id="ApplicationUserId" name="ApplicationUserId" value="@profile.ApplicationUserId" />
+                        <div class="kt-portlet__body">
+                            <div class="kt-section kt-section--first">
+                                <div class="kt-section__body">
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">First Name</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <div class="input-group">
+                                               <input class="form-control" id="FirstName" name="FirstName" value="@profile.FirstName"  type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">Last Name</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <div class="input-group">
+                                               <input class="form-control" id="LastName" name="LastName" value="@profile.LastName"  type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">Company Name</label>
+                                        <div class="col-lg-9 col-xl-2">
+                                             <div class="input-group">
+                                               <input class="form-control" id="CompCode" name="CompCode" value="@profile.CompCode" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">Email Address</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="la la-at"></i></span></div>
+                                                <input type="text" class="form-control" id="Email" name="Email" value="@profile.Email" placeholder="Email" aria-describedby="basic-addon1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__foot">
+                          <div class="kt-form__actions">
+                            <div class="row">
+                                <div class="col-lg-3 col-xl-3">
+                                    </div>
+                                        <div class="col-lg-9 col-xl-9">
+                                        <button type="submit" class="btn btn-success">Submit</button>&nbsp;
+                                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End:: App Content-->
+</div>
+<!--End::App-->
+</div>
+
+<script id="templateForm" type="text/template">
+    <input hidden id="UserProfileId" name="UserProfileId" value="{{:UserProfileId}}" />
+    <input hidden id="ApplicationUserId" name="ApplicationUserId" value="{{:ApplicationUserId}}" />
+    <table cellspacing="10">
+        <tr>
+            <td>
+                Email
+            </td>
+            <td colspan="3">
+                <input id="EmailPassword" name="EmailPassword" value="{{:Email}}" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                First Name
+            </td>
+            <td>
+                <input id="FirstNamePassword" name="FirstNamePassword" value="{{:FirstName}}" />
+            </td>
+            <td>
+                Last Name
+            </td>
+            <td>
+                <input id="LastNamePassword" name="LastNamePassword" value="{{:LastName}}" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Old Password
+            </td>
+            <td>
+                <input id="OldPassword" name="OldPassword" value="" />
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                New Password
+            </td>
+            <td>
+                <input id="Password" name="Password" value="" />
+            </td>
+            <td>
+                Re-type Password
+            </td>
+            <td>
+                <input id="ConfirmPassword" name="ConfirmPassword" value="" />
+            </td>
+        </tr>
+    </table>
+</script>
+<script id="templateEditForm" type="text/template">
+    <input hidden id="UserProfileId" name="UserProfileId" value="{{:UserProfileId}}" />
+    <input hidden id="ApplicationUserId" name="ApplicationUserId" value="{{:ApplicationUserId}}" />
+    <table cellspacing="10">
+        <tr>
+            <td>
+                Email
+            </td>
+            <td colspan="3">
+                <input id="Email" name="Email" value="{{:Email}}" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                First Name
+            </td>
+            <td>
+                <input id="FirstName" name="FirstName" value="{{:FirstName}}" />
+            </td>
+            <td>
+                Last Name
+            </td>
+            <td>
+                <input id="LastName" name="LastName" value="{{:LastName}}" />
+            </td>
+        </tr>
+    </table>
+</script>
+
+@section Styles{
+<!--Snycfusion-->
+    <link href="~/content/ejthemes/bootstrap-theme/ej.web.all.min.css" rel="stylesheet" />
+    <link href="~/content/default-responsive.css" rel="stylesheet" />
+    <link href="~/content/ejthemes/responsive-css/ej.responsive.css" rel="stylesheet" />
+    <link href="~/content/ejthemes/responsive-css/ejgrid.responsive.css" rel="stylesheet" />
+}
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(function () {
+
+            $("#UploadDefault").ejUploadbox({
+                saveUrl: "/api/UploadProfilePicture",
+                allowDragAndDrop: true,
+                multipleFilesSelection: false,
+                success: "uploadSuccess",
+                autoUpload: true,
+            });
+
+            var dataManager = ej.DataManager({
+                url: "/api/User/GetByApplicationUserId/@Model.Id",
+                adaptor: new ej.WebApiAdaptor(),
+                offline: true
+            });
+
+            dataManager.ready.done(function (e) {
+                renderGridProfile(e);
+                renderGridChangePassword(e);
+            });
+
+
+
+        });
+
+        function renderGridProfile(e) {
+            $("#Grid").ejGrid({
+                dataSource: ej.DataManager({
+                    json: e.result,
+                    adaptor: new ej.remoteSaveAdaptor(),
+                    updateUrl: "/api/User/Update"
+                }),
+                toolbarSettings: {
+                    showToolbar: true,
+                    toolbarItems: ["edit", "update", "cancel"]
+                },
+                editSettings: {
+                    allowEditing: true,
+                    allowAdding: true,
+                    allowDeleting: true,
+                    showDeleteConfirmDialog: true,
+                    editMode: "dialogtemplate",
+                    dialogEditorTemplateID: "#templateEditForm",
+                },
+                isResponsive: true,
+                enableResponsiveRow: true,
+                allowSorting: false,
+                allowSearching: false,
+                allowFiltering: false,
+                filterSettings: {
+                    filterType: "excel",
+                    maxFilterChoices: 100,
+                    enableCaseSensitivity: false
+                },
+                allowPaging: false,
+                pageSettings: { pageSize: 10 },
+                columns: [
+                    { field: "UserProfileId", headerText: 'Id', isPrimaryKey: true, isIdentity: true, visible: false },
+                    { field: "Email", headerText: 'Email', validationRules: { required: true } },
+                    { field: "FirstName", headerText: 'First Name', validationRules: { required: true } },
+                    { field: "LastName", headerText: 'Last Name', validationRules: { required: false } },
+                ],
+                actionComplete: "complete",
+            });
+        }
+
+        function renderGridChangePassword(e) {
+            $("#GridPassword").ejGrid({
+                dataSource: ej.DataManager({
+                    json: e.result,
+                    adaptor: new ej.remoteSaveAdaptor(),
+                    updateUrl: "/api/User/ChangePassword"
+                }),
+                toolbarSettings: {
+                    showToolbar: true,
+                    toolbarItems: ["edit", "update", "cancel"]
+                },
+                editSettings: {
+                    allowEditing: true,
+                    allowAdding: true,
+                    allowDeleting: true,
+                    showDeleteConfirmDialog: true,
+                    editMode: "dialogtemplate",
+                    dialogEditorTemplateID: "#templateForm",
+                },
+                isResponsive: true,
+                enableResponsiveRow: true,
+                allowSorting: false,
+                allowSearching: false,
+                allowFiltering: false,
+                filterSettings: {
+                    filterType: "excel",
+                    maxFilterChoices: 100,
+                    enableCaseSensitivity: false
+                },
+                allowPaging: false,
+                pageSettings: { pageSize: 10 },
+                columns: [
+                    { field: "UserProfileId", headerText: 'Id', isPrimaryKey: true, isIdentity: true, visible: false },
+                    { field: "Email", headerText: 'Email', validationRules: { required: true } },
+                    { field: "FirstName", headerText: 'First Name', validationRules: { required: true } },
+                    { field: "LastName", headerText: 'Last Name', validationRules: { required: false } },
+                ],
+                actionComplete: "completeGridPassword",
+            });
+        }
+
+
+        function complete(args) {
+
+            $("#Email").ejMaskEdit({
+                inputMode: 'Text',
+            });
+            $("#FirstName").ejMaskEdit({
+                inputMode: 'Text',
+            });
+            $("#LastName").ejMaskEdit({
+                inputMode: 'Text',
+            });
+
+            if (args.requestType == 'beginedit') {
+                $("#" + this._id + "_dialogEdit").ejDialog({ title: "Edit Profile" });
+                $("#Email").ejMaskEdit("disable");
+            }
+
+            if (args.requestType == "save") {
+                this.refreshContent();
+            }
+
+        }
+
+        function completeGridPassword(args) {
+
+            $("#EmailPassword").ejMaskEdit({
+                inputMode: 'Text',
+            });
+            $("#FirstNamePassword").ejMaskEdit({
+                inputMode: 'Text',
+            });
+            $("#LastNamePassword").ejMaskEdit({
+                inputMode: 'Text',
+            });
+            $("#OldPassword").ejMaskEdit({
+                inputMode: 'Password',
+                validationRules: { required: true },
+            });
+            $("#Password").ejMaskEdit({
+                inputMode: 'Password',
+                validationRules: { required: true },
+            });
+            $("#ConfirmPassword").ejMaskEdit({
+                inputMode: 'Password',
+                validationRules: { required: true },
+            });
+
+            if (args.requestType == 'beginedit') {
+                $("#" + this._id + "_dialogEdit").ejDialog({ title: "Edit Password" });
+                $("#EmailPassword").ejMaskEdit("disable");
+                $("#FirstNamePassword").ejMaskEdit("disable");
+                $("#LastNamePassword").ejMaskEdit("disable");
+            }
+
+            if (args.requestType == "save") {
+                this.refreshContent();
+            }
+
+        }
+
+        function uploadSuccess(e) {
+            var resText = JSON.parse(e.responseText);
+            alert(resText)
+            $('.profilePicture').attr('src', '../upload/' + resText);
+            $('#profilePicture').attr('src', '../upload/' + resText);
+            $('.img-circle').attr('src', '../upload/' + resText);
+        }
+
+
+    </script>
+}

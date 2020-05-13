@@ -1,153 +1,105 @@
 @model CarTypeMinor
 @{
     ViewData["Title"] = "CarMinor";
+    ViewData["CurrentPage"]= "menu2";
 }
-<section class="content-wrapper">
 
-    <!-- Main content -->
-    <section class="content">
-        <!-- Default box -->
-      <section class="box box-danger">
-            <div class="box-header with-border">
-                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                            title="Collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
+
+<div class="kt-portlet">
+        <div class="kt-portlet__head">
+            <div class="kt-portlet__head-label">
+                <h3 class="kt-portlet__head-title">
+                    ชนิด
+                </h3>
             </div>
-        <!---- Company -->
-        <div class="box-body">
-            <form asp-controller="CarTypeMinor" asp-action="SaveCarMinor" method="post">
-                <div>
-                    <input id="IsEditMode" name="IsEditMode" value="@ViewBag.IsEditMode" class="hidden">
-                </div>
-                <div>
-                    <input id="DeleteFlag" name="DeleteFlag" value="N" class="hidden">
-                </div>
-             <div class="btn-group menu">
-                    <button type="button" class="btn btn-info">...</button>
-                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a id="CarTypeDetail" href="#">เพิ่มประเภทย่อย</a></li>
-                            <li><a id="CarTypeMinorAdd" href="#">เพิ่มชนิด</a></li>
-                        </ul>
-             </div>
-             <div class="CarType">
-                 <div class="tab-pane active" role="tabpanel" id="step1">
-                        <h3>ชนิด</h3>
-                        <hr>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="CompCode">รหัสบริษัท</label>
-                        <input class="form-control" asp-for="CompCode" readonly="true" value="KI"  placeholder="Enter CompCode">
+        </div>
+
+        <!--begin::Form-->
+        <form asp-controller="CarTypeMinor" asp-action="SaveCarMinor" class="kt-form kt-form--label-right">
+                <input id="IsEditMode" style="display: none;" name="IsEditMode" value="@ViewBag.IsEditMode">
+                <input id="IsEditMode" style="display: none;" name="IsEditMode" value="@ViewBag.IsEditMode" class="hidden">
+                <input id="DeleteFlag" style="display: none;" name="DeleteFlag" value="N" class="hidden">
+            <div class="kt-portlet__body">
+                <div class="form-group row menu">
+                    <div class="col-lg-4">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Menu
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2" style="">
+                                <button class="dropdown-item" id="CarTypeDetail" href="#" type="button">เพิ่มประเภทย่อย</button>
+                                <button class="dropdown-item" id="CarBrandAdd" href="#" type="button">เพิ่มยี่ห้อ</button>
+                                <button class="dropdown-item" id="AddCarTypeMinor" href="#" type="button">เพิ่มชนิด</button>
+                            </div>
                         </div>
-                         <div class="col-sm-10">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-3">
+                        <label>รหัสบริษัท:</label>
+                        <input type="text" asp-for="CompCode" readonly="true" class="form-control" placeholder="Enter CompCode">
                         <span asp-validation-for="CompCode" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
                     </div>
                     <div class="col-lg-3">
-                        <div class="form-group">
-                        <label>ประเภทรถ</label>
-                        <select class="form-control select2 select2-hidden-accessible select2CarDetail" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" asp-for="TypeCode" asp-items="@(new SelectList(ViewBag.Car,"TypeCode","Fullname"))">
-                        </select>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                <!-- /.col-lg-6 -->
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                        <label>ประเภทรถย่อย</label>
-                        <select class="form-control select2 select2-hidden-accessible select2CarDetail" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" asp-for="SubTypeCode" asp-items="@(new SelectList(ViewBag.CarDetail,"SubTypeCode","Fullname"))">
-                        </select>
-                        </div>
-                  <!-- /input-group -->
+                        <input class="form-control" asp-for="TypeCode" style="display: none;" readonly="true" placeholder="Enter TypeCode">
+                        <label for="Fullname" class="">ประเภทรถ:</label>
+                        <input type="text" asp-for="SubTypeCode" style="display: none;" class="form-control" placeholder="Enter SubTypeCode">
+                        <input type="text" asp-for="SubFullname" readonly="true" class="form-control" placeholder="Enter SubFullname">
+                        <span asp-validation-for="SubFullname" class="text-danger"></span>
                     </div>
                     <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="MinorTypeCode">รหัสชนิดรถ</label>
-                        <input class="form-control" asp-for="MinorTypeCode" placeholder="Enter MinorTypeCode">
-                        </div>
-                         <div class="col-sm-10">
+                        <label>ประเภทรถย่อย:</label>
+                        <input type="text" style="display: none;" asp-for="TypeCode" class="form-control" placeholder="Enter TypeCode">
+                        <input type="text" asp-for="TypeFullname" readonly="true" class="form-control" placeholder="Enter TypeFullname">
+                        <span asp-validation-for="TypeFullname" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-3">
+                        <label>ชนิดของรถ:</label>
+                        <input type="text" asp-for="MinorTypeCode" class="form-control" placeholder="Enter MinorTypeCode">
                         <span asp-validation-for="MinorTypeCode" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
                     </div>
                 </div>
-                <div class="row">
+                <div class="form-group row">
                     <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="Description">ชนิดรถ</label>
-                        <input class="form-control" asp-for="Description" placeholder="Enter Description">
-                        </div>
-                         <div class="col-sm-10">
+                        <label for="Description" class="">ชนิดรถ:</label>
+                        <input type="text" asp-for="Description" class="form-control" placeholder="Enter Description">
                         <span asp-validation-for="Description" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
                     </div>
                     <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="WeightIn">น.น ชั่งเช้า</label>
-                        <label for="WeightIn" class="pull-right">ตัน</label>
-                        <input class="form-control" style="text-align: right;" asp-for="WeightIn" placeholder="Enter WeightIn">
-                        </div>
-                         <div class="col-sm-10">
+                        <label for="WeightIn" class="">น.น ชั่งเข้า:</label>
+                        <input type="text" asp-for="WeightIn" class="form-control" placeholder="Enter WeightIn">
                         <span asp-validation-for="WeightIn" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
                     </div>
                     <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="WeightOut">น.น ชั่งออก</label>
-                        <label for="WeightOut" class="pull-right">ลิตร</label>
-                        <input class="form-control" style="text-align: right;" asp-for="WeightOut" placeholder="Enter WeightOut">
-                        </div>
-                         <div class="col-sm-10">
+                        <label for="WeightOut" class="">น.น ชั่งออก:</label>
+                        <label for="WeightOut" class="">ตัน:</label>
+                        <input type="text" asp-for="WeightOut" class="form-control" placeholder="Enter WeightOut">
                         <span asp-validation-for="WeightOut" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
                     </div>
                     <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="TotalFuel">ปริมานน้ำมัน</label>
-                        <label for="TotalFuel" class="pull-right">ลิตร</label>
-                        <input class="form-control" style="text-align: right;" asp-for="TotalFuel" placeholder="Enter TotalFuel">
-                        </div>
-                         <div class="col-sm-10">
+                        <label for="TotalFuel" class="">ปริมานน้ำมัน:</label>
+                        <label for="TotalFuel" class="">ลิตร:</label>
+                        <input type="text" asp-for="TotalFuel" class="form-control" placeholder="Enter TotalFuel">
                         <span asp-validation-for="TotalFuel" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
                     </div>
-                <!-- /.col-lg-6 -->
                 </div>
-                <div class="row">
+                <div class="form-group row">
                     <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="Active">การใช้งาน</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" asp-for="Active">
-                          <option value="Y">Y</option>
-                          <option value="N">N</option>
-                        </select>
+                        <label class="">การใช้งาน:</label>
+                        <div class="input-group flex-nowrap">
+                            <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon1"><i class="flaticon2-line-chart"></i></span>
+                                </div>
+                                <select class="form-control kt-select2" asp-for="Active">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                                </select>
                         </div>
-                         <div class="col-sm-3">
-                        <span asp-validation-for="Active" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
                     </div>
                 </div>
-                <hr>
-                <div class="row">
-                     <div class="col-lg-10">
-                         @if(Model.CarTypeMinorlist == null || Model.CarTypeMinorlist.Count == 0){
+                <div class="form-group row">
+                    <div class="col-lg-7">
+                        @if(Model.CarTypeMinorlist == null || Model.CarTypeMinorlist.Count == 0){
 
                          }else{
                         <table id="tablecardetaill" class="table table-striped table-bordered" style="width:100%;">
@@ -176,7 +128,7 @@
                                     <td>@item.WeightOut</td>
                                     <td>@item.TotalFuel</td>
                                     <td>@item.Active</td>
-                                    <td style="text-align: center;"> 
+                                    <td style="text-align: center;">
                                         <a id="detailCarModal" asp-action="EditDetaill" asp-route-id="@item.CompCode" asp-route-TypeId="@item.TypeCode" asp-route-SubId="@item.SubTypeCode" asp-route-MinorId="@item.MinorTypeCode" class="btn btn-success btn-sm">
                                             <i class="fa fa-folder-open-o" data-id="@item.CompCode"></i> รายละเอียด
                                         </a>
@@ -197,22 +149,25 @@
                             </tbody>
                             </table>
                          }
-                       
+
                      </div>
-                 </div>
-                        <ul class="list-inline pull-left">
-                            <li><button type="button" asp-action="Index" class="btn bg-navy btn-flat margin back-step">Back</button></li>
-                            <li><button type="submit" id="Savesubmit" class="btn bg-purple margin">Save</button></li>
-                        </ul>
+                </div>
+            <div class="kt-portlet__foot">
+                <div class="kt-form__actions">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <button type="button" asp-action="Index" class="btn btn-dark back-step">Back</button>
+                            <button type="submit" id="Savesubmit" value="CreatebankbranchNew" class="btn btn-brand">Save</button>
+                        </div>
                     </div>
-              </div>
-            </form>
-        </div>
-             @await Html.PartialAsync("_Loadding")
-        </section>
-    </section>
-   
-</section>
+                </div>
+            </div>
+        </form>
+
+        <!--end::Form-->
+    </div>
+</div>
+
 @section Scripts{
     <script>
         $(document).ready(function() {

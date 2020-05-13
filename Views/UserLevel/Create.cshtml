@@ -2,182 +2,143 @@
 
 @{
     ViewData["Title"] = "CreateUserLevel";
+    ViewData["CurrentPage"]= "menu2";
 }
-<section class="content-wrapper">
 
-    <!-- Main content -->
-    <section class="content">
-        <!-- Default box -->
-      <section class="box box-danger">
-            <div class="box-header with-border">
-                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                            title="Collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
+
+<div class="kt-portlet">
+        <div class="kt-portlet__head">
+            <div class="kt-portlet__head-label">
+                <h3 class="kt-portlet__head-title">
+                    ระดับผู้ใช้งาน
+                </h3>
             </div>
-        <!---- Company -->
-        <div class="box-body">
-            <form asp-controller="UserLevel" asp-action="Create" method="post">
-                <div>
-                    <input id="IsEditMode" name="IsEditMode" value="@ViewBag.IsEditMode" class="hidden">
-                </div>
-             <div class="DocRunning">
-                 <div class="tab-pane active" role="tabpanel" id="step1">
-                        <h3>ระดับผู้ใช้งาน</h3>
-                        <hr>
-                <div class="row">
+        </div>
+
+        <!--begin::Form-->
+        <form asp-controller="UserLevel" asp-action="Create" method="post" class="kt-form kt-form--label-right">
+                <input id="IsEditMode" style="display: none;" name="IsEditMode" value="@ViewBag.IsEditMode">
+                <input id="DeleteFlag" style="display: none;" name="DeleteFlag" value="N" class="hidden">
+            <div class="kt-portlet__body">
+                <div class="form-group row">
                     <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="CompCode">รหัสบริษัท</label>
-                        <input class="form-control" asp-for="CompCode" readonly="true"  placeholder="Enter CompCode">
-                        </div>
-                         <div class="col-sm-10">
+                        <label>รหัสบริษัท:</label>
+                        <input type="text" asp-for="CompCode" readonly="true" class="form-control" placeholder="Enter CompCode">
                         <span asp-validation-for="CompCode" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
                     </div>
                     <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="CaneYear">ปีการผลิต</label>
-                        <input  class="form-control" asp-for="CaneYear" readonly="true" placeholder="Enter CaneYear">
-                        <div class="col-sm-10">
+                        <label for="CaneYear" class="">ปีการผลิต:</label>
+                        <input type="text" asp-for="CaneYear" class="form-control" placeholder="Enter CaneYear">
                         <span asp-validation-for="CaneYear" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
                     </div>
-                    @if (@ViewBag.IsEditMode == "true"){
+                    @if(@ViewBag.IsEditMode == "true"){
                         <div class="col-lg-3">
-                            <div class="form-group">
-                            <input  class="form-control hidden" asp-for="UserId" readonly="true" placeholder="Enter UserId">
-                            <label for="Fullname">รหัสผู้ใช้งาน</label>
-                            <input  class="form-control" asp-for="Fullname" readonly="true" placeholder="Enter Fullname">
-                            <div class="col-sm-10">
+                            <input type="text" asp-for="UserId" style="display: none;" class="form-control" placeholder="Enter UserId">
+                            <label for="Fullname" class="">รหัสผู้ใช้งาน:</label>
+                            <input type="text" asp-for="Fullname" class="form-control" placeholder="Enter Fullname">
                             <span asp-validation-for="Fullname" class="text-danger"></span>
-                            </div>
-                            </div>
                         </div>
                     }else{
                         <div class="col-lg-3">
-                            <div class="form-group">
-                            <label for="UserId">รหัสผู้ใช้งาน</label>
-                            <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" asp-for="UserId" asp-items="@(new SelectList(ViewBag.UserSugarM,"UserId","UserFullname"))">
-                            <option> </option>
-                            </select>
-                            </div>
-                            <div class="col-sm-3">
-                            <span asp-validation-for="UserId" class="text-danger"></span>
+                            <label class="">รหัสผู้ใช้งาน:</label>
+                            <div class="input-group flex-nowrap">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon1"><i class="flaticon2-line-chart"></i></span>
+                                    </div>
+                                <select class="form-control kt-select2" asp-for="UserId" asp-items="@(new SelectList(ViewBag.UserSugarM,"UserId","UserFullname"))">
+                                    <option> </option>
+                                    </select>
                             </div>
                         </div>
                     }
-
                     <div class="col-lg-3">
-                         <label for="UseridLevel">ระดับผู้อนุมัติ</label>
+                        <label for="UseridLevel" class="">ระดับผู้อนุมัติ:</label>
                         <div class="input-group">
                             <!-- /btn-group -->
-                              <input  class="form-control" asp-for="UseridLevel" placeholder="Enter MinAmount">
+                              <input  class="form-control" asp-for="UseridLevel" placeholder="Enter UseridLevel">
                             <div class="input-group-btn">
-                            <a class="btn btn-danger search"><i class="fa fa-search"></i> ค้นหา</a>
+                            <a class="btn btn-danger active search"><i class="flaticon2-search-1"></i> ค้นหา</a>
                             </div>
                         </div>
                     </div>
-                <!-- /.col-lg-6 -->
+
                 </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="MinAmount">MinAmount</label>
-                        <input  class="form-control" asp-for="MinAmount" readonly="true" placeholder="Enter MinAmount">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="MinAmount" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="MaxAmount">MaxAmount</label>
-                        <input  class="form-control" asp-for="MaxAmount" readonly="true" placeholder="Enter MaxAmount">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="MaxAmount" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="Description">รายละเอียด</label>
-                        <input  class="form-control" asp-for="Description" placeholder="Enter Description">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="Active">การใช้งาน</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" asp-for="Active">
-                          <option value="Y">Y</option>
-                          <option value="N">N</option>
-                        </select>
-                        </div>
-                         <div class="col-sm-3">
-                        <span asp-validation-for="Active" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                </div>
-                        <ul class="list-inline pull-left">
-                            <li><button type="button" asp-action="Index" class="btn bg-navy btn-flat margin back-step">Back</button></li>
-                            <li><button type="submit" id="Savesubmit" class="btn bg-purple margin">Save</button></li>
-                        </ul>
-                    </div>
-              </div>
-            </form>
-        </div>
-          
+                <div class="form-group row">
 
-           @* Modal------------------------------------------------ *@
-
-           <div class="modal fade" id="Overridemodal"
-                         data-keyboard="false" data-backdrop="static">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">
-
-                                    </button>
-                                    <h4 class="modal-title">ระดับผู้อนุมัติ</h4>
+                        <div class="col-lg-3">
+                            <label for="MinAmount" class="">MinAmount:</label>
+                            <input type="number" asp-for="MinAmount" class="form-control" placeholder="Enter MinAmount">
+                            <span asp-validation-for="MinAmount" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="MaxAmount" class="">MaxAmount:</label>
+                            <input type="number" asp-for="MaxAmount" class="form-control" placeholder="Enter MaxAmount">
+                            <span asp-validation-for="MaxAmount" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="Description" class="">รายละเอียด:</label>
+                            <input type="text" asp-for="Description" class="form-control" placeholder="Enter MaxAmount">
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-3">
+                        <label>การใช้งาน:</label>
+                        <div class="input-group flex-nowrap">
+                            <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon1"><i class="flaticon2-line-chart"></i></span>
                                 </div>
-                                <div class="nav-tabs-custom">
-              <div class="tab-content">
-                    <div id="TableOverride">
-
+                            <select class="form-control kt-select2" asp-for="Active">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                                </select>
+                        </div>
                     </div>
                 </div>
-            <!-- /.box-body -->
-            <div class="modal-footer">
-                <button type="button" id="btnHideModal" class="btn btn-primary button button4">
-                    ปิด
-                </button>
+
+            <div class="kt-portlet__foot">
+                <div class="kt-form__actions">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <button type="button" asp-action="Index" class="btn btn-dark back-step">Back</button>
+                            <button type="submit" id="Savesubmit" value="CreatebankbranchNew" class="btn btn-brand">Save</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-             @await Html.PartialAsync("_Loadding")
-        </section>
-    </section>
-   
-</section>
+        </form>
+            @* Modal------------------------------------------------ *@
+            <div class="modal fade" id="Overridemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">ระดับผู้อนุมัติ</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                            <div id="TableOverride">
+
+                            </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @* ----------------------------------------------------------------- *@
+        <!--end::Form-->
+    </div>
+</div>
+
+
+
 @section Scripts{
 
 
 
-    
+
     <script>
         $(document).ready(function () {
             var Isedit = $("#IsEditMode").val();

@@ -2,107 +2,78 @@
 
 @{
     ViewData["Title"] = "CreateDocRunning";
+    ViewData["CurrentPage"]= "menu2";
 }
-<section class="content-wrapper">
 
-    <!-- Main content -->
-    <section class="content">
-        <!-- Default box -->
-      <section class="box box-danger">
-            <div class="box-header with-border">
-                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                            title="Collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-        <!---- Company -->
-        <div class="box-body">
-            <form asp-controller="DocRunning" asp-action="Create" method="post">
-                <div>
-                    <input id="IsEditMode" name="IsEditMode" value="@ViewBag.IsEditMode" class="hidden">
-                </div>
-             <div class="DocRunning">
-                 <div class="tab-pane active" role="tabpanel" id="step1">
-                        <h3>กำหนดเลขที่เอกสาร</h3>
-                        <hr>
-                <div class="row">
-                    <input class="form-control hidden" asp-for="CompCode" placeholder="Enter CompCode">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="RunningId">RunningID</label>
-                        <input class="form-control" asp-for="RunningId"  placeholder="Enter RunningId">
-                        </div>
-                         <div class="col-sm-10">
-                        <span asp-validation-for="RunningId" class="text-danger"></span>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="RunningName">ชื่อเอกสาร</label>
-                        <input  class="form-control" asp-for="RunningName" placeholder="Enter RunningName">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="RunningName" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="RunningMark">อักษรนำหน้า</label>
-                        <input  class="form-control" asp-for="RunningMark" placeholder="Enter RunningMark">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="RunningMark" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                         <label for="DigitRunning">จำนวนตัวเลข</label>
-                        <input  class="form-control" asp-for="DigitRunning" placeholder="Enter DigitRunning">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="DigitRunning" class="text-danger"></span>
-                        </div>
-                        </div>
-                  <!-- /input-group -->
-                    </div>
-                <!-- /.col-lg-6 -->
-                </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                        <label for="LastRunning">เลขที่เอกสารล่าสุด</label>
-                        <input  class="form-control" asp-for="LastRunning" placeholder="Enter LastRunning">
-                        <div class="col-sm-10">
-                        <span asp-validation-for="LastRunning" class="text-danger"></span>
-                        </div>
-                        </div>
-                    <!-- /input-group -->
-                    </div>
-                </div>
-                        <ul class="list-inline pull-left">
-                            <li><button type="button" asp-action="Index" class="btn bg-navy btn-flat margin back-step">Back</button></li>
-                            <li><button type="submit" id="Savesubmit" class="btn bg-purple margin">Save</button></li>
-                        </ul>
-                    </div>
-              </div>
-            </form>
-        </div>
-             @await Html.PartialAsync("_Loadding")
-        </section>
-    </section>
-   
-</section>
+
+                               <div class="kt-portlet">
+										<div class="kt-portlet__head">
+											<div class="kt-portlet__head-label">
+												<h3 class="kt-portlet__head-title">
+													กำหนดเลขที่เอกสาร
+												</h3>
+											</div>
+										</div>
+
+										<!--begin::Form-->
+										<form asp-controller="DocRunning" asp-action="Create" method="post" class="kt-form kt-form--label-right">
+                                              <input id="IsEditMode" style="display: none;" name="IsEditMode" value="@ViewBag.IsEditMode">
+                                              <input id="IsEditMode" style="display: none;" name="IsEditMode" value="@ViewBag.IsEditMode" class="hidden">
+                                              <input id="DeleteFlag" style="display: none;" name="DeleteFlag" value="N" class="hidden">
+                                            <div class="kt-portlet__body">
+												<div class="form-group row">
+													<div class="col-lg-3">
+														<label>RunningID:</label>
+														<input type="text" asp-for="RunningId" readonly="true" class="form-control" placeholder="Enter RunningId">
+														<span asp-validation-for="RunningId" class="text-danger"></span>
+													</div>
+													<div class="col-lg-3">
+														<label for="RunningName" class="">ชื่อเอกสาร:</label>
+														<input type="text" asp-for="RunningName" class="form-control" placeholder="Enter RunningName">
+														<span asp-validation-for="RunningName" class="text-danger"></span>
+													</div>
+                                                    <div class="col-lg-3">
+														<label for="RunningMark" class="">อักษรนำหน้า:</label>
+														<input type="text" asp-for="RunningMark" class="form-control" placeholder="Enter RunningMark">
+														<span asp-validation-for="RunningMark" class="text-danger"></span>
+													</div>
+													<div class="col-lg-3">
+														<label for="DigitRunning" class="">จำนวนตัวเลข:</label>
+														<input type="text" asp-for="DigitRunning" class="form-control" placeholder="Enter DigitRunning">
+														<span asp-validation-for="DigitRunning" class="text-danger"></span>
+													</div>
+												</div>
+                                                <div class="form-group row">
+                                                    <div class="col-lg-3">
+														<label for="LastRunning" class="">เลขที่เอกสารล่าสุด:</label>
+														<input type="text" asp-for="LastRunning" class="form-control" placeholder="Enter LastRunning">
+														<span asp-validation-for="LastRunning" class="text-danger"></span>
+													</div>
+                                                </div>
+											<div class="kt-portlet__foot">
+												<div class="kt-form__actions">
+													<div class="row">
+														<div class="col-lg-4">
+                                                            <button type="button" asp-action="Index" class="btn btn-dark back-step">Back</button>
+                                                            <button type="submit" id="Savesubmit" value="CreatebankbranchNew" class="btn btn-brand">Save</button>
+                                                        </div>
+													</div>
+												</div>
+											</div>
+										</form>
+
+										<!--end::Form-->
+									</div>
+                                </div>
+
 @section Scripts{
     <script>
         $(document).ready(function() {
+            var Isedit = $("#IsEditMode").val();
+            if (Isedit == "false"){
+                    $(".form-control").removeAttr('readonly');
+                }else{
+            }
             $(".back-step").on("click",()=>{
                 window.location.href = "/DocRunning/Index";
             });

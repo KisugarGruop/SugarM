@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Threading.Tasks;
 using ClientNotifications;
 using Microsoft.AspNetCore.Identity;
@@ -74,45 +75,51 @@ namespace SugarM.Controllers {
         public async Task<IActionResult> Create (DocRunning _DocRunning, string IsEditMode) {
             var UserCompCode = GetCurrenCompCode ();
             var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCompCode);
-            if (IsEditMode.Equals ("false")) {
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_DocRunning, "http://192.168.10.46/sdapi/sdapi/DocRunningPost", Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "บันทึกข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
+            DateTime FristYear = DateTime.Today;
+            string BasedFrist = FristYear.ToString ("yyyy", new CultureInfo ("th-TH"));
+            if (ModelState.IsValid) {
+                if (IsEditMode.Equals ("false")) {
+                    _DocRunning.CompCode = _UserProfile.CompCode;
+                    _DocRunning.RunningYear = BasedFrist;
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_DocRunning, "http://192.168.10.46/sdapi/sdapi/DocRunningPost", Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "บันทึกข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                    }
                 } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
-                    return RedirectToAction (nameof (Index));
-                }
-            } else {
-                DocRunning _DocRunningDetaill = new DocRunning () {
-                    CompCode = _DocRunning.CompCode,
-                    RunningId = _DocRunning.RunningId,
-                    RunningName = _DocRunning.RunningName,
-                    RunningMark = _DocRunning.RunningMark,
-                    RunningYear = _DocRunning.RunningYear,
-                    SeparateChar = _DocRunning.SeparateChar,
-                    DigitRunning = _DocRunning.DigitRunning,
-                    LastRunning = _DocRunning.LastRunning,
-                    UpdateBy = _UserProfile.EmployeeId,
-                    UpdateDate = ConvertDatetime (DateTime.UtcNow)
-                };
+                    DocRunning _DocRunningDetaill = new DocRunning () {
+                        CompCode = _DocRunning.CompCode,
+                        RunningId = _DocRunning.RunningId,
+                        RunningName = _DocRunning.RunningName,
+                        RunningMark = _DocRunning.RunningMark,
+                        RunningYear = _DocRunning.RunningYear,
+                        SeparateChar = _DocRunning.SeparateChar,
+                        DigitRunning = _DocRunning.DigitRunning,
+                        LastRunning = _DocRunning.LastRunning,
+                        UpdateBy = _UserProfile.EmployeeId,
+                        UpdateDate = ConvertDatetime (DateTime.UtcNow)
+                    };
 
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_DocRunningDetaill, "http://192.168.10.46/sdapi/sdapi/DocRunningPut/" + _DocRunning.CompCode + "/" + _DocRunning.RunningId, Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "แก้ไขข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
-                } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
-                    return RedirectToAction (nameof (Index));
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_DocRunningDetaill, "http://192.168.10.46/sdapi/sdapi/DocRunningPut/" + _DocRunning.CompCode + "/" + _DocRunning.RunningId, Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "แก้ไขข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                        return RedirectToAction (nameof (Index));
+                    }
                 }
+                return RedirectToAction (nameof (Index));
             }
-            return RedirectToAction (nameof (Index));
+            return View ("Create", _DocRunning);
         }
     }
 }

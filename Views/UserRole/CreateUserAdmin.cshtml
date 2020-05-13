@@ -1,0 +1,90 @@
+@model User
+@{
+    ViewData["Title"] = "CreateUserByAdmin";
+    ViewData["CurrentPage"]= "menu1";
+}
+
+                                    <div class="kt-portlet">
+										<div class="kt-portlet__head">
+											<div class="kt-portlet__head-label">
+                                                <span class="kt-portlet__head-icon">
+													<i class="fa fa-address-card"></i>
+												</span>
+												<h3 class="kt-portlet__head-title">@ViewData["Title"]</h3>
+											</div>
+										</div>
+
+										<!--begin::Form-->
+										<form  asp-action="CreateUserAdmin" class="kt-form kt-form--label-right">
+											<div class="kt-portlet__body">
+												<div class="form-group row">
+													<div class="col-lg-4">
+														<label>Full Name:</label>
+														<input type="text" asp-for="UserName" class="form-control" placeholder="Username">
+														<span asp-validation-for="UserName" class="text-danger"></span>
+                                                    </div>
+													<div class="col-lg-2">
+														<label class="">EmployeeID:</label>
+														<input asp-for="EmployeeId" class="form-control" placeholder="EmployeeID">
+														<span asp-validation-for="EmployeeId" class="text-danger"></span>
+													</div>
+													<div class="col-lg-3">
+														<label>Fristname:</label>
+														<div class="input-group">
+															<div class="input-group-prepend"><span class="input-group-text"><i class="la la-user"></i></span></div>
+															<input asp-for="FirstName" type="text" class="form-control" placeholder="Fristname">
+														</div>
+														<span asp-validation-for="FirstName" class="text-danger"></span>
+													</div>
+                                                    <div class="col-lg-3">
+														<label>Lastname:</label>
+														<div class="input-group">
+															<div class="input-group-prepend"><span class="input-group-text"><i class="la la-user"></i></span></div>
+															<input asp-for="LastName" type="text" class="form-control" placeholder="Lastname">
+														</div>
+														<span asp-validation-for="FirstName" class="text-danger"></span>
+													</div>
+												</div>
+												<div class="form-group row">
+													<div class="col-lg-4">
+														<label class="">Company:</label>
+														<input asp-for="CompCode" type="text" class="form-control" placeholder="Company">
+														<span asp-validation-for="CompCode" class="text-danger"></span>
+													</div>
+													<div class="col-lg-4">
+                                                        <label class="">Email:</label>
+                                                        <div class="input-group">
+															<div class="input-group-prepend"><span class="input-group-text"><i class="la la-at"></i></span></div>
+															<input asp-for="Email" type="Email" class="form-control" placeholder="Email">
+														</div>
+														<span asp-validation-for="Email" class="text-danger"></span>
+													</div>
+													<div class="col-lg-4">
+														<label class="">Password:</label>
+														<input asp-for="Password" type="password" class="form-control" placeholder="Password">
+														<span asp-validation-for="Password" class="text-danger"></span>
+													</div>
+												</div>
+											<div class="kt-portlet__foot">
+												<div class="kt-form__actions">
+													<div class="row">
+														<div class="col-lg-6">
+															<button type="submit" class="btn btn-primary">Save</button>
+															<button type="reset" class="btn btn-secondary">Cancel</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+
+										<!--end::Form-->
+									</div>
+
+@section Styles{
+
+
+}
+
+@section Scripts{
+
+}

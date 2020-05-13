@@ -3,122 +3,75 @@
 
 @{
      ViewData["Title"] = "Edit User Access";
+      ViewData["CurrentPage"]= "menu1";
     var roles = (IEnumerable<ApplicationRole>)ViewData["Roles"];
 }
 
 
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+	<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
 
-    <!-- Main content -->
-    <section class="content">
-        <!-- Default box -->
-        <div class="box">
-            <div class="box-header with-border">
-                <h3 class="box-title text-primary"><i class="fa fa-users"></i> @ViewData["Title"]</h3>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                            title="Collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="box-body">
-                <h2>กำหนดสิทธิ์การเข้าถึง</h2>
+							<div class="kt-portlet kt-portlet--mobile">
+								<div class="kt-portlet__head kt-portlet__head--lg">
+									<div class="kt-portlet__head-label">
+										<span class="kt-portlet__head-icon">
+											<i class="kt-font-brand flaticon2-line-chart"></i>
+										</span>
+										<h3 class="kt-portlet__head-title">
+											Access
+										</h3>
+									</div>
+									<div class="kt-portlet__head-toolbar">
 
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Edit" class="form-horizontal">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="UserId" />
-            <input type="hidden" asp-for="UserName" />
+									</div>
+								</div>
+								<div class="kt-portlet__body">
+                                    <form asp-action="Edit">
+                                        <input type="hidden" asp-for="UserId" />
+                                        <input type="hidden" asp-for="UserName" />
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">รายละเอียด</label>
+                                            <div class="col-md-10">
+                                                @Html.DisplayFor(m => m.UserName)
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="form-group">    
+                                            <div class="form-group">
+													<label>สิทธิ์การเข้าถึง</label>
+													<div class="kt-checkbox-list">
+												          @foreach (var role in roles)
+                                                            {
+                                                                <label class="kt-checkbox kt-checkbox--tick kt-checkbox--danger">
+                                                                        <input type="checkbox" name="Roles[]" value="@role.Name"
+                                                                        @if (Model?.Roles != null && Model.Roles.Contains(role.Name)) { <text> checked="checked" </text> } /> @role.Name
+                                                                        <span></span>
+                                                                </label>
+                                                            }
+													</div>
+												</div>
 
-            <div class="form-group">
-                <label asp-for="UserName" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    @Html.DisplayFor(m => m.UserName)
-                </div>
-            </div>
+                                        </div>
 
-            <div class="form-group">
-                <label class="col-md-2 control-label">Roles</label>
-                <div class="col-md-10">
-                    @foreach (var role in roles)
-                    {
-                        <label>
-                            <input type="checkbox" name="Roles[]" value="@role.Name"
-                                   @if (Model?.Roles != null && Model.Roles.Contains(role.Name)) { <text> checked="checked" </text> } />
-                            &nbsp;@role.Name&nbsp;&nbsp;
-                        </label>
-                    }
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" class="btn btn-default" value="Edit" />
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-
-            </div>
-            <!-- /.box-footer-->
-        </div>
-        <!-- /.box -->
-    </section>
-    <!-- /.content -->
-</div>
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                  <button type="submit" class="btn btn-success btn-elevate">บันทึก</button>
+                                            </div>
+                                          
+                                        </div>
+                                    </form>
+                                       
+								</div>
+							</div>
+						</div>
 
 @section Styles {
-    <link href="~/lib/jquery-bonsai/jquery.bonsai.css" rel="stylesheet" />
+
 
 }
 @section Scripts{
-    <script src="~/lib/jquery-qubit/jquery.qubit.js"></script>
-    <script src="~/lib/jquery-bonsai/jquery.bonsai.js"></script>
+
 
 <script>
-$(function () {
-            $('#tree').bonsai({
-                expandAll: false,
-                checkboxes: true,
-                createInputs: 'checkbox'
-            });
 
-            $('form').submit(function () {
-                var i = 0, j = 0;
-                $('.controller > input[type="checkbox"]:checked, .controller > input[type="checkbox"]:indeterminate').each(function () {
-                    var controller = $(this);
-                    if ($(controller).prop('indeterminate')) {
-                        $(controller).prop("checked", true);
-                    }
-                    var controllerName = 'SelectedControllers[' + i + ']';
-                    $(controller).prop('name', controllerName + '.Name');
-
-                    var area = $(controller).next().next();
-                    $(area).prop('name', controllerName + '.AreaName');
-
-                    $('ul > li > input[type="checkbox"]:checked', $(controller).parent()).each(function () {
-                        var action = $(this);
-                        var actionName = controllerName + '.Actions[' + j + '].Name';
-                        $(action).prop('name', actionName);
-                        j++;
-                    });
-                    j = 0;
-                    i++;
-                });
-
-                return true;
-            });
-        });
     </script>
 }
