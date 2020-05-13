@@ -47,43 +47,47 @@ namespace SugarM.Controllers {
         [HttpPost]
         public IActionResult Create (DocumentType _DocumentType, string IsEditMode) {
             var UserCurrent = GetCurrentUser ();
-            if (IsEditMode.Equals ("false")) {
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_DocumentType, "http://192.168.10.46/sdapi/sdapi/DocumentTypePost", Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "บันทึกข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
+            if (ModelState.IsValid) {
+                if (IsEditMode.Equals ("false")) {
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_DocumentType, "http://192.168.10.46/sdapi/sdapi/DocumentTypePost", Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "บันทึกข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                        return RedirectToAction (nameof (Index));
+                    }
                 } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
-                    return RedirectToAction (nameof (Index));
-                }
-            } else {
-                DocumentType _DocumentTypeEdit = new DocumentType () {
-                    CompCode = _DocumentType.CompCode,
-                    CaneYear = _DocumentType.CaneYear,
-                    DocCode = _DocumentType.DocCode,
-                    DocName = _DocumentType.DocName,
-                    Description = _DocumentType.Description,
-                    Active = _DocumentType.Active,
-                    UpdateBy = UserCurrent,
-                    UpdateDate = ConvertDatetime (DateTime.UtcNow)
-                };
+                    DocumentType _DocumentTypeEdit = new DocumentType () {
+                        CompCode = _DocumentType.CompCode,
+                        CaneYear = _DocumentType.CaneYear,
+                        DocCode = _DocumentType.DocCode,
+                        DocName = _DocumentType.DocName,
+                        Description = _DocumentType.Description,
+                        Active = _DocumentType.Active,
+                        UpdateBy = UserCurrent,
+                        UpdateDate = ConvertDatetime (DateTime.UtcNow)
+                    };
 
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_DocumentTypeEdit, "http://192.168.10.46/sdapi/sdapi/DocumentTypePut?CompCode=" + _DocumentType.CompCode + "&CaneYear=" + _DocumentType.CaneYear + "&DocCode=" + _DocumentType.DocCode, Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "แก้ไขข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
-                } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
-                    return RedirectToAction (nameof (Index));
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_DocumentTypeEdit, "http://192.168.10.46/sdapi/sdapi/DocumentTypePut?CompCode=" + _DocumentType.CompCode + "&CaneYear=" + _DocumentType.CaneYear + "&DocCode=" + _DocumentType.DocCode, Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "แก้ไขข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                        return RedirectToAction (nameof (Index));
+                    }
                 }
+                return RedirectToAction (nameof (Index));
             }
-            return RedirectToAction (nameof (Index));
+            return View ("Create", _DocumentType);
+
         }
 
         [DisplayName ("แก้พันธุ์อ้อย")]

@@ -27,7 +27,7 @@ namespace SugarM.Controllers {
         [DisplayName ("เพิ่มประเภทย่อย")]
         public IActionResult CreateDetaill (string CompCode, string CaneYear, string ContractCode) {
             ViewBag.IsEditMode = "false";
-            ///** Query หาข้อมูลมา 
+            ///** Query หาข้อมูลมา
             List<ContractType> AuthorListdetail = new List<ContractType> ();
             var Call = ServiceExtension.RestshapExtension.CallRestApiGETEDIT (AuthorListdetail, "http://192.168.10.46/sdapi/sdapi/ContractTypeGet?CompCode=" + CompCode + "&CaneYear=" + CaneYear + "&ContractCode=" + ContractCode, Getkey ());
             //**  ดึงข้อมูลมาลง datatable
@@ -65,43 +65,46 @@ namespace SugarM.Controllers {
             var UserCurrent = GetCurrentUser ();
             var UserCurrenCompCode = GetCurrenCompCode ();
             var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCurrenCompCode);
-            if (IsEditMode.Equals ("false")) {
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Cardetaill, "http://192.168.10.46/sdapi/sdapi/ContractDocPost", Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "บันทึกข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
+            if (ModelState.IsValid) {
+                if (IsEditMode.Equals ("false")) {
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Cardetaill, "http://192.168.10.46/sdapi/sdapi/ContractDocPost", Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "บันทึกข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                    }
                 } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
-                }
-            } else {
-                ContractDoc _ContractDocUP = new ContractDoc () {
-                    CompCode = _Cardetaill.CompCode,
-                    CaneYear = _Cardetaill.CaneYear,
-                    DocCode = _Cardetaill.DocCode,
-                    ContractCode = _Cardetaill.ContractCode,
-                    Description = _Cardetaill.Description,
-                    Active = _Cardetaill.Active,
-                    DeleteFlag = _Cardetaill.DeleteFlag,
-                    UpdateBy = _UserProfile.EmployeeId,
-                    UpdateDate = ConvertDatetime (DateTime.UtcNow)
-                };
+                    ContractDoc _ContractDocUP = new ContractDoc () {
+                        CompCode = _Cardetaill.CompCode,
+                        CaneYear = _Cardetaill.CaneYear,
+                        DocCode = _Cardetaill.DocCode,
+                        ContractCode = _Cardetaill.ContractCode,
+                        Description = _Cardetaill.Description,
+                        Active = _Cardetaill.Active,
+                        DeleteFlag = _Cardetaill.DeleteFlag,
+                        UpdateBy = _UserProfile.EmployeeId,
+                        UpdateDate = ConvertDatetime (DateTime.UtcNow)
+                    };
 
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_ContractDocUP, "http://192.168.10.46/sdapi/sdapi/ContractDocPut?CompCode=" + _Cardetaill.CompCode + "&CaneYear=" + _Cardetaill.CaneYear + "&ContractCode=" + _Cardetaill.ContractCode + "&DocCode=" + _Cardetaill.DocCode, Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "แก้ไขข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
-                    return RedirectToAction (nameof (CreateDetaill), new { CompCode = _Cardetaill.CompCode, CaneYear = _Cardetaill.CaneYear, ContractCode = _Cardetaill.ContractCode });
-                } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_ContractDocUP, "http://192.168.10.46/sdapi/sdapi/ContractDocPut?CompCode=" + _Cardetaill.CompCode + "&CaneYear=" + _Cardetaill.CaneYear + "&ContractCode=" + _Cardetaill.ContractCode + "&DocCode=" + _Cardetaill.DocCode, Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "แก้ไขข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                        return RedirectToAction (nameof (CreateDetaill), new { CompCode = _Cardetaill.CompCode, CaneYear = _Cardetaill.CaneYear, ContractCode = _Cardetaill.ContractCode });
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                    }
                 }
+                return RedirectToAction (nameof (CreateDetaill), new { CompCode = _Cardetaill.CompCode, CaneYear = _Cardetaill.CaneYear, ContractCode = _Cardetaill.ContractCode });
             }
-            return RedirectToAction (nameof (CreateDetaill), new { CompCode = _Cardetaill.CompCode, CaneYear = _Cardetaill.CaneYear, ContractCode = _Cardetaill.ContractCode });
+            return View ("CreateDetaill", _Cardetaill);
         }
 
         [DisplayName ("แก้เอกสารประกอบสัญญา")]
@@ -117,7 +120,7 @@ namespace SugarM.Controllers {
                 DocCodeId = sname.DocCode;
                 DocCodeOne = sname.DocCode + "  |  " + sname.DocName;
             }
-            ///** Query หาข้อมูลมา 
+            ///** Query หาข้อมูลมา
             List<ContractType> AuthorListdetail = new List<ContractType> ();
             var Call = ServiceExtension.RestshapExtension.CallRestApiGETEDIT (AuthorListdetail, "http://192.168.10.46/sdapi/sdapi/ContractTypeGet?CompCode=" + CompCode + "&CaneYear=" + CaneYear + "&ContractCode=" + ContractCode, Getkey ());
             //**  ดึงข้อมูลมาลง datatable

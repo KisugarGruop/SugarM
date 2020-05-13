@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace SugarM.Models {
-    public class DocumentType : Maptable {
+    public class DocumentType : Maptablethen {
+        [Required (ErrorMessage = "กรุณาระบุCompCode"), MinLength (2, ErrorMessage = "Minimum length is 2.")]
+        public string CompCode { get; set; }
         public string CaneYear { get; set; }
         public string DocCode { get; set; }
 

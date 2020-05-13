@@ -49,43 +49,46 @@ namespace SugarM.Controllers {
         public async Task<IActionResult> Create (Override _Override, string IsEditMode) {
             var UserCompCode = GetCurrenCompCode ();
             var _UserProfile = await _IUserprofileRepository.GetUserProfile (UserCompCode);
-            if (IsEditMode.Equals ("false")) {
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Override, "http://192.168.10.46/sdapi/sdapi/OverrideLevelPost", Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "บันทึกข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
+            if (ModelState.IsValid) {
+                if (IsEditMode.Equals ("false")) {
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_Override, "http://192.168.10.46/sdapi/sdapi/OverrideLevelPost", Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "บันทึกข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                    }
                 } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
-                }
-            } else {
-                Override _OverrideEdit = new Override () {
-                    CompCode = _Override.CompCode,
-                    CaneYear = _Override.CaneYear,
-                    OverrideLevel = _Override.OverrideLevel,
-                    MinAmount = _Override.MinAmount,
-                    MaxAmount = _Override.MaxAmount,
-                    DeleteFlag = _Override.DeleteFlag,
-                    Description = _Override.Description,
-                    Active = _Override.Active,
-                    UpdateBy = _UserProfile.EmployeeId,
-                    UpdateDate = ConvertDatetime (DateTime.UtcNow)
-                };
+                    Override _OverrideEdit = new Override () {
+                        CompCode = _Override.CompCode,
+                        CaneYear = _Override.CaneYear,
+                        OverrideLevel = _Override.OverrideLevel,
+                        MinAmount = _Override.MinAmount,
+                        MaxAmount = _Override.MaxAmount,
+                        DeleteFlag = _Override.DeleteFlag,
+                        Description = _Override.Description,
+                        Active = _Override.Active,
+                        UpdateBy = _UserProfile.EmployeeId,
+                        UpdateDate = ConvertDatetime (DateTime.UtcNow)
+                    };
 
-                var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_OverrideEdit, "http://192.168.10.46/sdapi/sdapi/OverrideLevelPut?CompCode=" + _Override.CompCode + "&CaneYear=" + _Override.CaneYear + "&OverrideLevel=" + _Override.OverrideLevel, Getkey ());
-                if (_Re.success) {
-                    _clientNotification.AddSweetNotification ("สำเร็จ",
-                        "แก้ไขข้อมูลเรียบร้อยแล้ว",
-                        NotificationHelper.NotificationType.success);
-                } else {
-                    _clientNotification.AddSweetNotification ("ผิดพลาด !!",
-                        _Re.message,
-                        NotificationHelper.NotificationType.error);
+                    var _Re = ServiceExtension.RestshapExtension.CallRestApiPOST (_OverrideEdit, "http://192.168.10.46/sdapi/sdapi/OverrideLevelPut?CompCode=" + _Override.CompCode + "&CaneYear=" + _Override.CaneYear + "&OverrideLevel=" + _Override.OverrideLevel, Getkey ());
+                    if (_Re.success) {
+                        _clientNotification.AddSweetNotification ("สำเร็จ",
+                            "แก้ไขข้อมูลเรียบร้อยแล้ว",
+                            NotificationHelper.NotificationType.success);
+                    } else {
+                        _clientNotification.AddSweetNotification ("ผิดพลาด !!",
+                            _Re.message,
+                            NotificationHelper.NotificationType.error);
+                    }
                 }
+                return RedirectToAction (nameof (Index));
             }
-            return RedirectToAction (nameof (Index));
+            return View ("Create", _Override);
         }
 
         [DisplayName ("แก้ไขผู้อนุมัติ")]

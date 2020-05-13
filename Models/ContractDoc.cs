@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SugarM.Models {
-    public class ContractDoc : Maptable {
+    public class ContractDoc : Maptablethen {
+        [Required (ErrorMessage = "กรุณาระบุCompCode"), MinLength (2, ErrorMessage = "Minimum length is 2.")]
+        public string CompCode { get; set; }
         public string CaneYear { get; set; }
         public string ContractCode { get; set; }
         public string DocCode { get; set; }
